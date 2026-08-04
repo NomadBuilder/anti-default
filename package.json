@@ -1,0 +1,46 @@
+{
+  "name": "anti-default",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Inclusive language review for websites, docs, and code — plus a careful dogwhistle guide",
+  "homepage": "https://darkai.ca/anti-default",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NomadBuilder/anti-default.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NomadBuilder/anti-default/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:darkai": "NODE_ENV=production STATIC_EXPORT=true BASE_PATH=/anti-default next build",
+    "start": "next start",
+    "lint": "eslint",
+    "analyze": "tsx scripts/analyze-code.ts",
+    "analyze:urls": "tsx scripts/analyze-urls.ts",
+    "corpus": "tsx scripts/check-corpus.ts",
+    "extension:rules": "tsx scripts/export-extension-rules.ts",
+    "extension:assets": "python3 scripts/generate-extension-assets.py",
+    "extension:pack": "bash scripts/pack-extension.sh"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "next": "16.2.12",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.5",
+    "typescript": "^5"
+  }
+}
