@@ -1,20 +1,24 @@
 # Anti-Default
 
-Inclusive language review for websites, docs, and code — colonial defaults, gendered assumptions, ableist metaphors, and a careful set of documented dogwhistles.
+**Catch default language before it ships.**
 
-**Try it live:** [https://darkai.ca/anti-default](https://darkai.ca/anti-default)
+Anti-Default flags colonial defaults, gendered assumptions, ableist metaphors, and widely documented dogwhistles in websites, docs, and code — then offers clearer alternatives you can use right away.
 
-Not a purity test. Soft heads-ups and sources are built in so you can decide in context.
+**[Try it live →](https://darkai.ca/anti-default)** · No account · Runs locally from open rules · No AI required for matching
 
-## What you get
+---
 
-| Surface | What it’s for |
-| --- | --- |
-| **Web UI** | Paste text, upload a doc, or review a URL · Swap a phrase · Dogwhistles guide · tune Rules · export a style guide |
-| **CLI** | Scan your own repo / content offline |
-| **Browser extension** | Highlight matches on any live page (local rules, no AI) |
+## Why teams use it
 
-Analysis runs from curated rules in `src/lib/rules.ts` — no LLM required for matching.
+- **Review copy before publish** — paste text, upload a doc, or scan a page
+- **Swap one phrase fast** — `you guys` → `you all` / `folks` / `y’all`
+- **Learn coded language** — dogwhistle guide with signal, context, and clearer wording
+- **Scan your repo** — CLI over source and docs
+- **Tune what matters** — turn rules on/off and export a shareable style guide
+
+Every suggestion cites the style guides and references behind it.
+
+---
 
 ## Quick start
 
@@ -24,60 +28,77 @@ cd anti-default
 npm install
 ```
 
-### Scan your own project (CLI)
+### Scan your own content
 
 ```bash
-# Current directory
 npm run analyze -- .
-
-# Specific paths
 npm run analyze -- ./src ./docs ./README.md
 ```
 
-### Run the web app locally
+### Run the app locally
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Paste copy, upload PDF/DOCX/text, or look up a phrase on **Swap**.
+Open [http://localhost:3000](http://localhost:3000) — Review, Swap, Dogwhistles, Rules, and Sources.
 
-### Practice-test the rule set
-
-```bash
-npm run corpus
-```
-
-## Browser extension
+### Load the browser extension
 
 ```bash
 npm run extension:pack
 ```
 
-Then Chrome/Edge → Developer mode → **Load unpacked** → `extension/`. See [`extension/README.md`](extension/README.md).
+Chrome / Edge → Developer mode → **Load unpacked** → `extension/`  
+Details: [`extension/README.md`](extension/README.md)
 
-## Tune rules
+---
 
-- In the UI: `/rules`
-- In code: `src/lib/rules.ts`
-- Sources that informed the catalog: `/sources` (and `src/lib/sources.ts`)
+## What’s included
 
-## Deploy your own static build
+| | |
+| --- | --- |
+| **Review** | Paste, upload PDF/DOCX/text, or review a URL. Export Markdown, CSV, or a GitHub checklist. |
+| **Swap** | Look up a word or short phrase for inclusive alternatives. |
+| **Dogwhistles** | What a phrase can signal, when context matters, and what to say instead. |
+| **Rules** | Browse and tune the catalog. Soft heads-ups stay gentle when language is ambiguous. |
+| **CLI** | `npm run analyze` over your repo — offline, same rules as the UI. |
+
+---
+
+## Customize
+
+- UI: `/rules`
+- Code: `src/lib/rules.ts`
+- Background reading: `/sources`
+
+Practice-test the catch list:
 
 ```bash
-# Root-relative (Vercel, Netlify, GitHub Pages at domain root)
-npm run build
+npm run corpus
+```
 
-# Or with a subpath, e.g. /anti-default
+---
+
+## Host your own build
+
+```bash
+npm run build
+# → static site in out/
+
+# Subpath deploy (e.g. darkai.ca/anti-default)
 NODE_ENV=production STATIC_EXPORT=true BASE_PATH=/anti-default npm run build
 ```
 
-Output is in `out/`. URL scrape on the live DarkAI host uses a small Flask helper; local Review still works with paste/upload without that API.
+---
 
-## Part of DarkAI
+## Live site & DarkAI
 
-Hosted production lives at [darkai.ca/anti-default](https://darkai.ca/anti-default). A copy is also vendored in the [DarkAI](https://github.com/NomadBuilder/DarkAI) monorepo for that deploy. **This repo is the shareable home** for people who want to run Anti-Default on their own content.
+Production: [darkai.ca/anti-default](https://darkai.ca/anti-default)  
+Also vendored in [DarkAI](https://github.com/NomadBuilder/DarkAI) for that deploy.
+
+**This repo** is the home for cloning, CLI use, PRs, and issues.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[MIT](LICENSE)

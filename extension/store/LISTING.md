@@ -42,13 +42,10 @@ Anti-Default reviews the page you’re on and lists inclusive-language findings 
 How it works
 • Matching runs entirely on your device from a bundled rule list
 • No AI / LLM API calls and no account required
-• Results appear in the popup (not by sending you to another website)
+What to expect
+• Context always wins — suggestions are starting points, not verdicts
 • Soft-flags quoted text that is often a false positive
 • Re-scan when a page loads new content
-
-What this is not
-• Not a purity test or automated “cancel” tool
-• Context always wins — suggestions are starting points
 
 Privacy
 • Page content is not sent to our servers by the extension
