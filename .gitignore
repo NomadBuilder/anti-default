@@ -18,6 +18,9 @@
 # production
 /build
 
+# extension build output (regenerate with npm run extension:pack)
+extension/store/anti-default-extension.zip
+
 # misc
 .DS_Store
 *.pem
