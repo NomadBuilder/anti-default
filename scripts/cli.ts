@@ -23,8 +23,23 @@ import {
   loadUrlList,
 } from "../src/cli/urls";
 import { collectFiles, readFiles } from "../src/cli/walk";
+import {
+  applyBaseline,
+  loadBaseline,
+  writeBaseline,
+} from "../src/cli/baseline";
+import { changedFiles } from "../src/cli/changed";
+import { initializeProject } from "../src/cli/init";
+
+declare const __ANTI_DEFAULT_VERSION__: string | undefined;
 
 function packageVersion(): string {
+  if (
+    typeof __ANTI_DEFAULT_VERSION__ !== "undefined" &&
+    __ANTI_DEFAULT_VERSION__
+  ) {
+    return __ANTI_DEFAULT_VERSION__;
+  }
   try {
     const here = path.dirname(fileURLToPath(import.meta.url));
     const pkg = JSON.parse(
@@ -64,6 +79,17 @@ async function main() {
   }
 
   const cwd = process.cwd();
+  if (args.command === "init") {
+    const created = await initializeProject(cwd);
+    if (created.length) {
+      console.log("Anti-Default initialized:");
+      for (const item of created) console.log(`  + ${item}`);
+    } else {
+      console.log("Anti-Default is already initialized; no files changed.");
+    }
+    return;
+  }
+
   const ignore = await loadIgnoreFile(cwd, args.ignorePath);
   const preferences = prefsWithDisabled(ignore.disabledRules);
 
@@ -73,11 +99,18 @@ async function main() {
   }
 
   const mode = urls.length > 0 ? "urls" : "files";
-  let findings: Finding[] = [];
+  let rawFindings: Finding[] = [];
   let filesScanned: number | undefined;
   let urlsScanned: number | undefined;
-  const targets =
+  let targets =
     mode === "urls" ? urls : args.paths.length ? args.paths : ["."];
+  if (mode === "files" && args.changedFrom) {
+    targets = await changedFiles(cwd, args.changedFrom, targets);
+    if (targets.length === 0) {
+      console.log(`No supported files changed from ${args.changedFrom}.`);
+      return;
+    }
+  }
 
   if (mode === "urls") {
     urlsScanned = 0;
@@ -85,7 +118,7 @@ async function main() {
       try {
         const page = await fetchPageText(url);
         urlsScanned += 1;
-        findings = findings.concat(analyzeUrlText(page, preferences));
+        rawFindings = rawFindings.concat(analyzeUrlText(page, preferences));
       } catch (err) {
         console.error(
           `warn: ${err instanceof Error ? err.message : String(err)}`,
@@ -105,7 +138,31 @@ async function main() {
       process.exit(1);
     }
     const result = analyzeCodeFiles(files, preferences);
-    findings = result.findings;
+    rawFindings = result.findings;
+  }
+
+  if (args.command === "baseline") {
+    const baselinePath = await writeBaseline(
+      cwd,
+      rawFindings,
+      args.baselinePath,
+    );
+    console.log(
+      `Wrote ${rawFindings.length} finding fingerprint(s) to ${path.relative(
+        cwd,
+        baselinePath,
+      )}`,
+    );
+    return;
+  }
+
+  let findings = rawFindings;
+  let suppressedByBaseline = 0;
+  if (args.useBaseline) {
+    const baseline = await loadBaseline(cwd, args.baselinePath);
+    const applied = applyBaseline(findings, baseline);
+    findings = applied.findings;
+    suppressedByBaseline = applied.suppressed;
   }
 
   const report: ScanReport = {
@@ -116,6 +173,7 @@ async function main() {
     targets,
     filesScanned,
     urlsScanned,
+    suppressedByBaseline,
     findings,
     summary: buildSummary(findings),
   };

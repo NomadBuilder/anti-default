@@ -1,8 +1,10 @@
 import type { OutputFormat } from "./format";
 
 export type FailOn = "any" | "hard" | "never";
+export type Command = "scan" | "init" | "baseline";
 
 export interface CliArgs {
+  command: Command;
   help: boolean;
   version: boolean;
   format: OutputFormat;
@@ -12,10 +14,14 @@ export interface CliArgs {
   paths: string[];
   urls: string[];
   urlsFile: string | null;
+  baselinePath: string;
+  useBaseline: boolean;
+  changedFrom: string | null;
 }
 
 export function parseArgs(argv: string[]): CliArgs {
   const args: CliArgs = {
+    command: "scan",
     help: false,
     version: false,
     format: "text",
@@ -25,9 +31,16 @@ export function parseArgs(argv: string[]): CliArgs {
     paths: [],
     urls: [],
     urlsFile: null,
+    baselinePath: ".antidefaultbaseline.json",
+    useBaseline: true,
+    changedFrom: null,
   };
 
   let i = 0;
+  if (argv[0] === "init" || argv[0] === "baseline") {
+    args.command = argv[0];
+    i = 1;
+  }
   while (i < argv.length) {
     const a = argv[i]!;
     if (a === "-h" || a === "--help") {
@@ -77,6 +90,21 @@ export function parseArgs(argv: string[]): CliArgs {
       i += 1;
       continue;
     }
+    if (a === "--baseline-file") {
+      args.baselinePath = argv[++i] ?? ".antidefaultbaseline.json";
+      i += 1;
+      continue;
+    }
+    if (a === "--no-baseline") {
+      args.useBaseline = false;
+      i += 1;
+      continue;
+    }
+    if (a === "--changed-from") {
+      args.changedFrom = argv[++i] ?? null;
+      i += 1;
+      continue;
+    }
     if (a.startsWith("-")) {
       throw new Error(`Unknown option: ${a}`);
     }
@@ -90,7 +118,9 @@ export function parseArgs(argv: string[]): CliArgs {
 export const HELP = `Anti-Default — inclusive language scan for files and URLs
 
 Usage:
+  npx anti-default init
   npx anti-default [paths…] [options]
+  npx anti-default baseline [paths…]
   npx anti-default --urls https://example.com https://example.com/about
   npx anti-default --urls-file urls.txt --format json
 
@@ -102,6 +132,9 @@ Options:
   --ignore-file <path>           Path to ignore file (default: .antidefaultignore)
   --urls <url…>                  Scan public HTML pages instead of files
   --urls-file <path>             File with one URL per line
+  --changed-from <git-ref>       Scan files changed since a branch/SHA
+  --baseline-file <path>         Baseline file (default: .antidefaultbaseline.json)
+  --no-baseline                  Report findings already in the baseline
   -h, --help                     Show help
   -v, --version                  Show version
 
@@ -111,7 +144,10 @@ Ignore file (.antidefaultignore):
   rule:guys                      # disable a rule id for this scan
 
 Examples:
+  npx anti-default init
   npx anti-default .
+  npx anti-default baseline .
+  npx anti-default . --changed-from origin/main
   npx anti-default ./src ./README.md --format sarif -o results.sarif
   npx anti-default --urls https://example.com --fail-on any
 `;

@@ -17,11 +17,11 @@ inputs:
   format:
     description: "text | json | sarif"
     required: false
-    default: "sarif"
+    default: "json"
   output-file:
     description: Where to write machine-readable output
     required: false
-    default: "anti-default.sarif"
+    default: "anti-default-report.json"
   ignore-file:
     description: Optional path to .antidefaultignore
     required: false
@@ -30,6 +30,10 @@ inputs:
     description: If true, post a checklist comment on pull_request events
     required: false
     default: "true"
+  changed-from:
+    description: Optional git branch or SHA; scan only files changed since it
+    required: false
+    default: ""
 
 runs:
   using: composite
@@ -38,11 +42,6 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: "22"
-
-    - name: Install tsx for CLI
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      run: npm install tsx@4 --no-save --no-audit --no-fund
 
     - name: Run Anti-Default
       id: scan
@@ -55,27 +54,26 @@ runs:
         FORMAT: ${{ inputs.format }}
         OUT_FILE: ${{ inputs.output-file }}
         IGNORE_FILE: ${{ inputs.ignore-file }}
+        CHANGED_FROM: ${{ inputs.changed-from }}
       run: |
         set +e
         IGNORE_ARGS=()
+        CHANGED_ARGS=()
+        read -r -a PATH_ARGS <<< "$SCAN_PATHS"
         if [ -n "$IGNORE_FILE" ]; then
           IGNORE_ARGS+=(--ignore-file "$IGNORE_FILE")
         elif [ -f .antidefaultignore ]; then
           IGNORE_ARGS+=(--ignore-file .antidefaultignore)
         fi
-        if [ -f "$ACTION_PATH/bin/anti-default.js" ]; then
-          node "$ACTION_PATH/bin/anti-default.js" $SCAN_PATHS \
-            --format "$FORMAT" \
-            --fail-on "$FAIL_ON" \
-            --out "$OUT_FILE" \
-            "${IGNORE_ARGS[@]}"
-        else
-          npx --yes tsx "$ACTION_PATH/scripts/cli.ts" $SCAN_PATHS \
-            --format "$FORMAT" \
-            --fail-on "$FAIL_ON" \
-            --out "$OUT_FILE" \
-            "${IGNORE_ARGS[@]}"
+        if [ -n "$CHANGED_FROM" ]; then
+          CHANGED_ARGS+=(--changed-from "$CHANGED_FROM")
         fi
+        node "$ACTION_PATH/dist/cli.cjs" "${PATH_ARGS[@]}" \
+          --format "$FORMAT" \
+          --fail-on "$FAIL_ON" \
+          --out "$OUT_FILE" \
+          "${IGNORE_ARGS[@]}" \
+          "${CHANGED_ARGS[@]}"
         echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
     - name: Upload SARIF
@@ -88,6 +86,7 @@ runs:
     - name: PR checklist comment
       if: inputs.comment-on-pr == 'true' && github.event_name == 'pull_request'
       uses: actions/github-script@v7
+      continue-on-error: true
       with:
         script: |
           const fs = require('fs');
