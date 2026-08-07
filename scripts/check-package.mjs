@@ -23,7 +23,7 @@ try {
   );
   await writeFile(
     path.join(temp, "copy.md"),
-    "Welcome, you guys. This idea is crazy.\\n",
+    "Hey guys. Ask a policeman. Enable the whitelist.\\n",
   );
   await exec(
     "npm",
@@ -40,11 +40,29 @@ try {
   const report = JSON.parse(scan.stdout);
   if (!report.findings?.length) throw new Error("packed CLI found nothing");
 
+  const dry = await exec(
+    bin,
+    ["fix", "copy.md", "--dry-run", "--format", "json", "--fail-on", "never"],
+    { cwd: temp },
+  );
+  const dryReport = JSON.parse(dry.stdout);
+  if (!dryReport.appliedCount) throw new Error("packed CLI fix dry-run applied nothing");
+
+  await exec(bin, ["fix", "copy.md", "--fail-on", "never"], { cwd: temp });
+  const fixed = await readFile(path.join(temp, "copy.md"), "utf8");
+  if (/policeman|whitelist/i.test(fixed)) {
+    throw new Error("packed CLI fix did not rewrite safe matches");
+  }
+  if (!/\bguys\b/i.test(fixed)) {
+    throw new Error("packed CLI fix should leave multi-option guys for review");
+  }
+
   await exec(bin, ["init"], { cwd: temp });
   await readFile(
     path.join(temp, ".cursor", "skills", "anti-default", "SKILL.md"),
     "utf8",
   );
+  await readFile(path.join(temp, ".cursor", "mcp.json"), "utf8");
   await exec(bin, ["baseline", "."], { cwd: temp });
   const afterBaseline = await exec(
     bin,

@@ -1739,14 +1739,213 @@ function hasSupportedExtension(filename) {
   const lower = filename.toLowerCase();
   return CODE_EXTENSIONS.some((ext) => lower.endsWith(ext));
 }
+
+// src/lib/feedback.ts
+function feedbackEventFromFinding(finding, kind, options) {
+  return {
+    version: 1,
+    kind,
+    createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+    ruleId: finding.ruleId,
+    match: finding.match,
+    label: finding.label,
+    category: finding.category,
+    context: finding.context,
+    source: finding.source,
+    contextModes: finding.contextModes,
+    soft: Boolean(finding.likelyFalsePositive),
+    note: options?.note,
+    sourceKind: options?.sourceKind
+  };
+}
+var ISSUE_NEW = "https://github.com/NomadBuilder/anti-default/issues/new";
+var FEEDBACK_STORAGE_KEY = "anti-default.feedbackEvents.v1";
+function recordFeedbackLocally(event) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    const next = Array.isArray(list) ? list : [];
+    next.push(event);
+    localStorage.setItem(
+      FEEDBACK_STORAGE_KEY,
+      JSON.stringify(next.slice(-200))
+    );
+  } catch {
+  }
+}
+function fineInContextIssueUrl(event) {
+  const title = `[Anti-Default] Fine in context: ${event.ruleId} (\u201C${event.match}\u201D)`;
+  const body = [
+    "## Why this was fine",
+    "",
+    event.note?.trim() || "<!-- What made this match appropriate here? -->",
+    "",
+    "## Event (machine-readable)",
+    "",
+    "```json",
+    JSON.stringify(event, null, 2),
+    "```",
+    "",
+    "This helps Anti-Default learn safer soft-flags and ignores without guessing.",
+    ""
+  ].join("\n");
+  const params = new URLSearchParams({
+    title,
+    body,
+    labels: "anti-default,fine-in-context"
+  });
+  return `${ISSUE_NEW}?${params.toString()}`;
+}
+
+// src/lib/rewrite.ts
+function previewRewrite(finding, suggestion) {
+  const before = finding.context;
+  const re = new RegExp(
+    finding.match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+    "i"
+  );
+  const after = before.replace(re, suggestion);
+  return { before, after };
+}
+function applySuggestionToText(source, finding, suggestion) {
+  const start = finding.index;
+  const end = start + finding.match.length;
+  if (start >= 0 && end <= source.length && source.slice(start, end).toLowerCase() === finding.match.toLowerCase()) {
+    return source.slice(0, start) + suggestion + source.slice(end);
+  }
+  const re = new RegExp(
+    finding.match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+    "i"
+  );
+  return source.replace(re, suggestion);
+}
+function applyPassageRewrites(source, findings, options) {
+  const skipSoft = options?.skipSoft !== false;
+  const skipCoded = options?.skipCoded !== false;
+  let skippedSoft = 0;
+  let skippedCoded = 0;
+  let skippedNoSuggestion = 0;
+  const actionable = findings.filter((f) => {
+    if (skipCoded && f.category === "coded") {
+      skippedCoded += 1;
+      return false;
+    }
+    if (skipSoft && f.likelyFalsePositive) {
+      skippedSoft += 1;
+      return false;
+    }
+    if (!f.suggestions[0]) {
+      skippedNoSuggestion += 1;
+      return false;
+    }
+    return true;
+  }).slice().sort((a, b) => b.index - a.index);
+  let text = source;
+  for (const finding of actionable) {
+    text = applySuggestionToText(text, finding, finding.suggestions[0]);
+  }
+  return {
+    text,
+    applied: actionable.length,
+    skippedSoft,
+    skippedCoded,
+    skippedNoSuggestion
+  };
+}
+
+// src/lib/safe-fix.ts
+function preserveCase(original, replacement) {
+  if (original === original.toUpperCase() && /[A-Z]/.test(original)) {
+    return replacement.toUpperCase();
+  }
+  if (original[0] === original[0]?.toUpperCase() && original.slice(1) === original.slice(1).toLowerCase()) {
+    return replacement[0].toUpperCase() + replacement.slice(1);
+  }
+  return replacement;
+}
+var SAFE_FIXERS = {
+  policeman: (m) => preserveCase(m, "police officer"),
+  fireman: (m) => preserveCase(m, "firefighter"),
+  mailman: (m) => preserveCase(m, "mail carrier"),
+  salesman: (m) => preserveCase(m, "salesperson"),
+  stewardess: (m) => preserveCase(m, "flight attendant"),
+  waitress: (m) => preserveCase(m, "server"),
+  businessman: (m) => preserveCase(m, "business person"),
+  mankind: (m) => preserveCase(m, "humankind"),
+  manpower: (m) => preserveCase(m, "workforce"),
+  chairman: (m) => preserveCase(m, "chair"),
+  "you-guys": (m) => preserveCase(m, "you all"),
+  "sanity-check": (m) => /checks$/i.test(m) ? preserveCase(m, "quick checks") : preserveCase(m, "quick check"),
+  "whitelist-blacklist": (m) => {
+    const lower = m.toLowerCase();
+    if (lower.startsWith("white")) {
+      if (lower.endsWith("ing")) return preserveCase(m, "allowlisting");
+      if (lower.endsWith("ed")) return preserveCase(m, "allowlisted");
+      if (lower.endsWith("s") && !lower.endsWith("ss")) {
+        return preserveCase(m, "allowlists");
+      }
+      return preserveCase(m, "allowlist");
+    }
+    if (lower.startsWith("black")) {
+      if (lower.endsWith("ing")) return preserveCase(m, "denylisting");
+      if (lower.endsWith("ed")) return preserveCase(m, "denylisted");
+      if (lower.endsWith("s") && !lower.endsWith("ss")) {
+        return preserveCase(m, "denylists");
+      }
+      return preserveCase(m, "denylist");
+    }
+    return null;
+  },
+  "master-slave": (m) => {
+    if (/master\s*\/\s*slave/i.test(m)) return preserveCase(m, "primary/replica");
+    if (/master-slave/i.test(m)) return preserveCase(m, "primary-replica");
+    return null;
+  }
+};
+function isSafeAutofixRule(ruleId) {
+  return ruleId in SAFE_FIXERS;
+}
+function safeReplacementFor(finding) {
+  if (finding.category === "coded") return null;
+  if (finding.likelyFalsePositive) return null;
+  if (finding.contextModes?.length) return null;
+  const fixer = SAFE_FIXERS[finding.ruleId];
+  if (!fixer) return null;
+  return fixer(finding.match);
+}
+function planSafeFixes(findings) {
+  const plans = [];
+  let skipped = 0;
+  for (const finding of findings) {
+    const replacement = safeReplacementFor(finding);
+    if (!replacement) {
+      skipped += 1;
+      continue;
+    }
+    plans.push({ finding, replacement });
+  }
+  return { plans, skipped };
+}
 export {
   CODE_EXTENSIONS,
+  FEEDBACK_STORAGE_KEY,
   LANGUAGE_RULES,
   analyzeCodeFiles,
   analyzeSegments,
   analyzeText,
+  applyPassageRewrites,
+  applySuggestionToText,
   defaultPreferences,
   extractReviewableSegments,
-  hasSupportedExtension
+  feedbackEventFromFinding,
+  fineInContextIssueUrl,
+  hasSupportedExtension,
+  isSafeAutofixRule,
+  planSafeFixes,
+  preserveCase,
+  previewRewrite,
+  recordFeedbackLocally,
+  safeReplacementFor
 };
 //# sourceMappingURL=index.js.map

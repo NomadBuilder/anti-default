@@ -39,9 +39,38 @@ Want the complete project setup?
 npx anti-default init
 ```
 
-`init` adds an ignore file, a changed-files-only GitHub workflow, an
-`inclusive-check` package script, and a Cursor project skill. Existing files
-are never overwritten.
+`init` adds an ignore file, changed-files GitHub workflow, Cursor skill + MCP
+config, and `inclusive-check` / `inclusive-fix` scripts. Existing files are
+never overwritten.
+
+### AI-copy habit (definition of done)
+
+```bash
+npx anti-default fix .          # safe 1:1 autofixes only
+npx anti-default .              # remaining findings
+```
+
+Agents should not mark UI/docs work done until hard findings are cleared or
+explicitly marked fine in context. Soft/coded hits stay advisory.
+
+```bash
+# Preview autofixes without writing
+npx anti-default fix . --dry-run
+
+# Intentional language — suppress locally + share structured feedback
+npx anti-default feedback --kind fine_in_context \
+  --rule guys-generic --match "guys" --context "…snippet…" \
+  --note "Quoted lyric" --open-issue
+```
+
+### MCP (for Cursor / Claude / any agent host)
+
+```bash
+npx anti-default mcp
+```
+
+Tools: `anti_default_scan` · `anti_default_fix` · `anti_default_feedback`  
+`init` writes `.cursor/mcp.json` when missing.
 
 ### Scan the way you work
 
@@ -111,12 +140,12 @@ Prefer SARIF for Code Scanning? Set `format: sarif` and `output-file: anti-defau
 
 ## Agent skill
 
-`npx anti-default init` installs `.cursor/skills/anti-default/SKILL.md` in the
-current project. It teaches agents to run the scanner after changing
-public-facing language, fix only clear findings, and ask before changing
-quotations, proper names, community self-description, or contextual language.
+`npx anti-default init` installs `.cursor/skills/anti-default/SKILL.md` — the
+definition-of-done workflow for AI-generated copy: **fix → scan → ask or
+feedback → re-scan**.
 
-The reusable source is in [`skills/anti-default/SKILL.md`](skills/anti-default/SKILL.md).
+Source: [`skills/anti-default/SKILL.md`](skills/anti-default/SKILL.md) ·
+feedback model: [`feedback/README.md`](feedback/README.md)
 
 ---
 

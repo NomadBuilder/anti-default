@@ -1,8 +1,8 @@
 {
   "name": "anti-default",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": false,
-  "description": "Inclusive language review for websites, docs, and code — CLI, GitHub Action, and browser extension",
+  "description": "Inclusive language review for AI-generated and human copy — CLI fix, MCP tools, GitHub Action, and browser extension",
   "homepage": "https://darkai.ca/anti-default",
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "bin",
     "dist",
     "skills",
+    "feedback",
     "action.yml",
     ".antidefaultignore.example",
     "README.md",
@@ -80,7 +81,9 @@
     "linter",
     "accessibility",
     "cli",
+    "mcp",
     "github-action",
-    "sarif"
+    "sarif",
+    "autofix"
   ]
 }

@@ -31,6 +31,7 @@ function shouldSkipBuiltin(filePath: string): boolean {
   if (base === "rules.ts" || base === "rules.js") return true;
   if (
     base === ".antidefaultbaseline.json" ||
+    base === ".antidefaultfeedback.jsonl" ||
     base === "anti-default-report.json" ||
     base === "anti-default.sarif"
   ) {

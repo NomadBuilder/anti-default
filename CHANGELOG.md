@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+
+- Add `anti-default fix` for safe unambiguous autofixes (habit, not debate).
+- Add MCP server (`anti-default mcp`) with scan / fix / feedback tools for agents.
+- Add `anti-default feedback` and web **Fine in this context** to improve the shared catalog.
+- Upgrade the Cursor skill to an AI-copy definition-of-done workflow.
+- `init` now installs MCP config and `inclusive-fix` script.
+
 ## 0.3.0
 
 - Publish a compiled, zero-runtime-dependency CLI and programmatic API.
