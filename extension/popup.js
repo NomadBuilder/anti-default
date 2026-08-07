@@ -17,13 +17,13 @@ function renderFindings(payload) {
   const soft = findings.filter((f) => f.soft).length;
   summaryEl.textContent =
     findings.length === 0
-      ? "Nothing flagged on this page."
+      ? "No phrases to reconsider on this page."
       : `${findings.length} highlight${findings.length === 1 ? "" : "s"} on this page` +
         (soft ? ` · ${soft} may be quoted / context-sensitive` : "");
 
   if (!findings.length) {
     showStatus(
-      "None of the default-heavy phrases we look for showed up here. Try another page, or re-scan after new content loads.",
+      "No rule matches here. Try another page, or re-scan after new content loads.",
     );
     return;
   }
