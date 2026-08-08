@@ -153,8 +153,8 @@ export function loadReviewDoc(): ReviewDoc {
   try {
     const raw = window.localStorage.getItem(REVIEW_STORAGE_KEY);
     if (!raw) return emptyReviewDoc();
-    const parsed = JSON.parse(raw) as ReviewDoc;
-    if (parsed && parsed.version === 1 && parsed.reviews) return parsed;
+    const parsed = coerceReviewDoc(JSON.parse(raw));
+    if (parsed) return parsed;
   } catch {
     // fall through to empty
   }
