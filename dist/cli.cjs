@@ -359,7 +359,8 @@ var init_rules = __esm({
         severity: "medium",
         label: "\u201COld World\u201D",
         why: "Reinforces a Eurocentric map of history as the default timeline.",
-        suggestions: ["Europe, Africa, and Asia", "Afro-Eurasia", "name the regions"]
+        suggestions: ["Europe, Africa, and Asia", "Afro-Eurasia", "name the regions"],
+        defaultSoft: true
       },
       {
         id: "third-world",
@@ -369,9 +370,10 @@ var init_rules = __esm({
         label: "\u201CThird World\u201D",
         why: "Cold War hierarchy that ranks countries as behind a Western \u201Cfirst.\u201D",
         suggestions: [
-          "Global South",
-          "low- and middle-income countries",
-          "name the specific regions or countries"
+          "name the specific countries or regions",
+          "countries subjected to colonial extraction (when that relationship is the point)",
+          "imperial core / periphery (when using that analytical framework)",
+          "low- and middle-income countries (only when income is the measure)"
         ]
       },
       {
@@ -381,7 +383,12 @@ var init_rules = __esm({
         severity: "medium",
         label: "\u201CFirst World\u201D",
         why: "Implies Western nations are the developmental default.",
-        suggestions: ["high-income countries", "Global North", "name the countries"]
+        suggestions: [
+          "name the specific countries",
+          "wealthy former colonial powers (when historically accurate)",
+          "imperial core (when using that analytical framework)",
+          "high-income countries (only when income is the measure)"
+        ]
       },
       {
         id: "developing-country",
@@ -391,9 +398,9 @@ var init_rules = __esm({
         label: "\u201CDeveloping\u201D countries",
         why: "Implies a single Western path of \u201Cdevelopment.\u201D Use more precise economic or geographic terms when possible.",
         suggestions: [
-          "low- and middle-income countries",
-          "countries with emerging economies",
-          "name the region or country"
+          "name the countries and the specific change being discussed",
+          "countries shaped by colonial extraction (when relevant)",
+          "low- and middle-income countries (only when income is the measure)"
         ]
       },
       {
@@ -404,9 +411,10 @@ var init_rules = __esm({
         label: "\u201CUnderdeveloped\u201D",
         why: "Ranks societies against a Western industrial ideal.",
         suggestions: [
-          "low-income",
+          "name the place",
           "describe the specific infrastructure or resource gap",
-          "name the place"
+          "describe the extraction or power relationship when that is the point",
+          "low-income (only when income is the measure)"
         ]
       },
       {
@@ -457,7 +465,8 @@ var init_rules = __esm({
         severity: "medium",
         label: "Generic \u201Ctribe\u201D",
         why: "Often applied loosely to Indigenous or African peoples in ways that flatten political complexity. Prefer the community\u2019s own terms when known.",
-        suggestions: ["nation", "people", "community", "use the specific nation\u2019s name"]
+        suggestions: ["nation", "people", "community", "use the specific nation\u2019s name"],
+        defaultSoft: true
       },
       {
         id: "exotic",
@@ -466,7 +475,8 @@ var init_rules = __esm({
         severity: "medium",
         label: "\u201CExotic\u201D",
         why: "Othering framing that treats people or cultures as curiosities relative to a Western norm.",
-        suggestions: ["distinctive", "unfamiliar to [audience]", "name the culture or place"]
+        suggestions: ["distinctive", "unfamiliar to [audience]", "name the culture or place"],
+        defaultSoft: true
       },
       {
         id: "oriental-people",
@@ -483,8 +493,13 @@ var init_rules = __esm({
         category: "colonial",
         severity: "high",
         label: "\u201CEskimo\u201D",
-        why: "Often considered pejorative; many prefer Inuit, Yupik, or the specific nation\u2019s name.",
-        suggestions: ["Inuit", "Yupik", "use the community\u2019s own name"]
+        why: "The Inuit Circumpolar Council asks institutions to use Inuit, but communities are distinct and some people or organizations retain regional usage. Check identity rather than replacing mechanically.",
+        suggestions: [
+          "Inuit (when referring to Inuit)",
+          "Yup\u2019ik / I\xF1upiat / the specific community\u2019s name",
+          "ask or follow community self-identification"
+        ],
+        defaultSoft: true
       },
       {
         id: "pow-wow-metaphor",
@@ -537,8 +552,9 @@ var init_rules = __esm({
         category: "colonial",
         severity: "low",
         label: "\u201CGuru\u201D as casual title",
-        why: "A sacred role in South Asian traditions; casual workplace use can feel extractive.",
-        suggestions: ["expert", "guide", "specialist", "mentor"]
+        why: "Guru carries sacred significance in Sikh, Hindu, Buddhist, and Jain traditions, but also has broader teacher/expert usage in Indic contexts. A precision heads-up, not a universal prohibition.",
+        suggestions: ["expert", "guide", "specialist", "mentor"],
+        defaultSoft: true
       },
       {
         id: "native-speaker-only",
@@ -555,7 +571,7 @@ var init_rules = __esm({
       },
       {
         id: "mother-tongue-gate",
-        pattern: "\\bmother tongue must be\\b|\\bmother[- ]tongue(?:\\s+english)?\\b",
+        pattern: "\\bmother tongue (?:must|should) be (?:english|[a-z]+)\\b|\\b(?:english|[a-z]+) (?:as )?(?:a |your )?mother tongue (?:required|preferred|only)\\b|\\bmother[- ]tongue (?:english|[a-z]+) (?:required|preferred|only)\\b",
         category: "colonial",
         severity: "medium",
         label: "Mother-tongue gatekeeping",
@@ -564,7 +580,8 @@ var init_rules = __esm({
           "fluent in English",
           "professional proficiency in\u2026",
           "strong written and spoken English"
-        ]
+        ],
+        defaultSoft: true
       },
       {
         id: "virgin-land",
@@ -595,7 +612,8 @@ var init_rules = __esm({
         severity: "low",
         label: "\u201CColonize\u201D as casual metaphor",
         why: "Using colonization as a cute synonym for \u201Cexpand into\u201D can trivialize historical violence. Keep when discussing actual colonialism.",
-        suggestions: ["expand into", "enter", "open in", "build presence in"]
+        suggestions: ["expand into", "enter", "open in", "build presence in"],
+        defaultSoft: true
       },
       // ── Gender ──────────────────────────────────────────────────────────
       {
