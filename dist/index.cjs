@@ -1197,11 +1197,11 @@ var LANGUAGE_RULES = [
   },
   {
     id: "old-people",
-    pattern: "\\bthe old\\b|\\bold people\\b",
+    pattern: "\\bold people\\b|\\bthe old\\b(?!\\s+(?:ways?|days?|world|fashioned|guard|testament|school|country|west|east|north|south|ones?|man|woman|men|women|boy|girl|kids?|timers?))",
     category: "age",
     severity: "low",
     label: "\u201CThe old\u201D / \u201Cold people\u201D",
-    why: "Can reduce older adults to age as a defining trait or use age as a dismissive category.",
+    why: "Can reduce older adults to age as a defining trait or use age as a dismissive category. Does not flag ordinary phrases like \u201Cthe old ways.\u201D",
     suggestions: ["older adults", "older people", "people age [range]"],
     defaultSoft: true
   },
@@ -1261,11 +1261,11 @@ var LANGUAGE_RULES = [
   },
   {
     id: "kids-these-days",
-    pattern: "\\bkids these days\\b|\\byoung people today\\b",
+    pattern: "\\bkids these days\\b|\\bthese kids today\\b|\\byoung people today\\b",
     category: "age",
     severity: "low",
     label: "Generational dismissal",
-    why: "Can dismiss a broad age group instead of naming a specific behavior, trend, or evidence.",
+    why: "Can dismiss a broad age group instead of naming a specific behavior, trend, or evidence. Supportive uses like \u201Csupporting our young people today\u201D are skipped.",
     suggestions: [
       "name the behavior or trend",
       "cite the age group and evidence",
@@ -1368,11 +1368,11 @@ var LANGUAGE_RULES = [
   },
   {
     id: "western-values-dogwhistle",
-    pattern: "\\bwestern values\\b|\\bwestern culture\\b|\\bour way of life\\b",
+    pattern: "\\bwestern values\\b|\\bwestern culture\\b|\\bdefend(?:ing)? our way of life\\b|\\bprotect(?:ing)? our way of life\\b|\\bthreat(?:ens?|ening)? our way of life\\b",
     category: "coded",
     severity: "low",
     label: "\u201CWestern values / culture\u201D as code",
-    why: "Sometimes ordinary geography or history \u2014 sometimes a euphemism for ethnonationalism or anti-Muslim / anti-LGBTQ politics. Soft-flagged so you can be specific.",
+    why: "Sometimes ordinary geography or history \u2014 sometimes a euphemism for ethnonationalism or anti-Muslim / anti-LGBTQ politics. Soft-flagged so you can be specific. Bare \u201Cour way of life\u201D in cultural or community copy is not flagged.",
     suggestions: [
       "name the specific right or tradition (e.g. free press, due process)",
       "democracy and human rights",
@@ -1786,6 +1786,23 @@ function hintsForRule(ruleId) {
       softExcludeNear: /\b(?:measles|influenza|covid|epidemiolog|virus|infection rate)\b/i
     };
   }
+  if (ruleId === "old-people") {
+    return {
+      // Cultural / idiomatic uses of “the old …” that are not about older adults.
+      excludeNear: /\bthe old\s+(?:ways?|days?|world|fashioned|guard|testament|school|country)\b/i
+    };
+  }
+  if (ruleId === "kids-these-days") {
+    return {
+      // Affirmative community language, not generational sneering.
+      excludeNear: /\b(?:support(?:ing|s)?|empower(?:ing|s)?|mentor(?:ing|s)?|serv(?:ing|e|es)|for|with|our|help(?:ing|s)?|invest(?:ing|s)? in)\b.{0,40}\b(?:young people today|kids these days|these kids today)\b|\b(?:young people today|kids these days|these kids today)\b.{0,40}\b(?:deserve|need|matter|future|community|culture|elders?)\b/i
+    };
+  }
+  if (ruleId === "western-values-dogwhistle") {
+    return {
+      softExcludeNear: /\b(?:first\s+nations?|inuit|m[eé]tis|indigenous|aboriginal|native|culture|cultural|heritage|tradition|traditions|ceremony|elder|elders|community|communities)\b/i
+    };
+  }
   return null;
 }
 function evaluateMatchContext(text, index, length, ruleId) {
@@ -2147,7 +2164,23 @@ function fineInContextIssueUrl(event) {
 }
 
 // src/lib/rewrite.ts
+function isLexicalSuggestion(suggestion) {
+  const value = suggestion.trim();
+  if (!value) return false;
+  if (/[\[\]]/.test(value)) return false;
+  if (/\b(?:e\.g\.|for example|if that'?s)\b/i.test(value)) return false;
+  if (/^(?:name|cite|avoid|ask|describe|remove|do not|don'?t|prefer|use|keep|consider|say what|be specific)\b/i.test(
+    value
+  )) {
+    return false;
+  }
+  if (value.length > 48 && /\s(?:or|and|instead|when|rather than)\s/i.test(value)) {
+    return false;
+  }
+  return true;
+}
 function previewRewrite(finding, suggestion) {
+  if (!isLexicalSuggestion(suggestion)) return null;
   const before = finding.context;
   const re = new RegExp(
     finding.match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
@@ -2183,7 +2216,7 @@ function applyPassageRewrites(source, findings, options) {
       skippedSoft += 1;
       return false;
     }
-    if (!f.suggestions[0]) {
+    if (!f.suggestions.find(isLexicalSuggestion)) {
       skippedNoSuggestion += 1;
       return false;
     }
@@ -2191,7 +2224,8 @@ function applyPassageRewrites(source, findings, options) {
   }).slice().sort((a, b) => b.index - a.index);
   let text = source;
   for (const finding of actionable) {
-    text = applySuggestionToText(text, finding, finding.suggestions[0]);
+    const suggestion = finding.suggestions.find(isLexicalSuggestion) ?? finding.suggestions[0];
+    text = applySuggestionToText(text, finding, suggestion);
   }
   return {
     text,
