@@ -3622,7 +3622,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: NomadBuilder/un-default@v1
+      - uses: NomadBuilder/anti-default@v1
         with:
           changed-from: \${{ github.event.pull_request.base.sha }}
           format: json
@@ -3696,8 +3696,8 @@ init_scan();
 init_feedback2();
 var import_meta = {};
 function packageVersion() {
-  if ("0.5.1") {
-    return "0.5.1";
+  if ("0.5.2") {
+    return "0.5.2";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));
