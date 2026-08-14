@@ -3505,6 +3505,8 @@ var MCP_CONFIG_JSON = `${JSON.stringify(MCP_CONFIG, null, 2)}
 `;
 var CLAUDE_PROJECT_INSTRUCTIONS = `You are not done with user-facing copy (UI strings, docs, READMEs, marketing, onboarding, job posts) until Un-Default is clean of hard findings \u2014 or remaining hits are intentional and recorded.
 
+This repo may include Claude/Cursor hooks that scan after file edits. Treat hook findings as blockers for finishing copy work.
+
 Workflow (every time you write or edit public language):
 1. Prefer MCP tools if available: un_default_fix (safe 1:1 only), then un_default_scan.
 2. Or run in the project shell:
@@ -3519,25 +3521,101 @@ Docs: ${AGENTS_URL}
 `;
 var LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it done until Un-Default is clean.
 
-One command sets the habit for the whole repo \u2014 skill + MCP + PR check:
+One command sets the habit for the whole repo \u2014 skill + MCP + after-edit hooks + PR check:
 
 ${INIT_COMMAND}
 
 Paste-ready MCP + Claude Project instructions:
 ${AGENTS_URL}
 
-Local rules. No account. Same check in CI.
+Local rules. No account. Same check in CI \u2014 and hooks catch edits even when nobody looks.
+`;
+
+// src/cli/hook-script.ts
+var AFTER_EDIT_HOOK_SCRIPT = `#!/usr/bin/env bash
+# Un-Default \u2014 run after Claude Code / Cursor file edits.
+# Reads hook JSON on stdin. On hard findings, surfaces them to the agent
+# (Claude Code: exit 2 + stderr; Cursor: additional_context JSON).
+set -u
+
+INPUT="$(cat || true)"
+
+FILE="$(
+  printf '%s' "$INPUT" | node -e '
+let d = "";
+process.stdin.on("data", (c) => (d += c));
+process.stdin.on("end", () => {
+  try {
+    const j = JSON.parse(d || "{}");
+    const p =
+      j.tool_input?.file_path ||
+      j.tool_input?.path ||
+      j.file_path ||
+      j.path ||
+      j.filePath ||
+      "";
+    process.stdout.write(typeof p === "string" ? p : "");
+  } catch {
+    process.stdout.write("");
+  }
+});
+' 2>/dev/null || true
+)"
+
+if [[ -z "\${FILE}" || ! -f "\${FILE}" ]]; then
+  exit 0
+fi
+
+case "\${FILE}" in
+  *.md|*.mdx|*.txt|*.html|*.htm|*.tsx|*.jsx|*.vue|*.svelte|*.astro|*.css|*.scss|*.sass|*.less|*.json|*.yml|*.yaml|*.toml|*.xml|*.svg|*.mjs|*.cjs|*.js|*.ts|*.py|*.rb|*.go|*.rs|*.java|*.kt|*.swift|*.php|*.cs|*.sh|*.bash|*.zsh)
+    ;;
+  *)
+    exit 0
+    ;;
+esac
+
+# Skip generated / vendor noise
+case "\${FILE}" in
+  *node_modules*|*dist/*|*/.next/*|*/out/*|*package-lock.json|*pnpm-lock.yaml)
+    exit 0
+    ;;
+esac
+
+STATUS=0
+REPORT="$(npx --yes anti-default "\${FILE}" --format text --fail-on hard 2>&1)" || STATUS=$?
+
+if [[ "\${STATUS}" -eq 0 ]]; then
+  exit 0
+fi
+
+MSG="Un-Default found hard inclusive-language hits in \${FILE}.
+Fix clear user-facing hits (or record fine-in-context feedback) before treating this copy as done.
+Prefer: npx -y anti-default fix \\"\${FILE}\\" then re-scan, or MCP un_default_fix / un_default_scan.
+
+\${REPORT}"
+
+# Claude Code PostToolUse: exit 2 shows stderr to the model (tool already ran).
+if printf '%s' "$INPUT" | grep -q '"hook_event_name"'; then
+  printf '%s\\n' "$MSG" >&2
+  exit 2
+fi
+
+# Cursor hooks: inject as additional_context when supported.
+node -e 'const msg=process.argv[1]; process.stdout.write(JSON.stringify({ additional_context: msg }));' "$MSG"
+exit 0
 `;
 
 // src/cli/skill-text.ts
 var SKILL = `---
 name: un-default
-description: Makes Un-Default the definition-of-done check for AI-generated and human user-facing copy. Use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, or any public language; before marking a task complete; or when reviewing a PR for inclusive wording.
+description: Definition-of-done for AI-written user-facing copy. Always use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, emails, or any public language; before marking a task complete; when reviewing a PR for inclusive wording. If Un-Default hooks report findings after an edit, fix them before continuing.
 ---
 
 # Un-Default \u2014 AI copy definition of done
 
 You are not done with user-facing language until Un-Default is clean of hard findings (or remaining hits are intentional and recorded).
+
+Hooks may already scan files after Edit/Write \u2014 treat those findings as blockers for finishing copy work.
 
 ## Required workflow
 
@@ -3575,6 +3653,7 @@ You are not done with user-facing language until Un-Default is clean of hard fin
 - Do **not** \u201Cfix\u201D coded/dogwhistle hits automatically \u2014 they are heads-ups; context wins.
 - Prefer \`fix\` before manual edits so safe cases become habit, not debate.
 - If MCP is configured, prefer MCP tools over shelling out.
+- If a hook surfaces Un-Default findings, address them before claiming the task is done.
 
 ## MCP
 
@@ -3629,14 +3708,134 @@ jobs:
           output-file: un-default-report.json
           comment-on-pr: "true"
 `;
-async function writeIfMissing(filePath, contents) {
+var CLAUDE_SETTINGS = {
+  hooks: {
+    PostToolUse: [
+      {
+        matcher: "Edit|Write",
+        hooks: [
+          {
+            type: "command",
+            command: "${CLAUDE_PROJECT_DIR}/.claude/hooks/un-default-after-edit.sh",
+            timeout: 60
+          }
+        ]
+      }
+    ]
+  }
+};
+var CURSOR_HOOKS = {
+  version: 1,
+  hooks: {
+    afterFileEdit: [
+      {
+        command: ".cursor/hooks/un-default-after-edit.sh"
+      }
+    ],
+    postToolUse: [
+      {
+        matcher: "Write|Edit",
+        command: ".cursor/hooks/un-default-after-edit.sh"
+      }
+    ]
+  }
+};
+async function writeIfMissing(filePath, contents, mode) {
   try {
     await import_node_fs2.promises.access(filePath);
     return false;
   } catch {
     await import_node_fs2.promises.mkdir(import_node_path2.default.dirname(filePath), { recursive: true });
-    await import_node_fs2.promises.writeFile(filePath, contents, "utf8");
+    await import_node_fs2.promises.writeFile(filePath, contents, { encoding: "utf8", mode });
     return true;
+  }
+}
+async function writeExecutableIfMissing(filePath, contents) {
+  const created = await writeIfMissing(filePath, contents, 493);
+  if (created) return true;
+  try {
+    await import_node_fs2.promises.chmod(filePath, 493);
+  } catch {
+  }
+  return false;
+}
+function hasUnDefaultClaudeHook(settings) {
+  const hooks = settings?.hooks?.PostToolUse;
+  if (!Array.isArray(hooks)) return false;
+  return JSON.stringify(hooks).includes("un-default-after-edit");
+}
+function hasUnDefaultCursorHook(config) {
+  return JSON.stringify(config ?? {}).includes("un-default-after-edit");
+}
+async function ensureClaudeSettings(cwd) {
+  const settingsPath = import_node_path2.default.join(cwd, ".claude", "settings.json");
+  try {
+    const raw = await import_node_fs2.promises.readFile(settingsPath, "utf8");
+    const existing = JSON.parse(raw);
+    if (hasUnDefaultClaudeHook(existing)) return null;
+    const hooks = {
+      ...existing.hooks ?? {}
+    };
+    const post = Array.isArray(hooks.PostToolUse) ? [...hooks.PostToolUse] : [];
+    post.push(...CLAUDE_SETTINGS.hooks.PostToolUse);
+    hooks.PostToolUse = post;
+    existing.hooks = hooks;
+    await import_node_fs2.promises.writeFile(
+      settingsPath,
+      `${JSON.stringify(existing, null, 2)}
+`,
+      "utf8"
+    );
+    return ".claude/settings.json (merged Un-Default PostToolUse hook)";
+  } catch (error2) {
+    if (error2.code !== "ENOENT") {
+      throw error2;
+    }
+    await import_node_fs2.promises.mkdir(import_node_path2.default.dirname(settingsPath), { recursive: true });
+    await import_node_fs2.promises.writeFile(
+      settingsPath,
+      `${JSON.stringify(CLAUDE_SETTINGS, null, 2)}
+`,
+      "utf8"
+    );
+    return ".claude/settings.json";
+  }
+}
+async function ensureCursorHooks(cwd) {
+  const hooksPath = import_node_path2.default.join(cwd, ".cursor", "hooks.json");
+  try {
+    const raw = await import_node_fs2.promises.readFile(hooksPath, "utf8");
+    const existing = JSON.parse(raw);
+    if (hasUnDefaultCursorHook(existing)) return null;
+    const hooks = {
+      ...existing.hooks ?? {}
+    };
+    for (const key of ["afterFileEdit", "postToolUse"]) {
+      const list = Array.isArray(hooks[key]) ? [...hooks[key]] : [];
+      list.push(...CURSOR_HOOKS.hooks[key]);
+      hooks[key] = list;
+    }
+    existing.hooks = hooks;
+    existing.version = existing.version ?? 1;
+    await import_node_fs2.promises.writeFile(
+      hooksPath,
+      `${JSON.stringify(existing, null, 2)}
+`,
+      "utf8"
+    );
+    return ".cursor/hooks.json (merged Un-Default after-edit hooks)";
+  } catch (error2) {
+    if (error2.code !== "ENOENT") {
+      throw error2;
+    }
+    await import_node_fs2.promises.mkdir(import_node_path2.default.dirname(hooksPath), { recursive: true });
+    await import_node_fs2.promises.writeFile(
+      hooksPath,
+      `${JSON.stringify(CURSOR_HOOKS, null, 2)}
+`,
+      "utf8"
+    );
+    return ".cursor/hooks.json";
   }
 }
 async function initializeProject(cwd) {
@@ -3647,13 +3846,30 @@ async function initializeProject(cwd) {
     [".cursor/skills/un-default/SKILL.md", SKILL],
     [".cursor/mcp.json", MCP_CONFIG_JSON],
     [".claude/skills/un-default/SKILL.md", SKILL],
-    [".mcp.json", MCP_CONFIG_JSON]
+    [".mcp.json", MCP_CONFIG_JSON],
+    ["CLAUDE.md", `${CLAUDE_PROJECT_INSTRUCTIONS.trim()}
+`]
   ];
   for (const [relative, contents] of files) {
     if (await writeIfMissing(import_node_path2.default.join(cwd, relative), contents)) {
       created.push(relative);
     }
   }
+  for (const relative of [
+    ".claude/hooks/un-default-after-edit.sh",
+    ".cursor/hooks/un-default-after-edit.sh"
+  ]) {
+    if (await writeExecutableIfMissing(
+      import_node_path2.default.join(cwd, relative),
+      AFTER_EDIT_HOOK_SCRIPT
+    )) {
+      created.push(relative);
+    }
+  }
+  const claudeSettings = await ensureClaudeSettings(cwd);
+  if (claudeSettings) created.push(claudeSettings);
+  const cursorHooks = await ensureCursorHooks(cwd);
+  if (cursorHooks) created.push(cursorHooks);
   const packagePath = import_node_path2.default.join(cwd, "package.json");
   try {
     const raw = await import_node_fs2.promises.readFile(packagePath, "utf8");
@@ -3685,7 +3901,8 @@ async function initializeProject(cwd) {
 }
 function initNextSteps() {
   return [
-    "Next: wire agents with the one-pager (MCP paste + Claude Project instructions):",
+    "Claude/Cursor will now scan after file edits (hooks) \u2014 no extra user step.",
+    "Optional: paste Project instructions / MCP from:",
     `  ${AGENTS_URL}`
   ];
 }
@@ -3696,8 +3913,8 @@ init_scan();
 init_feedback2();
 var import_meta = {};
 function packageVersion() {
-  if ("0.5.2") {
-    return "0.5.2";
+  if ("0.5.3") {
+    return "0.5.3";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));

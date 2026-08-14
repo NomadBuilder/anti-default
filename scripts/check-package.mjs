@@ -68,6 +68,29 @@ try {
     "utf8",
   );
   await readFile(path.join(temp, ".mcp.json"), "utf8");
+  await readFile(path.join(temp, "CLAUDE.md"), "utf8");
+  await readFile(
+    path.join(temp, ".claude", "hooks", "un-default-after-edit.sh"),
+    "utf8",
+  );
+  await readFile(
+    path.join(temp, ".cursor", "hooks", "un-default-after-edit.sh"),
+    "utf8",
+  );
+  const claudeSettings = JSON.parse(
+    await readFile(path.join(temp, ".claude", "settings.json"), "utf8"),
+  );
+  if (
+    !JSON.stringify(claudeSettings).includes("un-default-after-edit")
+  ) {
+    throw new Error("init did not install Claude Code PostToolUse hook");
+  }
+  const cursorHooks = JSON.parse(
+    await readFile(path.join(temp, ".cursor", "hooks.json"), "utf8"),
+  );
+  if (!JSON.stringify(cursorHooks).includes("un-default-after-edit")) {
+    throw new Error("init did not install Cursor after-edit hooks");
+  }
   await exec(bin, ["baseline", "."], { cwd: temp });
   const afterBaseline = await exec(
     bin,
