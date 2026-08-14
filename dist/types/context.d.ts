@@ -28,4 +28,6 @@ export interface RuleContextHints {
 }
 /** Built-in context for known ambiguous rules. */
 export declare function hintsForRule(ruleId: string): RuleContextHints | null;
-export declare function evaluateMatchContext(text: string, index: number, length: number, ruleId: string): MatchContext;
+export declare function evaluateMatchContext(text: string, index: number, length: number, ruleId: string, options?: {
+    counterexamples?: string[];
+}): MatchContext;

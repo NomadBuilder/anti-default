@@ -24,6 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run corpus
       - run: npm run sources:check
+      - run: npm run rules:check
       - run: npm run package:check
       - name: Compiled package is current
         run: git diff --exit-code -- dist

@@ -33,12 +33,16 @@ __export(index_exports, {
   feedbackEventFromFinding: () => feedbackEventFromFinding,
   fineInContextIssueUrl: () => fineInContextIssueUrl,
   hasSupportedExtension: () => hasSupportedExtension,
+  inferSuggestionKind: () => inferSuggestionKind,
+  isLexicalSuggestion: () => isLexicalSuggestion,
   isSafeAutofixRule: () => isSafeAutofixRule,
+  normalizeSuggestions: () => normalizeSuggestions,
   planSafeFixes: () => planSafeFixes,
   preserveCase: () => preserveCase,
   previewRewrite: () => previewRewrite,
   recordFeedbackLocally: () => recordFeedbackLocally,
-  safeReplacementFor: () => safeReplacementFor
+  safeReplacementFor: () => safeReplacementFor,
+  suggestionTexts: () => suggestionTexts
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -180,7 +184,14 @@ var LANGUAGE_RULES = [
     severity: "medium",
     label: "Generic \u201Ctribe\u201D",
     why: "Often applied loosely to Indigenous or African peoples in ways that flatten political complexity. Prefer the community\u2019s own terms when known.",
-    suggestions: ["nation", "people", "community", "use the specific nation\u2019s name"],
+    suggestions: ["nation", "people", "community"],
+    guidance: ["use the specific nation\u2019s name"],
+    examples: ["The marketing tribe owns growth this quarter."],
+    counterexamples: [
+      "First Nations, Inuit, and M\xE9tis communities",
+      "work with the specific tribe or nation named by the family",
+      "ask which Nation or tribe the person belongs to"
+    ],
     defaultSoft: true
   },
   {
@@ -581,8 +592,14 @@ var LANGUAGE_RULES = [
     category: "ableist",
     severity: "low",
     label: "\u201CSuffers from\u201D",
-    why: "Assumes misery; many prefer neutral \u201Chas\u201D or \u201Clives with.\u201D",
-    suggestions: ["has", "lives with", "was diagnosed with"]
+    why: "Assumes misery; many prefer neutral \u201Chas\u201D or \u201Clives with.\u201D Keep when someone is describing their own suffering, or when clinical/palliative writing is naming distress.",
+    suggestions: ["has", "lives with", "was diagnosed with"],
+    examples: ["The campaign says the economy suffers from bad leadership."],
+    counterexamples: [
+      "Many patients say they suffer from unmanaged pain near the end of life.",
+      "Ask whether the person describes themselves as suffering from the illness."
+    ],
+    defaultSoft: true
   },
   {
     id: "handicap",
@@ -600,11 +617,12 @@ var LANGUAGE_RULES = [
     severity: "medium",
     label: "\u201CSpecial needs\u201D",
     why: "Vague and often othering; many prefer naming the disability or support needed.",
-    suggestions: [
+    suggestions: ["children with disabilities", "disabled people"],
+    guidance: [
       "disabled children / disabled people (when accurate)",
-      "children with disabilities",
       "name the specific support or disability"
-    ]
+    ],
+    examples: ["Our special needs hiring track."]
   },
   {
     id: "retard",
@@ -1156,8 +1174,16 @@ var LANGUAGE_RULES = [
     category: "age",
     severity: "low",
     label: "\u201CThe elderly\u201D",
-    why: "Can flatten older adults into a monolith. Prefer \u201Colder adults\u201D when possible.",
-    suggestions: ["older adults", "older people", "elders (community-specific)"]
+    why: "Can flatten older adults into a monolith. Prefer \u201Colder adults\u201D when possible. Caregiving and clinical copy often uses this neutrally \u2014 soft-flagged.",
+    suggestions: ["older adults", "older people", "elders (community-specific)"],
+    examples: [
+      "We can\u2019t keep subsidizing the elderly as a burden on taxpayers."
+    ],
+    counterexamples: [
+      "Caregiving tips for families supporting the elderly at home",
+      "palliative care resources for the elderly and their caregivers"
+    ],
+    defaultSoft: true
   },
   {
     id: "boomer-as-insult",
@@ -1202,7 +1228,20 @@ var LANGUAGE_RULES = [
     severity: "low",
     label: "\u201CThe old\u201D / \u201Cold people\u201D",
     why: "Can reduce older adults to age as a defining trait or use age as a dismissive category. Does not flag ordinary phrases like \u201Cthe old ways.\u201D",
-    suggestions: ["older adults", "older people", "people age [range]"],
+    suggestions: ["older adults", "older people"],
+    guidance: [
+      "people age [range]",
+      "name the specific need or role instead of age as a category"
+    ],
+    examples: [
+      "Policymakers keep talking about the old as if they are a cost center.",
+      "Old people should just retire already."
+    ],
+    counterexamples: [
+      "Communicating in the old ways",
+      "the old days of community visiting",
+      "respect for the old world traditions of mourning"
+    ],
     defaultSoft: true
   },
   {
@@ -1266,10 +1305,20 @@ var LANGUAGE_RULES = [
     severity: "low",
     label: "Generational dismissal",
     why: "Can dismiss a broad age group instead of naming a specific behavior, trend, or evidence. Supportive uses like \u201Csupporting our young people today\u201D are skipped.",
-    suggestions: [
+    suggestions: [],
+    guidance: [
       "name the behavior or trend",
       "cite the age group and evidence",
       "avoid generalizing a generation"
+    ],
+    examples: [
+      "Kids these days have no respect for hard work.",
+      "Young people today never want to work."
+    ],
+    counterexamples: [
+      "Supporting our young people today",
+      "Resources by grieving youth, for grieving youth",
+      "Guidance for schools supporting grieving children and youth"
     ],
     defaultSoft: true
   },
@@ -1373,10 +1422,20 @@ var LANGUAGE_RULES = [
     severity: "low",
     label: "\u201CWestern values / culture\u201D as code",
     why: "Sometimes ordinary geography or history \u2014 sometimes a euphemism for ethnonationalism or anti-Muslim / anti-LGBTQ politics. Soft-flagged so you can be specific. Bare \u201Cour way of life\u201D in cultural or community copy is not flagged.",
-    suggestions: [
+    suggestions: [],
+    guidance: [
       "name the specific right or tradition (e.g. free press, due process)",
       "democracy and human rights",
       "avoid vague civilizational framing"
+    ],
+    examples: [
+      "They claimed immigration was threatening our way of life and western values.",
+      "We must defend western culture from outsiders."
+    ],
+    counterexamples: [
+      "Conversations on care, culture, and spirituality when living with serious illness",
+      "Living My Culture shares stories about our way of life",
+      "Indigenous Cultural Safety Training helping you provide culturally safer care"
     ],
     defaultSoft: true
   },
@@ -1803,9 +1862,20 @@ function hintsForRule(ruleId) {
       softExcludeNear: /\b(?:first\s+nations?|inuit|m[eé]tis|indigenous|aboriginal|native|culture|cultural|heritage|tradition|traditions|ceremony|elder|elders|community|communities)\b/i
     };
   }
+  if (ruleId === "elderly-as-burden") {
+    return {
+      softExcludeNear: /\b(?:caregiv|hospice|palliative|grief|bereave|illness|dying|end[- ]of[- ]life|nursing|home\s+care)\w*\b/i,
+      excludeNear: /\belders?\b/i
+    };
+  }
+  if (ruleId === "suffers-from") {
+    return {
+      softExcludeNear: /\b(?:pain|symptom|illness|disease|patient|palliative|hospice|grief|bereave|diagnos)\w*\b/i
+    };
+  }
   return null;
 }
-function evaluateMatchContext(text, index, length, ruleId) {
+function evaluateMatchContext(text, index, length, ruleId, options) {
   const modes = [];
   let skip = false;
   let likelyFalsePositive = false;
@@ -1813,6 +1883,34 @@ function evaluateMatchContext(text, index, length, ruleId) {
   const nearby = windowAround(text, index, length);
   const hints = hintsForRule(ruleId);
   const ableistMetaphor = ABLEIST_METAPHOR_RULES.has(ruleId);
+  const matched = text.slice(index, index + length);
+  if (options?.counterexamples?.length) {
+    const haystack = nearby.toLowerCase();
+    const hit = options.counterexamples.find((example) => {
+      const needle = example.toLowerCase().replace(/\s+/g, " ").trim();
+      if (!needle) return false;
+      return haystack.includes(needle);
+    });
+    if (hit) {
+      return {
+        modes,
+        likelyFalsePositive: false,
+        skip: true,
+        note: `Skipped \u2014 matches a documented counterexample (\u201C${hit}\u201D).`
+      };
+    }
+  }
+  if (ruleId === "old-people" && /\bthe old\s+(?:ways?|days?|world|fashioned|guard|testament|school|country)\b/i.test(
+    nearby
+  )) {
+    return {
+      modes,
+      likelyFalsePositive: false,
+      skip: true,
+      note: "Skipped \u2014 idiomatic \u201Cthe old \u2026\u201D (not a label for older adults)."
+    };
+  }
+  void matched;
   if (hints?.excludeNear?.test(nearby)) {
     skip = true;
     note = "Skipped \u2014 looks like a non-colonial idiom (e.g. discovered a bug).";
@@ -1869,6 +1967,46 @@ function evaluateMatchContext(text, index, length, ruleId) {
   return { modes, likelyFalsePositive, skip, note };
 }
 
+// src/lib/suggestions.ts
+function inferSuggestionKind(text) {
+  const value = text.trim();
+  if (!value) return "guidance";
+  if (/[\[\]]/.test(value)) return "guidance";
+  if (/\b(?:e\.g\.|for example|if that'?s)\b/i.test(value)) return "guidance";
+  if (/^(?:name|cite|avoid|ask|describe|remove|do not|don'?t|prefer|use|keep|consider|say what|be specific)\b/i.test(
+    value
+  )) {
+    return "guidance";
+  }
+  if (value.length > 48 && /\s(?:or|and|instead|when|rather than)\s/i.test(value)) {
+    return "guidance";
+  }
+  return "swap";
+}
+function normalizeSuggestion(value) {
+  if (typeof value === "string") {
+    return { text: value, kind: inferSuggestionKind(value) };
+  }
+  return {
+    text: value.text,
+    kind: value.kind ?? inferSuggestionKind(value.text)
+  };
+}
+function normalizeSuggestions(rule) {
+  const fromSuggestions = rule.suggestions.map(normalizeSuggestion);
+  const fromGuidance = (rule.guidance ?? []).map(
+    (text) => normalizeSuggestion({ text, kind: "guidance" })
+  );
+  const all = [...fromSuggestions, ...fromGuidance];
+  const swaps = all.filter((s) => s.kind === "swap").map((s) => s.text);
+  const guidance = all.filter((s) => s.kind === "guidance").map((s) => s.text);
+  return { swaps, guidance, all };
+}
+function suggestionTexts(rule) {
+  const { swaps, guidance } = normalizeSuggestions(rule);
+  return [...swaps, ...guidance];
+}
+
 // src/lib/analyzer.ts
 var CONTEXT_RADIUS = 72;
 function buildRegex(pattern, matchWholeWord = false) {
@@ -1908,7 +2046,8 @@ function analyzeText(text, options = {}) {
         normalized,
         match.index,
         matchedText.length,
-        rule.id
+        rule.id,
+        { counterexamples: rule.counterexamples }
       );
       if (ctx.skip) {
         if (match.index === regex.lastIndex) {
@@ -1916,6 +2055,7 @@ function analyzeText(text, options = {}) {
         }
         continue;
       }
+      const { swaps, guidance } = normalizeSuggestions(rule);
       findings.push({
         id: `${rule.id}-${match.index}-${findings.length}`,
         ruleId: rule.id,
@@ -1924,7 +2064,9 @@ function analyzeText(text, options = {}) {
         severity: rule.severity,
         label: rule.label,
         why: rule.why,
-        suggestions: rule.suggestions,
+        suggestions: suggestionTexts(rule),
+        swaps: swaps.length ? swaps : void 0,
+        guidance: guidance.length ? guidance : void 0,
         context: snippetAround(normalized, match.index, matchedText.length),
         index: match.index,
         source: options.sourceTag,
@@ -2165,19 +2307,11 @@ function fineInContextIssueUrl(event) {
 
 // src/lib/rewrite.ts
 function isLexicalSuggestion(suggestion) {
-  const value = suggestion.trim();
-  if (!value) return false;
-  if (/[\[\]]/.test(value)) return false;
-  if (/\b(?:e\.g\.|for example|if that'?s)\b/i.test(value)) return false;
-  if (/^(?:name|cite|avoid|ask|describe|remove|do not|don'?t|prefer|use|keep|consider|say what|be specific)\b/i.test(
-    value
-  )) {
-    return false;
-  }
-  if (value.length > 48 && /\s(?:or|and|instead|when|rather than)\s/i.test(value)) {
-    return false;
-  }
-  return true;
+  return inferSuggestionKind(suggestion) === "swap";
+}
+function swapsFor(finding) {
+  if (finding.swaps && finding.swaps.length > 0) return finding.swaps;
+  return finding.suggestions.filter(isLexicalSuggestion);
 }
 function previewRewrite(finding, suggestion) {
   if (!isLexicalSuggestion(suggestion)) return null;
@@ -2216,7 +2350,7 @@ function applyPassageRewrites(source, findings, options) {
       skippedSoft += 1;
       return false;
     }
-    if (!f.suggestions.find(isLexicalSuggestion)) {
+    if (swapsFor(f).length === 0) {
       skippedNoSuggestion += 1;
       return false;
     }
@@ -2224,7 +2358,7 @@ function applyPassageRewrites(source, findings, options) {
   }).slice().sort((a, b) => b.index - a.index);
   let text = source;
   for (const finding of actionable) {
-    const suggestion = finding.suggestions.find(isLexicalSuggestion) ?? finding.suggestions[0];
+    const suggestion = swapsFor(finding)[0];
     text = applySuggestionToText(text, finding, suggestion);
   }
   return {
@@ -2324,11 +2458,15 @@ function planSafeFixes(findings) {
   feedbackEventFromFinding,
   fineInContextIssueUrl,
   hasSupportedExtension,
+  inferSuggestionKind,
+  isLexicalSuggestion,
   isSafeAutofixRule,
+  normalizeSuggestions,
   planSafeFixes,
   preserveCase,
   previewRewrite,
   recordFeedbackLocally,
-  safeReplacementFor
+  safeReplacementFor,
+  suggestionTexts
 });
 //# sourceMappingURL=index.cjs.map

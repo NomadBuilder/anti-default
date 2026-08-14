@@ -8,4 +8,6 @@ export { applyPassageRewrites, applySuggestionToText, previewRewrite, } from "./
 export { LANGUAGE_RULES } from "./rules";
 export { isSafeAutofixRule, planSafeFixes, preserveCase, safeReplacementFor, } from "./safe-fix";
 export type { SafeFixPlan } from "./safe-fix";
-export type { AnalysisResult, AnalysisSummary, Category, Finding, LanguageRule, RulePreference, RulePreferences, RuleSourceRef, Severity, } from "./types";
+export type { AnalysisResult, AnalysisSummary, Category, Finding, LanguageRule, RulePreference, RulePreferences, RuleSourceRef, RuleSuggestion, Severity, SuggestionKind, } from "./types";
+export { inferSuggestionKind, normalizeSuggestions, suggestionTexts, } from "./suggestions";
+export { isLexicalSuggestion } from "./rewrite";
