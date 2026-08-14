@@ -3343,10 +3343,12 @@ Options:
   -v, --version                  Show version
 
 Agent / AI-copy habit:
+  npx un-default init             # skill + MCP + PR check (do this once)
   1. npx un-default fix .          # auto-heal safe 1:1 swaps
   2. npx un-default . --fail-on hard
   3. Only ask a human about remaining contextual hits
   4. Mark intentional language: feedback --kind fine_in_context \u2026
+  Docs: https://darkai.ca/un-default/for-agents/
 
 Examples:
   npx un-default .
@@ -3480,6 +3482,52 @@ init_baseline();
 var import_node_fs2 = require("node:fs");
 var import_node_path2 = __toESM(require("node:path"));
 
+// src/lib/links.ts
+var LIVE_APP_URL = "https://darkai.ca/un-default";
+var AGENTS_DOCS_URL = `${LIVE_APP_URL}/for-agents`;
+var CHROME_STORE_URL = process.env.NEXT_PUBLIC_CHROME_STORE_URL?.trim() || "https://chromewebstore.google.com/detail/anti-default-%E2%80%94-inclusive/aajdplalleopollfjegljkajkdcihmhc";
+
+// src/lib/agent-install.ts
+var INIT_COMMAND = "npx un-default init";
+var AGENTS_PATH = "/for-agents";
+var AGENTS_URL = `${LIVE_APP_URL}${AGENTS_PATH}`;
+var MCP_SERVER_ENTRY = {
+  command: "npx",
+  args: ["-y", "un-default", "mcp"]
+};
+var MCP_CONFIG = {
+  mcpServers: {
+    "un-default": MCP_SERVER_ENTRY
+  }
+};
+var MCP_CONFIG_JSON = `${JSON.stringify(MCP_CONFIG, null, 2)}
+`;
+var CLAUDE_PROJECT_INSTRUCTIONS = `You are not done with user-facing copy (UI strings, docs, READMEs, marketing, onboarding, job posts) until Un-Default is clean of hard findings \u2014 or remaining hits are intentional and recorded.
+
+Workflow (every time you write or edit public language):
+1. Prefer MCP tools if available: un_default_fix (safe 1:1 only), then un_default_scan.
+2. Or run in the project shell:
+   npx un-default fix .
+   npx un-default . --format json --fail-on never
+3. Rewrite clear hits using suggestions. Ask before changing identity, quotes, legal, historical, illness-story, or community self-description.
+4. Intentional language \u2192 record with un_default_feedback (or npx un-default feedback \u2026) \u2014 do not silently ignore forever.
+5. Re-scan until hard findings are gone or marked fine in context. Report what you fixed, asked about, and left.
+
+Setup once in this repo: npx un-default init
+Docs: ${AGENTS_URL}
+`;
+var LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it done until Un-Default is clean.
+
+One command sets the habit for the whole repo \u2014 skill + MCP + PR check:
+
+${INIT_COMMAND}
+
+Paste-ready MCP + Claude Project instructions:
+${AGENTS_URL}
+
+Local rules. No account. Same check in CI.
+`;
+
 // src/cli/skill-text.ts
 var SKILL = `---
 name: un-default
@@ -3580,15 +3628,6 @@ jobs:
           output-file: un-default-report.json
           comment-on-pr: "true"
 `;
-var MCP = `{
-  "mcpServers": {
-    "un-default": {
-      "command": "npx",
-      "args": ["-y", "un-default", "mcp"]
-    }
-  }
-}
-`;
 async function writeIfMissing(filePath, contents) {
   try {
     await import_node_fs2.promises.access(filePath);
@@ -3605,7 +3644,9 @@ async function initializeProject(cwd) {
     [".undefaultignore", IGNORE],
     [".github/workflows/un-default.yml", WORKFLOW],
     [".cursor/skills/un-default/SKILL.md", SKILL],
-    [".cursor/mcp.json", MCP]
+    [".cursor/mcp.json", MCP_CONFIG_JSON],
+    [".claude/skills/un-default/SKILL.md", SKILL],
+    [".mcp.json", MCP_CONFIG_JSON]
   ];
   for (const [relative, contents] of files) {
     if (await writeIfMissing(import_node_path2.default.join(cwd, relative), contents)) {
@@ -3641,6 +3682,12 @@ async function initializeProject(cwd) {
   }
   return created;
 }
+function initNextSteps() {
+  return [
+    "Next: wire agents with the one-pager (MCP paste + Claude Project instructions):",
+    `  ${AGENTS_URL}`
+  ];
+}
 
 // scripts/cli.ts
 init_fix();
@@ -3648,8 +3695,8 @@ init_scan();
 init_feedback2();
 var import_meta = {};
 function packageVersion() {
-  if ("0.5.0") {
-    return "0.5.0";
+  if ("0.5.1") {
+    return "0.5.1";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));
@@ -3691,6 +3738,7 @@ async function main() {
     } else {
       console.log("Un-Default is already initialized; no files changed.");
     }
+    for (const line of initNextSteps()) console.log(line);
     return;
   }
   if (args.command === "feedback") {
