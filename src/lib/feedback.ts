@@ -1,4 +1,5 @@
 import type { Finding } from "./types";
+import { readMigratedStorage } from "./storage";
 
 export type FeedbackKind = "fine_in_context" | "false_positive" | "bad_suggestion";
 
@@ -44,13 +45,17 @@ export function feedbackEventFromFinding(
 const ISSUE_NEW = "https://github.com/NomadBuilder/anti-default/issues/new";
 
 /** Pre-filled issue so “fine in context” can improve the shared catalog. */
-export const FEEDBACK_STORAGE_KEY = "anti-default.feedbackEvents.v1";
+export const FEEDBACK_STORAGE_KEY = "un-default.feedbackEvents.v1";
+const LEGACY_FEEDBACK_STORAGE_KEY = "anti-default.feedbackEvents.v1";
 
 /** Browser-only queue so web dismissals can later be exported / shared. */
 export function recordFeedbackLocally(event: FeedbackEvent): void {
   if (typeof localStorage === "undefined") return;
   try {
-    const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY);
+    const raw = readMigratedStorage(
+      FEEDBACK_STORAGE_KEY,
+      LEGACY_FEEDBACK_STORAGE_KEY,
+    );
     const list: FeedbackEvent[] = raw ? JSON.parse(raw) : [];
     const next = Array.isArray(list) ? list : [];
     next.push(event);
@@ -64,7 +69,7 @@ export function recordFeedbackLocally(event: FeedbackEvent): void {
 }
 
 export function fineInContextIssueUrl(event: FeedbackEvent): string {
-  const title = `[Anti-Default] Fine in context: ${event.ruleId} (“${event.match}”)`;
+  const title = `[Un-Default] Fine in context: ${event.ruleId} (“${event.match}”)`;
   const body = [
     "## Why this was fine",
     "",
@@ -76,14 +81,14 @@ export function fineInContextIssueUrl(event: FeedbackEvent): string {
     JSON.stringify(event, null, 2),
     "```",
     "",
-    "This helps Anti-Default learn safer soft-flags and ignores without guessing.",
+    "This helps Un-Default learn safer soft-flags and ignores without guessing.",
     "",
   ].join("\n");
 
   const params = new URLSearchParams({
     title,
     body,
-    labels: "anti-default,fine-in-context",
+    labels: "un-default,fine-in-context",
   });
   return `${ISSUE_NEW}?${params.toString()}`;
 }

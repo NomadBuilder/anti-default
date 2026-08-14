@@ -37,7 +37,7 @@ export function prefsFromSharePayload(payload: string): RulePreferences | null {
 export function buildGuideMarkdown(prefs: RulePreferences): string {
   const rules = resolveRules(prefs);
   const lines = [
-    `# Anti-Default style guide`,
+    `# Un-Default style guide`,
     ``,
     `_Generated from tuned rules — invitations to reconsider defaults._`,
     ``,

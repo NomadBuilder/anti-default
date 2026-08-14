@@ -23,7 +23,7 @@ export function SiteNav({
         className="nav-quiet text-base tracking-wide text-[var(--ink)] hover:text-[var(--teal-deep)] transition-colors py-1"
         style={{ fontFamily: "var(--font-display)" }}
       >
-        Anti-Default
+        Un-Default
       </Link>
 
       <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-sm justify-end">
@@ -114,7 +114,7 @@ function InstallMenu() {
           id={menuId}
           role="menu"
           className="install-menu"
-          aria-label="Install Anti-Default"
+          aria-label="Install Un-Default"
         >
           <a
             role="menuitem"
@@ -139,7 +139,7 @@ function InstallMenu() {
           >
             <span className="install-menu-title">CLI</span>
             <span className="install-menu-desc">
-              <code>npx anti-default .</code>
+              <code>npx un-default .</code>
             </span>
           </a>
           <a

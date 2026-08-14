@@ -1,9 +1,9 @@
 {
-  "name": "anti-default",
-  "version": "0.4.0",
+  "name": "un-default",
+  "version": "0.5.0",
   "private": false,
-  "description": "Inclusive language review for AI-generated and human copy — CLI fix, MCP tools, GitHub Action, and browser extension",
-  "homepage": "https://darkai.ca/anti-default",
+  "description": "Inclusive language review for AI-generated and human copy — CLI fix, MCP tools, GitHub Action, and browser extension. Formerly Anti-Default.",
+  "homepage": "https://darkai.ca/un-default",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NomadBuilder/anti-default.git"
@@ -13,7 +13,8 @@
   },
   "license": "MIT",
   "bin": {
-    "anti-default": "./bin/anti-default.js"
+    "un-default": "./bin/un-default.js",
+    "anti-default": "./bin/un-default.js"
   },
   "exports": {
     ".": {
@@ -32,7 +33,7 @@
     "skills",
     "feedback",
     "action.yml",
-    ".antidefaultignore.example",
+    ".undefaultignore.example",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -43,12 +44,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:darkai": "NODE_ENV=production STATIC_EXPORT=true BASE_PATH=/anti-default next build",
+    "build:darkai": "NODE_ENV=production STATIC_EXPORT=true BASE_PATH=/un-default next build",
     "start": "next start",
     "lint": "eslint",
-    "analyze": "node bin/anti-default.js",
-    "analyze:urls": "node bin/anti-default.js --urls",
-    "cli": "node bin/anti-default.js",
+    "analyze": "node bin/un-default.js",
+    "analyze:urls": "node bin/un-default.js --urls",
+    "cli": "node bin/un-default.js",
     "corpus": "tsx scripts/check-corpus.ts",
     "sources:check": "tsx scripts/check-sources.ts",
     "rules:check": "tsx scripts/check-rule-examples.ts",

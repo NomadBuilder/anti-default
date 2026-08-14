@@ -30,7 +30,7 @@ export async function scrapeUrl(rawUrl: string): Promise<ScrapeResult> {
       signal: controller.signal,
       headers: {
         "User-Agent":
-          "AntiDefaultInclusiveReview/1.0 (+https://darkai.ca/anti-default)",
+          "UnDefaultInclusiveReview/1.0 (+https://darkai.ca/un-default)",
         Accept: "text/html,application/xhtml+xml",
       },
     });

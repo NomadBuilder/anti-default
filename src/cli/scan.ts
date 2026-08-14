@@ -93,7 +93,7 @@ export async function runScan(options: ScanOptions): Promise<ScanResult> {
   if (options.useBaseline !== false) {
     const baseline = await loadBaseline(
       cwd,
-      options.baselinePath ?? ".antidefaultbaseline.json",
+      options.baselinePath ?? ".undefaultbaseline.json",
     );
     const applied = applyBaseline(findings, baseline);
     findings = applied.findings;

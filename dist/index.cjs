@@ -2247,6 +2247,21 @@ function hasSupportedExtension(filename) {
   return CODE_EXTENSIONS.some((ext) => lower.endsWith(ext));
 }
 
+// src/lib/storage.ts
+function readMigratedStorage(key, legacyKey) {
+  if (typeof localStorage === "undefined") return null;
+  try {
+    const current = localStorage.getItem(key);
+    if (current != null) return current;
+    const legacy = localStorage.getItem(legacyKey);
+    if (legacy == null) return null;
+    localStorage.setItem(key, legacy);
+    return legacy;
+  } catch {
+    return null;
+  }
+}
+
 // src/lib/feedback.ts
 function feedbackEventFromFinding(finding, kind, options) {
   return {
@@ -2266,11 +2281,15 @@ function feedbackEventFromFinding(finding, kind, options) {
   };
 }
 var ISSUE_NEW = "https://github.com/NomadBuilder/anti-default/issues/new";
-var FEEDBACK_STORAGE_KEY = "anti-default.feedbackEvents.v1";
+var FEEDBACK_STORAGE_KEY = "un-default.feedbackEvents.v1";
+var LEGACY_FEEDBACK_STORAGE_KEY = "anti-default.feedbackEvents.v1";
 function recordFeedbackLocally(event) {
   if (typeof localStorage === "undefined") return;
   try {
-    const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY);
+    const raw = readMigratedStorage(
+      FEEDBACK_STORAGE_KEY,
+      LEGACY_FEEDBACK_STORAGE_KEY
+    );
     const list = raw ? JSON.parse(raw) : [];
     const next = Array.isArray(list) ? list : [];
     next.push(event);
@@ -2282,7 +2301,7 @@ function recordFeedbackLocally(event) {
   }
 }
 function fineInContextIssueUrl(event) {
-  const title = `[Anti-Default] Fine in context: ${event.ruleId} (\u201C${event.match}\u201D)`;
+  const title = `[Un-Default] Fine in context: ${event.ruleId} (\u201C${event.match}\u201D)`;
   const body = [
     "## Why this was fine",
     "",
@@ -2294,13 +2313,13 @@ function fineInContextIssueUrl(event) {
     JSON.stringify(event, null, 2),
     "```",
     "",
-    "This helps Anti-Default learn safer soft-flags and ignores without guessing.",
+    "This helps Un-Default learn safer soft-flags and ignores without guessing.",
     ""
   ].join("\n");
   const params = new URLSearchParams({
     title,
     body,
-    labels: "anti-default,fine-in-context"
+    labels: "un-default,fine-in-context"
   });
   return `${ISSUE_NEW}?${params.toString()}`;
 }

@@ -2,7 +2,7 @@
 
 This folder is a **practice test** made of real-ish sentences — the kinds of lines people actually see on jobs pages, news, and org sites.
 
-We run Anti-Default on them whenever rules change:
+We run Un-Default on them whenever rules change:
 
 ```bash
 npm run corpus

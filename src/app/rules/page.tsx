@@ -4,9 +4,9 @@ import { RulesStudio } from "@/components/RulesStudio";
 import { LANGUAGE_RULES } from "@/lib/rules";
 
 export const metadata = {
-  title: "Rules — Anti-Default",
+  title: "Rules — Un-Default",
   description:
-    "Browse and enable or disable the inclusive-language rules used by Anti-Default, with links to source style guides.",
+    "Browse and enable or disable the inclusive-language rules used by Un-Default, with links to source style guides.",
 };
 
 export default function RulesPage() {

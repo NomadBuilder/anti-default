@@ -19,7 +19,7 @@
 /build
 
 # extension build output (regenerate with npm run extension:pack)
-extension/store/anti-default-extension.zip
+extension/store/un-default-extension.zip
 
 # misc
 .DS_Store

@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Unified Anti-Default CLI — scan, fix, feedback, MCP, CI exit codes.
+ * Unified Un-Default CLI — scan, fix, feedback, MCP, CI exit codes.
  */
 import { promises as fs, readFileSync } from "node:fs";
 import path from "node:path";
@@ -76,10 +76,10 @@ async function main() {
   if (args.command === "init") {
     const created = await initializeProject(cwd);
     if (created.length) {
-      console.log("Anti-Default initialized:");
+      console.log("Un-Default initialized:");
       for (const item of created) console.log(`  + ${item}`);
     } else {
-      console.log("Anti-Default is already initialized; no files changed.");
+      console.log("Un-Default is already initialized; no files changed.");
     }
     return;
   }
@@ -175,7 +175,7 @@ async function main() {
       dryRun: args.dryRun,
     });
     const payload = {
-      tool: "anti-default",
+      tool: "un-default",
       version,
       command: "fix",
       dryRun: args.dryRun,
@@ -187,7 +187,7 @@ async function main() {
       console.log(JSON.stringify(payload, null, 2));
     } else {
       console.log(
-        `Anti-Default fix${args.dryRun ? " (dry-run)" : ""} — ${fix.appliedCount} safe swap(s), ${fix.skippedCount} left for review`,
+        `Un-Default fix${args.dryRun ? " (dry-run)" : ""} — ${fix.appliedCount} safe swap(s), ${fix.skippedCount} left for review`,
       );
       for (const file of fix.results) {
         console.log(`\n${file.file}`);
@@ -214,7 +214,7 @@ async function main() {
   }
 
   const report: ScanReport = {
-    tool: "anti-default",
+    tool: "un-default",
     version,
     scannedAt: new Date().toISOString(),
     mode: scan.mode,

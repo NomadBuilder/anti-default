@@ -3,7 +3,7 @@ import { DogwhistleGuide } from "@/components/DogwhistleGuide";
 import { InclusiveBand, SiteNav } from "@/components/SiteNav";
 
 export const metadata = {
-  title: "Dogwhistles — Anti-Default",
+  title: "Dogwhistles — Un-Default",
   description:
     "Learn how coded and dogwhistle phrases work, what they can signal, and clearer ways to say what you mean.",
 };

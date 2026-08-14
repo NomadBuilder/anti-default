@@ -1,5 +1,5 @@
 /**
- * Load `.antidefaultignore` (gitignore-style) next to cwd or an explicit path.
+ * Load `.undefaultignore` (gitignore-style) next to cwd or an explicit path.
  *
  * Extra directives (one per line):
  *   rule:<id>     — disable that rule for this scan
@@ -15,7 +15,7 @@ export interface IgnoreConfig {
   filePath: string | null;
 }
 
-const DEFAULT_IGNORE = `.antidefaultignore`;
+const DEFAULT_IGNORE = `.undefaultignore`;
 
 export function emptyIgnore(): IgnoreConfig {
   return { patterns: [], disabledRules: new Set(), filePath: null };

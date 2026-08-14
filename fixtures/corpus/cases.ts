@@ -1,5 +1,5 @@
 /**
- * Lived practice-test corpus for Anti-Default.
+ * Lived practice-test corpus for Un-Default.
  *
  * Each case is a real-ish snippet (anonymized / paraphrased from common public copy).
  * We run the analyzer on these whenever rules change so we’re not guessing in the dark.

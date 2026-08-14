@@ -1,6 +1,8 @@
 import type { Finding } from "./types";
+import { readMigratedStorage } from "./storage";
 
-export const IGNORES_STORAGE_KEY = "anti-default.ignoredFindings.v1";
+export const IGNORES_STORAGE_KEY = "un-default.ignoredFindings.v1";
+const LEGACY_IGNORES_STORAGE_KEY = "anti-default.ignoredFindings.v1";
 
 /** Stable key: same rule + same matched phrase (case-insensitive). */
 export function ignoreKey(finding: Pick<Finding, "ruleId" | "match">): string {
@@ -9,7 +11,10 @@ export function ignoreKey(finding: Pick<Finding, "ruleId" | "match">): string {
 
 export function loadIgnoredKeys(): string[] {
   try {
-    const raw = localStorage.getItem(IGNORES_STORAGE_KEY);
+    const raw = readMigratedStorage(
+      IGNORES_STORAGE_KEY,
+      LEGACY_IGNORES_STORAGE_KEY,
+    );
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed)

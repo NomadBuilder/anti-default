@@ -1,4 +1,4 @@
-# Anti-Default browser extension
+# Un-Default browser extension
 
 Chrome / Edge (Manifest V3) extension that highlights inclusive-language matches on any live page.
 
@@ -13,17 +13,17 @@ Matching is **local-only** (bundled `rules.json`). No AI calls. No tracking.
 
 ## Chrome Web Store
 
-**Install:** [Anti-Default — Inclusive Language Highlights](https://chromewebstore.google.com/detail/anti-default-%E2%80%94-inclusive/aajdplalleopollfjegljkajkdcihmhc)
+**Install:** [Un-Default — Inclusive Language Highlights](https://chromewebstore.google.com/detail/anti-default-%E2%80%94-inclusive/aajdplalleopollfjegljkajkdcihmhc)
 
 See **[store/PUBLISH.md](store/PUBLISH.md)** for the upload checklist and
 **[store/LISTING.md](store/LISTING.md)** for copy-paste store text.
 
-Privacy policy (required for the store): https://darkai.ca/anti-default/privacy/
+Privacy policy (required for the store): https://darkai.ca/un-default/privacy/
 
 ```bash
 npm run extension:pack
-# → extension/store/anti-default-extension.zip
+# → extension/store/un-default-extension.zip
 ```
 
-Full review workflow (crawl, rewrite, export): [darkai.ca/anti-default](https://darkai.ca/anti-default/).
-Source: [github.com/NomadBuilder/anti-default](https://github.com/NomadBuilder/anti-default).
+Full review workflow (crawl, rewrite, export): [darkai.ca/un-default](https://darkai.ca/un-default/).
+Source: [github.com/NomadBuilder/un-default](https://github.com/NomadBuilder/anti-default).

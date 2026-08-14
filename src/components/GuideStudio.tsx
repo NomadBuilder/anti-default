@@ -64,7 +64,7 @@ export function GuideStudio() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "anti-default-style-guide.md";
+    a.download = "un-default-style-guide.md";
     a.click();
     URL.revokeObjectURL(url);
   }

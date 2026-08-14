@@ -1,17 +1,17 @@
-# Chrome Web Store listing — Anti-Default
+# Chrome Web Store listing — Un-Default
 
 Copy/paste these fields into the [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole).
 
 Privacy policy URL (required):
 
 ```
-https://darkai.ca/anti-default/privacy/
+https://darkai.ca/un-default/privacy/
 ```
 
 Homepage:
 
 ```
-https://darkai.ca/anti-default/
+https://darkai.ca/un-default/
 ```
 
 Support URL (issues):
@@ -25,7 +25,7 @@ https://github.com/NomadBuilder/anti-default/issues
 ## Item name (max 75)
 
 ```
-Anti-Default — Inclusive Language Highlights
+Un-Default — Inclusive Language Highlights
 ```
 
 ## Short description (max 132)
@@ -37,7 +37,7 @@ See inclusive-language findings for the current page in the popup. Offline local
 ## Detailed description
 
 ```
-Anti-Default reviews the page you’re on and lists inclusive-language findings in the extension popup — match, why it was flagged, and suggested rewrites. Phrases are also highlighted on the page; click a finding to jump to it.
+Un-Default reviews the page you’re on and lists inclusive-language findings in the extension popup — match, why it was flagged, and suggested rewrites. Phrases are also highlighted on the page; click a finding to jump to it.
 
 How it works
 • Matching runs entirely on your device from a bundled rule list
@@ -49,7 +49,7 @@ What to expect
 
 Privacy
 • Page content is not sent to our servers by the extension
-• Full policy: https://darkai.ca/anti-default/privacy/
+• Full policy: https://darkai.ca/un-default/privacy/
 
 Open source: https://github.com/NomadBuilder/anti-default
 ```
@@ -73,7 +73,7 @@ Review inclusive-language suggestions on the current web page using a local rule
 
 **activeTab**
 ```
-Lets the popup ask the current tab for scan results when you open Anti-Default.
+Lets the popup ask the current tab for scan results when you open Un-Default.
 ```
 
 **scripting**

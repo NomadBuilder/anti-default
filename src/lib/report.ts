@@ -7,7 +7,7 @@ const ISSUE_NEW =
  * Opens a pre-filled GitHub issue for a bad / contested suggestion.
  */
 export function reportFindingIssueUrl(finding: Finding): string {
-  const title = `[Anti-Default] Wrong suggestion: ${finding.label} (“${finding.match}”)`;
+  const title = `[Un-Default] Wrong suggestion: ${finding.label} (“${finding.match}”)`;
   const body = [
     "## What was wrong",
     "",
@@ -44,7 +44,7 @@ export function reportFindingIssueUrl(finding: Finding): string {
   const params = new URLSearchParams({
     title,
     body,
-    labels: "anti-default,false-positive",
+    labels: "un-default,false-positive",
   });
   return `${ISSUE_NEW}?${params.toString()}`;
 }

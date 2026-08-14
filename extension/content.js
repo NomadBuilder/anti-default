@@ -1,9 +1,9 @@
 /**
- * Anti-Default content script — highlights matches and serves findings to the popup.
+ * Un-Default content script — highlights matches and serves findings to the popup.
  */
 (() => {
-  if (globalThis.__antiDefaultLoaded) return;
-  globalThis.__antiDefaultLoaded = true;
+  if (globalThis.__unDefaultLoaded) return;
+  globalThis.__unDefaultLoaded = true;
 
   const SKIP = new Set([
     "SCRIPT",
@@ -48,13 +48,13 @@
 
     if (message.type === "FOCUS_FINDING") {
       const el = document.querySelector(
-        `mark.anti-default-hit[data-ad-id="${CSS.escape(String(message.id))}"]`,
+        `mark.un-default-hit[data-ad-id="${CSS.escape(String(message.id))}"]`,
       );
       if (el) {
         document
-          .querySelectorAll("mark.anti-default-hit.anti-default-focus")
-          .forEach((m) => m.classList.remove("anti-default-focus"));
-        el.classList.add("anti-default-focus");
+          .querySelectorAll("mark.un-default-hit.un-default-focus")
+          .forEach((m) => m.classList.remove("un-default-focus"));
+        el.classList.add("un-default-focus");
         el.scrollIntoView({ behavior: "smooth", block: "center" });
         sendResponse({ ok: true });
       } else {
@@ -84,18 +84,18 @@
       rules = data.rules || [];
       await scan();
     } catch (err) {
-      console.warn("[Anti-Default] Could not load rules", err);
+      console.warn("[Un-Default] Could not load rules", err);
     }
   }
 
   function clearMarks() {
-    document.querySelectorAll("mark.anti-default-hit").forEach((el) => {
+    document.querySelectorAll("mark.un-default-hit").forEach((el) => {
       const parent = el.parentNode;
       if (!parent) return;
       parent.replaceChild(document.createTextNode(el.textContent || ""), el);
       parent.normalize();
     });
-    document.getElementById("anti-default-toast")?.remove();
+    document.getElementById("un-default-toast")?.remove();
     findings = [];
     updateBadge(0);
   }
@@ -137,7 +137,7 @@
         acceptNode(node) {
           const p = node.parentElement;
           if (!p || SKIP.has(p.tagName)) return NodeFilter.FILTER_REJECT;
-          if (p.closest("mark.anti-default-hit"))
+          if (p.closest("mark.un-default-hit"))
             return NodeFilter.FILTER_REJECT;
           if (!node.nodeValue || !node.nodeValue.trim())
             return NodeFilter.FILTER_REJECT;
@@ -201,7 +201,7 @@
         const id = String(seq);
         const mark = document.createElement("mark");
         mark.className =
-          "anti-default-hit" + (r.soft ? " anti-default-soft" : "");
+          "un-default-hit" + (r.soft ? " un-default-soft" : "");
         mark.dataset.adId = id;
         mark.textContent = text.slice(r.start, r.end);
         mark.title = [r.rule.label, r.soft ? "Check surrounding context" : ""]
@@ -244,18 +244,18 @@
   }
 
   function showToast(hits, soft) {
-    document.getElementById("anti-default-toast")?.remove();
+    document.getElementById("un-default-toast")?.remove();
     if (!hits) return;
     const el = document.createElement("div");
-    el.id = "anti-default-toast";
+    el.id = "un-default-toast";
     el.setAttribute("role", "status");
     el.innerHTML =
-      "<strong>Anti-Default</strong> · " +
+      "<strong>Un-Default</strong> · " +
       hits +
       " highlight" +
       (hits === 1 ? "" : "s") +
       (soft ? " (" + soft + " soft-flagged)" : "") +
-      "<br/><span class=\"anti-default-toast-hint\">Open the toolbar icon for details</span>";
+      "<br/><span class=\"un-default-toast-hint\">Open the toolbar icon for details</span>";
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 6000);
   }

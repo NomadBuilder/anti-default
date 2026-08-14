@@ -20,7 +20,7 @@ export function findingsToMarkdown(
   findings: Finding[],
 ): string {
   const lines = [
-    `# Anti-Default review`,
+    `# Un-Default review`,
     ``,
     `- **Source:** ${result.title ? `${result.title} · ` : ""}${result.sourceLabel}`,
     `- **Analyzed:** ${result.analyzedAt}`,
@@ -89,7 +89,7 @@ export function findingsToGithubChecklist(
   findings: Finding[],
 ): string {
   const lines = [
-    `## Anti-Default checklist`,
+    `## Un-Default checklist`,
     ``,
     `Source: ${result.title ? `${result.title} · ` : ""}${result.sourceLabel}`,
     ``,
@@ -117,19 +117,19 @@ export function downloadFindingsExport(
   const day = stamp();
   if (format === "markdown") {
     downloadBlob(
-      `anti-default-review-${day}.md`,
+      `un-default-review-${day}.md`,
       findingsToMarkdown(result, findings),
       "text/markdown;charset=utf-8",
     );
   } else if (format === "csv") {
     downloadBlob(
-      `anti-default-review-${day}.csv`,
+      `un-default-review-${day}.csv`,
       findingsToCsv(findings),
       "text/csv;charset=utf-8",
     );
   } else {
     downloadBlob(
-      `anti-default-checklist-${day}.md`,
+      `un-default-checklist-${day}.md`,
       findingsToGithubChecklist(result, findings),
       "text/markdown;charset=utf-8",
     );

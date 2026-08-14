@@ -3,9 +3,9 @@ import { AdminReview } from "@/components/AdminReview";
 import { LANGUAGE_RULES } from "@/lib/rules";
 
 export const metadata = {
-  title: "Review console — Anti-Default",
+  title: "Review console — Un-Default",
   description:
-    "Reviewer console for separately auditing Anti-Default flags, evidence, framing, and context-sensitive alternatives.",
+    "Reviewer console for separately auditing Un-Default flags, evidence, framing, and context-sensitive alternatives.",
   robots: { index: false, follow: false },
 };
 

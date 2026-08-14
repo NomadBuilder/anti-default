@@ -7,8 +7,8 @@ out/
 coverage/
 *.min.js
 *.min.css
-anti-default-report.json
-anti-default.sarif
+un-default-report.json
+un-default.sarif
 
 # Disable a rule for this project (optional)
 # rule:guys

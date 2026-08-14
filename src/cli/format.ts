@@ -3,7 +3,7 @@ import type { Finding } from "../lib/types";
 export type OutputFormat = "text" | "json" | "sarif";
 
 export interface ScanReport {
-  tool: "anti-default";
+  tool: "un-default";
   version: string;
   scannedAt: string;
   mode: "files" | "urls";
@@ -37,7 +37,7 @@ export function buildSummary(findings: Finding[]) {
 
 export function formatText(report: ScanReport): string {
   const lines: string[] = [];
-  lines.push("Anti-Default — inclusive language scan");
+  lines.push("Un-Default — inclusive language scan");
   lines.push(`Mode: ${report.mode}`);
   if (report.filesScanned != null) {
     lines.push(`Files scanned: ${report.filesScanned}`);
@@ -141,7 +141,7 @@ export function formatSarif(report: ScanReport): string {
       {
         tool: {
           driver: {
-            name: "Anti-Default",
+            name: "Un-Default",
             version: report.version,
             informationUri: "https://github.com/NomadBuilder/anti-default",
             rules: [...rulesMap.values()],

@@ -1,5 +1,6 @@
 import type { LanguageRule, RulePreferences, Severity } from "./types";
-export declare const PREFS_STORAGE_KEY = "anti-default.rulePreferences.v1";
+export declare const PREFS_STORAGE_KEY = "un-default.rulePreferences.v1";
+export declare const LEGACY_PREFS_STORAGE_KEY = "anti-default.rulePreferences.v1";
 export declare function resolveRules(preferences?: RulePreferences | null): LanguageRule[];
 export declare function defaultPreferences(): RulePreferences;
 export declare function mergePreferences(stored: RulePreferences | null | undefined): RulePreferences;

@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EXT="$ROOT/extension"
 OUT_DIR="$EXT/store"
-ZIP="$OUT_DIR/anti-default-extension.zip"
+ZIP="$OUT_DIR/un-default-extension.zip"
 
 cd "$ROOT"
 npm run extension:rules

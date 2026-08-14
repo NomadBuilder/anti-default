@@ -2,9 +2,9 @@ import { SiteNav } from "@/components/SiteNav";
 import PrivacyContent from "@/components/PrivacyContent";
 
 export const metadata = {
-  title: "Privacy — Anti-Default",
+  title: "Privacy — Un-Default",
   description:
-    "Privacy policy for the Anti-Default browser extension and web language reviewer.",
+    "Privacy policy for the Un-Default browser extension and web language reviewer.",
 };
 
 export default function PrivacyPage() {

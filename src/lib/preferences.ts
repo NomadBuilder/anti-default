@@ -6,7 +6,8 @@ import type {
   Severity,
 } from "./types";
 
-export const PREFS_STORAGE_KEY = "anti-default.rulePreferences.v1";
+export const PREFS_STORAGE_KEY = "un-default.rulePreferences.v1";
+export const LEGACY_PREFS_STORAGE_KEY = "anti-default.rulePreferences.v1";
 
 export function resolveRules(
   preferences?: RulePreferences | null,

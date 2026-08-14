@@ -28,7 +28,7 @@ export default function Home() {
             className="animate-rise text-[clamp(3.4rem,12vw,6.5rem)] leading-[0.92] tracking-[-0.03em] text-[var(--ink)] max-w-4xl"
             style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}
           >
-            Anti-Default
+            Un-Default
           </h1>
           <InclusiveBand className="mt-5 mb-8" />
 
@@ -68,7 +68,7 @@ export default function Home() {
               className="text-sm text-[var(--ink)] mb-3"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              npx anti-default .
+              npx un-default .
             </p>
             <p className="text-sm text-[var(--ink-soft)] leading-relaxed">
               Scan a folder, fail CI on hard hits, or install the extension for
@@ -119,7 +119,7 @@ export default function Home() {
             accent="var(--indigo)"
             body={
               <>
-                <code className="text-[var(--ink)]">npx anti-default .</code>,
+                <code className="text-[var(--ink)]">npx un-default .</code>,
                 a GitHub Action that fails PRs / posts a checklist, and a{" "}
                 <a
                   href={CHROME_STORE_URL}

@@ -3,9 +3,9 @@ import { InclusiveBand, SiteNav } from "@/components/SiteNav";
 import { PhraseLookup } from "@/components/PhraseLookup";
 
 export const metadata = {
-  title: "Swap a phrase — Anti-Default",
+  title: "Swap a phrase — Un-Default",
   description:
-    "Look up a word or short phrase and get inclusive alternatives from Anti-Default’s public rules.",
+    "Look up a word or short phrase and get inclusive alternatives from Un-Default’s public rules.",
 };
 
 export default function SwapPage() {

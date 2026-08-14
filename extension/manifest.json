@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Anti-Default — Inclusive Language Highlights",
-  "short_name": "Anti-Default",
-  "version": "0.2.6",
+  "name": "Un-Default — Inclusive Language Highlights",
+  "short_name": "Un-Default",
+  "version": "0.3.0",
   "description": "Review inclusive-language suggestions on any page in the popup. Runs offline from local rules — no AI calls, no tracking.",
-  "homepage_url": "https://darkai.ca/anti-default/",
+  "homepage_url": "https://darkai.ca/un-default/",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
@@ -13,7 +13,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Anti-Default",
+    "default_title": "Un-Default",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",

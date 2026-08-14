@@ -8,7 +8,7 @@ import {
 import type { Finding } from "../lib/types";
 import { findingFingerprint, writeBaseline, loadBaseline } from "./baseline";
 
-export const DEFAULT_FEEDBACK_FILE = ".antidefaultfeedback.jsonl";
+export const DEFAULT_FEEDBACK_FILE = ".undefaultfeedback.jsonl";
 
 export async function appendFeedback(
   cwd: string,
@@ -24,7 +24,7 @@ export async function appendFeedback(
 export async function suppressFindingInBaseline(
   cwd: string,
   finding: Finding,
-  baselineFile = ".antidefaultbaseline.json",
+  baselineFile = ".undefaultbaseline.json",
 ): Promise<void> {
   const existing = await loadBaseline(cwd, baselineFile);
   existing.add(findingFingerprint(finding));

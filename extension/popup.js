@@ -121,7 +121,7 @@ async function sendToTab(message) {
       return await chrome.tabs.sendMessage(tab.id, message);
     } catch {
       throw new Error(
-        "Couldn’t reach this page. Reload the tab, then open Anti-Default again.",
+        "Couldn’t reach this page. Reload the tab, then open Un-Default again.",
       );
     }
   }

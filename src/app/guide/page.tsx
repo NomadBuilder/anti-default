@@ -2,9 +2,9 @@ import { InclusiveBand, SiteNav } from "@/components/SiteNav";
 import { GuideStudio } from "@/components/GuideStudio";
 
 export const metadata = {
-  title: "Style guide — Anti-Default",
+  title: "Style guide — Un-Default",
   description:
-    "A shareable inclusive-language style guide generated from your tuned Anti-Default rules.",
+    "A shareable inclusive-language style guide generated from your tuned Un-Default rules.",
 };
 
 export default function GuidePage() {

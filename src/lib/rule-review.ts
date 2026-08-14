@@ -2,6 +2,7 @@ import { LANGUAGE_RULES } from "./rules";
 import type { LanguageRule } from "./types";
 import { CATEGORY_META } from "./types";
 import { suggestionDisplayTexts } from "./suggestions";
+import { readMigratedStorage } from "./storage";
 
 /**
  * Reviewer workflow for auditing what we flag and the fixes we recommend.
@@ -68,7 +69,8 @@ export interface ReviewDoc {
   proposedRules: ProposedRule[];
 }
 
-export const REVIEW_STORAGE_KEY = "anti-default.ruleReview.v1";
+export const REVIEW_STORAGE_KEY = "un-default.ruleReview.v1";
+const LEGACY_REVIEW_STORAGE_KEY = "anti-default.ruleReview.v1";
 
 export function emptyReviewDoc(): ReviewDoc {
   return {
@@ -160,7 +162,10 @@ export function computeProgress(doc: ReviewDoc): ReviewProgress {
 export function loadReviewDoc(): ReviewDoc {
   if (typeof window === "undefined") return emptyReviewDoc();
   try {
-    const raw = window.localStorage.getItem(REVIEW_STORAGE_KEY);
+    const raw = readMigratedStorage(
+      REVIEW_STORAGE_KEY,
+      LEGACY_REVIEW_STORAGE_KEY,
+    );
     if (!raw) return emptyReviewDoc();
     const parsed = coerceReviewDoc(JSON.parse(raw));
     if (parsed) return parsed;
@@ -218,7 +223,7 @@ function stamp(): string {
 export function downloadReviewJson(doc: ReviewDoc): void {
   const payload: ReviewDoc = { ...doc, updatedAt: new Date().toISOString() };
   downloadBlob(
-    `anti-default-review-${stamp()}.json`,
+    `un-default-review-${stamp()}.json`,
     JSON.stringify(payload, null, 2),
     "application/json;charset=utf-8",
   );
@@ -228,7 +233,7 @@ export function downloadReviewJson(doc: ReviewDoc): void {
 export function reviewToMarkdown(doc: ReviewDoc): string {
   const progress = computeProgress(doc);
   const lines: string[] = [
-    "# Anti-Default language review",
+    "# Un-Default language review",
     "",
     `- **Reviewer:** ${doc.reviewer || "(unnamed)"}`,
     `- **Date:** ${stamp()}`,
@@ -336,7 +341,7 @@ export function reviewToMarkdown(doc: ReviewDoc): string {
 
 export function downloadReviewMarkdown(doc: ReviewDoc): void {
   downloadBlob(
-    `anti-default-review-${stamp()}.md`,
+    `un-default-review-${stamp()}.md`,
     reviewToMarkdown(doc),
     "text/markdown;charset=utf-8",
   );

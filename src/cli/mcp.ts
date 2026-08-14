@@ -34,7 +34,7 @@ function error(id: JsonRpcId, code: number, message: string) {
 
 const TOOLS = [
   {
-    name: "anti_default_scan",
+    name: "un_default_scan",
     description:
       "Scan files for inclusive-language defaults in AI-generated or human copy. Returns JSON findings. Use after editing UI text, docs, READMEs, or marketing copy.",
     inputSchema: {
@@ -58,7 +58,7 @@ const TOOLS = [
     },
   },
   {
-    name: "anti_default_fix",
+    name: "un_default_fix",
     description:
       "Apply only safe, unambiguous 1:1 inclusive-language swaps (e.g. policeman→police officer, whitelist→allowlist). Does not touch coded/dogwhistle or soft contextual hits. Prefer dryRun first.",
     inputSchema: {
@@ -76,7 +76,7 @@ const TOOLS = [
     },
   },
   {
-    name: "anti_default_feedback",
+    name: "un_default_feedback",
     description:
       "Record that a finding was fine in context (or a false positive). Suppresses it locally and writes structured feedback that can improve the shared catalog.",
     inputSchema: {
@@ -114,7 +114,7 @@ export async function startMcpServer(options: McpOptions): Promise<void> {
       result(id, {
         protocolVersion: "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "anti-default", version },
+        serverInfo: { name: "un-default", version },
       });
       return;
     }
@@ -176,7 +176,7 @@ async function callTool(
   cwd: string,
   version: string,
 ): Promise<string> {
-  if (name === "anti_default_scan") {
+  if (name === "un_default_scan") {
     const paths = Array.isArray(args.paths)
       ? args.paths.map(String)
       : ["."];
@@ -188,7 +188,7 @@ async function callTool(
     });
     return JSON.stringify(
       {
-        tool: "anti-default",
+        tool: "un-default",
         version,
         filesScanned: scan.filesScanned,
         suppressedByBaseline: scan.suppressedByBaseline,
@@ -199,14 +199,14 @@ async function callTool(
         },
         findings: scan.findings,
         nextStep:
-          "Call anti_default_fix for safe autofixes, then re-scan. Ask a human before changing identity, quotes, legal, or self-description language.",
+          "Call un_default_fix for safe autofixes, then re-scan. Ask a human before changing identity, quotes, legal, or self-description language.",
       },
       null,
       2,
     );
   }
 
-  if (name === "anti_default_fix") {
+  if (name === "un_default_fix") {
     const paths = Array.isArray(args.paths)
       ? args.paths.map(String)
       : ["."];
@@ -220,14 +220,14 @@ async function callTool(
         skippedCount: fix.skippedCount,
         files: fix.results,
         nextStep:
-          "Re-run anti_default_scan. Remaining hard findings need human judgment or anti_default_feedback if intentional.",
+          "Re-run un_default_scan. Remaining hard findings need human judgment or un_default_feedback if intentional.",
       },
       null,
       2,
     );
   }
 
-  if (name === "anti_default_feedback") {
+  if (name === "un_default_feedback") {
     const kind = parseFeedbackKind(
       String(args.kind ?? "fine_in_context"),
     );

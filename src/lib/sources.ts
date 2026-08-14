@@ -12,7 +12,7 @@ export interface SourceGroup {
 }
 
 /**
- * Public references that informed the Anti-Default rule catalog.
+ * Public references that informed the Un-Default rule catalog.
  * The catalog is a curated heuristic set, not a verbatim copy of any one guide.
  */
 export const SOURCE_GROUPS: SourceGroup[] = [
@@ -20,7 +20,7 @@ export const SOURCE_GROUPS: SourceGroup[] = [
     id: "how",
     title: "How the list was built",
     summary:
-      "Anti-Default reviews two claims separately: whether wording deserves a contextual flag, and whether a proposed alternative is actually clearer or less harmful in that context. A source that supports the flag does not automatically validate every replacement. Category guides are background—not proof for each rule—and disputed framing is labeled contested.",
+      "Un-Default reviews two claims separately: whether wording deserves a contextual flag, and whether a proposed alternative is actually clearer or less harmful in that context. A source that supports the flag does not automatically validate every replacement. Category guides are background—not proof for each rule—and disputed framing is labeled contested.",
     links: [],
   },
   {

@@ -54,7 +54,7 @@ function feedbackEventFromFinding(finding, kind, options) {
   };
 }
 function fineInContextIssueUrl(event) {
-  const title = `[Anti-Default] Fine in context: ${event.ruleId} (\u201C${event.match}\u201D)`;
+  const title = `[Un-Default] Fine in context: ${event.ruleId} (\u201C${event.match}\u201D)`;
   const body = [
     "## Why this was fine",
     "",
@@ -66,13 +66,13 @@ function fineInContextIssueUrl(event) {
     JSON.stringify(event, null, 2),
     "```",
     "",
-    "This helps Anti-Default learn safer soft-flags and ignores without guessing.",
+    "This helps Un-Default learn safer soft-flags and ignores without guessing.",
     ""
   ].join("\n");
   const params = new URLSearchParams({
     title,
     body,
-    labels: "anti-default,fine-in-context"
+    labels: "un-default,fine-in-context"
   });
   return `${ISSUE_NEW}?${params.toString()}`;
 }
@@ -136,7 +136,7 @@ var init_baseline = __esm({
     import_node_crypto = require("node:crypto");
     import_node_fs = require("node:fs");
     import_node_path = __toESM(require("node:path"));
-    DEFAULT_BASELINE_FILE = ".antidefaultbaseline.json";
+    DEFAULT_BASELINE_FILE = ".undefaultbaseline.json";
   }
 });
 
@@ -2658,7 +2658,7 @@ var init_ignore = __esm({
     "use strict";
     import_node_fs4 = require("node:fs");
     import_node_path4 = __toESM(require("node:path"));
-    DEFAULT_IGNORE = `.antidefaultignore`;
+    DEFAULT_IGNORE = `.undefaultignore`;
   }
 });
 
@@ -2666,7 +2666,7 @@ var init_ignore = __esm({
 async function fetchPageText(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "AntiDefaultInclusiveReview/1.0 (+https://darkai.ca/anti-default)",
+      "User-Agent": "UnDefaultInclusiveReview/1.0 (+https://darkai.ca/un-default)",
       Accept: "text/html"
     },
     redirect: "follow"
@@ -2705,7 +2705,7 @@ var init_urls = __esm({
 function shouldSkipBuiltin(filePath) {
   const base = import_node_path5.default.basename(filePath);
   if (base === "rules.ts" || base === "rules.js") return true;
-  if (base === ".antidefaultbaseline.json" || base === ".antidefaultfeedback.jsonl" || base === "anti-default-report.json" || base === "anti-default.sarif") {
+  if (base === ".undefaultbaseline.json" || base === ".antidefaultbaseline.json" || base === ".undefaultfeedback.jsonl" || base === ".antidefaultfeedback.jsonl" || base === "un-default-report.json" || base === "un-default.sarif") {
     return true;
   }
   const normalized = filePath.replace(/\\/g, "/");
@@ -2850,7 +2850,7 @@ async function runScan(options) {
   if (options.useBaseline !== false) {
     const baseline = await loadBaseline(
       cwd,
-      options.baselinePath ?? ".antidefaultbaseline.json"
+      options.baselinePath ?? ".undefaultbaseline.json"
     );
     const applied = applyBaseline(findings, baseline);
     findings = applied.findings;
@@ -2890,7 +2890,7 @@ async function appendFeedback(cwd, event, fileName = DEFAULT_FEEDBACK_FILE) {
 `, "utf8");
   return filePath;
 }
-async function suppressFindingInBaseline(cwd, finding, baselineFile = ".antidefaultbaseline.json") {
+async function suppressFindingInBaseline(cwd, finding, baselineFile = ".undefaultbaseline.json") {
   const existing = await loadBaseline(cwd, baselineFile);
   existing.add(findingFingerprint(finding));
   const fingerprints = [...existing].sort();
@@ -2922,7 +2922,7 @@ var init_feedback2 = __esm({
     import_node_path7 = __toESM(require("node:path"));
     init_feedback();
     init_baseline();
-    DEFAULT_FEEDBACK_FILE = ".antidefaultfeedback.jsonl";
+    DEFAULT_FEEDBACK_FILE = ".undefaultfeedback.jsonl";
   }
 });
 
@@ -2951,7 +2951,7 @@ async function startMcpServer(options) {
       result(id, {
         protocolVersion: "2024-11-05",
         capabilities: { tools: {} },
-        serverInfo: { name: "anti-default", version }
+        serverInfo: { name: "un-default", version }
       });
       return;
     }
@@ -3005,7 +3005,7 @@ async function startMcpServer(options) {
   }
 }
 async function callTool(name, args, cwd, version) {
-  if (name === "anti_default_scan") {
+  if (name === "un_default_scan") {
     const paths = Array.isArray(args.paths) ? args.paths.map(String) : ["."];
     const scan = await runScan({
       cwd,
@@ -3015,7 +3015,7 @@ async function callTool(name, args, cwd, version) {
     });
     return JSON.stringify(
       {
-        tool: "anti-default",
+        tool: "un-default",
         version,
         filesScanned: scan.filesScanned,
         suppressedByBaseline: scan.suppressedByBaseline,
@@ -3025,13 +3025,13 @@ async function callTool(name, args, cwd, version) {
           soft: scan.findings.filter((f) => f.likelyFalsePositive).length
         },
         findings: scan.findings,
-        nextStep: "Call anti_default_fix for safe autofixes, then re-scan. Ask a human before changing identity, quotes, legal, or self-description language."
+        nextStep: "Call un_default_fix for safe autofixes, then re-scan. Ask a human before changing identity, quotes, legal, or self-description language."
       },
       null,
       2
     );
   }
-  if (name === "anti_default_fix") {
+  if (name === "un_default_fix") {
     const paths = Array.isArray(args.paths) ? args.paths.map(String) : ["."];
     const dryRun = Boolean(args.dryRun);
     const scan = await runScan({ cwd, paths, useBaseline: true });
@@ -3042,13 +3042,13 @@ async function callTool(name, args, cwd, version) {
         appliedCount: fix.appliedCount,
         skippedCount: fix.skippedCount,
         files: fix.results,
-        nextStep: "Re-run anti_default_scan. Remaining hard findings need human judgment or anti_default_feedback if intentional."
+        nextStep: "Re-run un_default_scan. Remaining hard findings need human judgment or un_default_feedback if intentional."
       },
       null,
       2
     );
   }
-  if (name === "anti_default_feedback") {
+  if (name === "un_default_feedback") {
     const kind = parseFeedbackKind(
       String(args.kind ?? "fine_in_context")
     );
@@ -3099,7 +3099,7 @@ var init_mcp = __esm({
     init_feedback2();
     TOOLS = [
       {
-        name: "anti_default_scan",
+        name: "un_default_scan",
         description: "Scan files for inclusive-language defaults in AI-generated or human copy. Returns JSON findings. Use after editing UI text, docs, READMEs, or marketing copy.",
         inputSchema: {
           type: "object",
@@ -3122,7 +3122,7 @@ var init_mcp = __esm({
         }
       },
       {
-        name: "anti_default_fix",
+        name: "un_default_fix",
         description: "Apply only safe, unambiguous 1:1 inclusive-language swaps (e.g. policeman\u2192police officer, whitelist\u2192allowlist). Does not touch coded/dogwhistle or soft contextual hits. Prefer dryRun first.",
         inputSchema: {
           type: "object",
@@ -3139,7 +3139,7 @@ var init_mcp = __esm({
         }
       },
       {
-        name: "anti_default_feedback",
+        name: "un_default_feedback",
         description: "Record that a finding was fine in context (or a false positive). Suppresses it locally and writes structured feedback that can improve the shared catalog.",
         inputSchema: {
           type: "object",
@@ -3181,7 +3181,7 @@ function parseArgs(argv) {
     paths: [],
     urls: [],
     urlsFile: null,
-    baselinePath: ".antidefaultbaseline.json",
+    baselinePath: ".undefaultbaseline.json",
     useBaseline: true,
     changedFrom: null,
     dryRun: false,
@@ -3255,7 +3255,7 @@ function parseArgs(argv) {
       continue;
     }
     if (a === "--baseline-file") {
-      args.baselinePath = argv[++i] ?? ".antidefaultbaseline.json";
+      args.baselinePath = argv[++i] ?? ".undefaultbaseline.json";
       i += 1;
       continue;
     }
@@ -3317,42 +3317,42 @@ function parseArgs(argv) {
   }
   return args;
 }
-var HELP = `Anti-Default \u2014 inclusive language scan, safe fix, and agent tools
+var HELP = `Un-Default \u2014 inclusive language scan, safe fix, and agent tools
 
 Usage:
-  npx anti-default init
-  npx anti-default [paths\u2026] [options]
-  npx anti-default fix [paths\u2026] [--dry-run]
-  npx anti-default baseline [paths\u2026]
-  npx anti-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
-  npx anti-default mcp
-  npx anti-default --urls https://example.com
+  npx un-default init
+  npx un-default [paths\u2026] [options]
+  npx un-default fix [paths\u2026] [--dry-run]
+  npx un-default baseline [paths\u2026]
+  npx un-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
+  npx un-default mcp
+  npx un-default --urls https://example.com
 
 Options:
   --format, -f text|json|sarif   Output format (default: text)
   --fail-on any|hard|never       Exit 1 when findings match (default: hard)
   --out, -o <file>               Write output to a file
-  --ignore-file <path>           Path to ignore file (default: .antidefaultignore)
+  --ignore-file <path>           Path to ignore file (default: .undefaultignore)
   --urls <url\u2026>                  Scan public HTML pages instead of files
   --urls-file <path>             File with one URL per line
   --changed-from <git-ref>       Scan files changed since a branch/SHA
-  --baseline-file <path>         Baseline file (default: .antidefaultbaseline.json)
+  --baseline-file <path>         Baseline file (default: .undefaultbaseline.json)
   --no-baseline                  Report findings already in the baseline
   --dry-run                      For fix: show safe autofixes without writing
   -h, --help                     Show help
   -v, --version                  Show version
 
 Agent / AI-copy habit:
-  1. npx anti-default fix .          # auto-heal safe 1:1 swaps
-  2. npx anti-default . --fail-on hard
+  1. npx un-default fix .          # auto-heal safe 1:1 swaps
+  2. npx un-default . --fail-on hard
   3. Only ask a human about remaining contextual hits
   4. Mark intentional language: feedback --kind fine_in_context \u2026
 
 Examples:
-  npx anti-default .
-  npx anti-default fix ./README.md --dry-run
-  npx anti-default fix .
-  npx anti-default mcp
+  npx un-default .
+  npx un-default fix ./README.md --dry-run
+  npx un-default fix .
+  npx un-default mcp
 `;
 
 // src/cli/format.ts
@@ -3372,7 +3372,7 @@ function buildSummary(findings) {
 }
 function formatText(report) {
   const lines = [];
-  lines.push("Anti-Default \u2014 inclusive language scan");
+  lines.push("Un-Default \u2014 inclusive language scan");
   lines.push(`Mode: ${report.mode}`);
   if (report.filesScanned != null) {
     lines.push(`Files scanned: ${report.filesScanned}`);
@@ -3460,7 +3460,7 @@ function formatSarif(report) {
       {
         tool: {
           driver: {
-            name: "Anti-Default",
+            name: "Un-Default",
             version: report.version,
             informationUri: "https://github.com/NomadBuilder/anti-default",
             rules: [...rulesMap.values()]
@@ -3482,39 +3482,39 @@ var import_node_path2 = __toESM(require("node:path"));
 
 // src/cli/skill-text.ts
 var SKILL = `---
-name: anti-default
-description: Makes Anti-Default the definition-of-done check for AI-generated and human user-facing copy. Use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, or any public language; before marking a task complete; or when reviewing a PR for inclusive wording.
+name: un-default
+description: Makes Un-Default the definition-of-done check for AI-generated and human user-facing copy. Use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, or any public language; before marking a task complete; or when reviewing a PR for inclusive wording.
 ---
 
-# Anti-Default \u2014 AI copy definition of done
+# Un-Default \u2014 AI copy definition of done
 
-You are not done with user-facing language until Anti-Default is clean of hard findings (or remaining hits are intentional and recorded).
+You are not done with user-facing language until Un-Default is clean of hard findings (or remaining hits are intentional and recorded).
 
 ## Required workflow
 
 1. **Safe auto-heal**
    \`\`\`bash
-   npx anti-default fix . --dry-run
-   npx anti-default fix .
+   npx un-default fix . --dry-run
+   npx un-default fix .
    \`\`\`
    Only unambiguous 1:1 swaps are applied (e.g. \`policeman\` \u2192 \`police officer\`, \`whitelist\` \u2192 \`allowlist\`). Soft/coded/contextual hits are never auto-changed.
 
 2. **Scan**
    \`\`\`bash
-   npx anti-default . --format json --fail-on never
+   npx un-default . --format json --fail-on never
    \`\`\`
-   Or via MCP tools: \`anti_default_fix\` then \`anti_default_scan\`.
+   Or via MCP tools: \`un_default_fix\` then \`un_default_scan\`.
 
 3. **Act on remaining findings**
    - Clear, unambiguous user-facing hits \u2192 rewrite yourself using the suggestions.
    - Identity, quoted, historical, legal, illness-story, or community self-description \u2192 explain and **ask** before changing.
    - Intentional / appropriate in context \u2192 record feedback (do not silently ignore forever without a trail):
      \`\`\`bash
-     npx anti-default feedback --kind fine_in_context \\
+     npx un-default feedback --kind fine_in_context \\
        --rule <ruleId> --match "<text>" --context "<snippet>" \\
        --note "<why it was fine>" --open-issue
      \`\`\`
-     Or MCP \`anti_default_feedback\`.
+     Or MCP \`un_default_feedback\`.
 
 4. **Re-scan** until hard findings are gone or explicitly marked fine in context.
 
@@ -3530,18 +3530,18 @@ You are not done with user-facing language until Anti-Default is clean of hard f
 ## MCP
 
 \`\`\`bash
-npx anti-default mcp
+npx un-default mcp
 \`\`\`
 
-Tools: \`anti_default_scan\`, \`anti_default_fix\`, \`anti_default_feedback\`.
+Tools: \`un_default_scan\`, \`un_default_fix\`, \`un_default_feedback\`.
 
 ## Project files
 
-Respect \`.antidefaultignore\`, \`.antidefaultbaseline.json\`, and \`.antidefaultfeedback.jsonl\`.
+Respect \`.undefaultignore\`, \`.undefaultbaseline.json\`, and \`.undefaultfeedback.jsonl\`.
 `;
 
 // src/cli/init.ts
-var IGNORE = `# Generated by anti-default init
+var IGNORE = `# Generated by un-default init
 node_modules/
 .next/
 dist/
@@ -3550,14 +3550,14 @@ out/
 coverage/
 *.min.js
 *.min.css
-.antidefaultfeedback.jsonl
-anti-default-report.json
-anti-default.sarif
+.undefaultfeedback.jsonl
+un-default-report.json
+un-default.sarif
 
 # Disable a rule for this project:
 # rule:rule-id
 `;
-var WORKFLOW = `name: Anti-Default
+var WORKFLOW = `name: Un-Default
 
 on:
   pull_request:
@@ -3573,18 +3573,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: NomadBuilder/anti-default@v1
+      - uses: NomadBuilder/un-default@v1
         with:
           changed-from: \${{ github.event.pull_request.base.sha }}
           format: json
-          output-file: anti-default-report.json
+          output-file: un-default-report.json
           comment-on-pr: "true"
 `;
 var MCP = `{
   "mcpServers": {
-    "anti-default": {
+    "un-default": {
       "command": "npx",
-      "args": ["-y", "anti-default", "mcp"]
+      "args": ["-y", "un-default", "mcp"]
     }
   }
 }
@@ -3602,9 +3602,9 @@ async function writeIfMissing(filePath, contents) {
 async function initializeProject(cwd) {
   const created = [];
   const files = [
-    [".antidefaultignore", IGNORE],
-    [".github/workflows/anti-default.yml", WORKFLOW],
-    [".cursor/skills/anti-default/SKILL.md", SKILL],
+    [".undefaultignore", IGNORE],
+    [".github/workflows/un-default.yml", WORKFLOW],
+    [".cursor/skills/un-default/SKILL.md", SKILL],
     [".cursor/mcp.json", MCP]
   ];
   for (const [relative, contents] of files) {
@@ -3619,12 +3619,12 @@ async function initializeProject(cwd) {
     pkg.scripts ??= {};
     let touched = false;
     if (!pkg.scripts["inclusive-check"]) {
-      pkg.scripts["inclusive-check"] = "npx --yes anti-default .";
+      pkg.scripts["inclusive-check"] = "npx --yes un-default .";
       touched = true;
       created.push("package.json script: inclusive-check");
     }
     if (!pkg.scripts["inclusive-fix"]) {
-      pkg.scripts["inclusive-fix"] = "npx --yes anti-default fix .";
+      pkg.scripts["inclusive-fix"] = "npx --yes un-default fix .";
       touched = true;
       created.push("package.json script: inclusive-fix");
     }
@@ -3648,8 +3648,8 @@ init_scan();
 init_feedback2();
 var import_meta = {};
 function packageVersion() {
-  if ("0.4.0") {
-    return "0.4.0";
+  if ("0.5.0") {
+    return "0.5.0";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));
@@ -3686,10 +3686,10 @@ async function main() {
   if (args.command === "init") {
     const created = await initializeProject(cwd);
     if (created.length) {
-      console.log("Anti-Default initialized:");
+      console.log("Un-Default initialized:");
       for (const item of created) console.log(`  + ${item}`);
     } else {
-      console.log("Anti-Default is already initialized; no files changed.");
+      console.log("Un-Default is already initialized; no files changed.");
     }
     return;
   }
@@ -3771,7 +3771,7 @@ async function main() {
       dryRun: args.dryRun
     });
     const payload = {
-      tool: "anti-default",
+      tool: "un-default",
       version,
       command: "fix",
       dryRun: args.dryRun,
@@ -3783,7 +3783,7 @@ async function main() {
       console.log(JSON.stringify(payload, null, 2));
     } else {
       console.log(
-        `Anti-Default fix${args.dryRun ? " (dry-run)" : ""} \u2014 ${fix.appliedCount} safe swap(s), ${fix.skippedCount} left for review`
+        `Un-Default fix${args.dryRun ? " (dry-run)" : ""} \u2014 ${fix.appliedCount} safe swap(s), ${fix.skippedCount} left for review`
       );
       for (const file of fix.results) {
         console.log(`
@@ -3809,7 +3809,7 @@ ${file.file}`);
     return;
   }
   const report = {
-    tool: "anti-default",
+    tool: "un-default",
     version,
     scannedAt: (/* @__PURE__ */ new Date()).toISOString(),
     mode: scan.mode,

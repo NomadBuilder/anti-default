@@ -7,7 +7,7 @@ export async function fetchPageText(
   const res = await fetch(url, {
     headers: {
       "User-Agent":
-        "AntiDefaultInclusiveReview/1.0 (+https://darkai.ca/anti-default)",
+        "UnDefaultInclusiveReview/1.0 (+https://darkai.ca/un-default)",
       Accept: "text/html",
     },
     redirect: "follow",

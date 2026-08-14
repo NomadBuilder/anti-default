@@ -1,8 +1,8 @@
 # Shared feedback → better defaults
 
-When someone marks a finding **Fine in this context**, Anti-Default records a structured event:
+When someone marks a finding **Fine in this context**, Un-Default records a structured event:
 
-- Locally: `.antidefaultfeedback.jsonl` (CLI / MCP) or browser storage (web)
+- Locally: `.undefaultfeedback.jsonl` (CLI / MCP) or browser storage (web)
 - Optionally as a GitHub issue labeled `fine-in-context`
 
 These events are how the shared catalog learns safer soft-flags and fewer false positives — without guessing from private repos.

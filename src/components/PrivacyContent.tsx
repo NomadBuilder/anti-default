@@ -1,5 +1,5 @@
 /**
- * Privacy policy for the Anti-Default Chrome extension and web app.
+ * Privacy policy for the Un-Default Chrome extension and web app.
  * Hosted at /privacy so the Chrome Web Store can link to a stable public URL.
  */
 export default function PrivacyContent() {
@@ -10,9 +10,9 @@ export default function PrivacyContent() {
           Last updated: August 2, 2026
         </p>
         <p className="text-lg text-[var(--ink-soft)] leading-relaxed">
-          Anti-Default helps people notice default-heavy language. This policy
+          Un-Default helps people notice default-heavy language. This policy
           explains what the <strong>browser extension</strong> and the{" "}
-          <strong>web app at darkai.ca/anti-default</strong> do — and do not —
+          <strong>web app at darkai.ca/un-default</strong> do — and do not —
           collect.
         </p>
       </div>
@@ -39,7 +39,7 @@ export default function PrivacyContent() {
           </li>
           <li>
             A small Privacy link may open
-            https://darkai.ca/anti-default/privacy/ in a normal browser tab.
+            https://darkai.ca/un-default/privacy/ in a normal browser tab.
           </li>
           <li>
             We do not use advertising SDKs, analytics SDKs, or remote code in
@@ -53,7 +53,7 @@ export default function PrivacyContent() {
           className="text-2xl"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Web app (darkai.ca/anti-default)
+          Web app (darkai.ca/un-default)
         </h2>
         <ul className="grid gap-2 text-[var(--ink-soft)] leading-relaxed list-disc pl-5">
           <li>
@@ -118,7 +118,7 @@ export default function PrivacyContent() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            github.com/NomadBuilder/anti-default
+            github.com/NomadBuilder/un-default
           </a>{" "}
           or use the contact options on{" "}
           <a

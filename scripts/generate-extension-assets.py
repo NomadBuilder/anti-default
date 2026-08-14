@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Chrome Web Store icons and listing screenshots for Anti-Default."""
+"""Generate Chrome Web Store icons and listing screenshots for Un-Default."""
 
 from __future__ import annotations
 
@@ -121,14 +121,14 @@ def screenshot_highlights() -> Image.Image:
 
     # toast
     draw.rounded_rectangle([860, 620, 1180, 710], radius=8, fill=TEAL_DEEP)
-    draw.text((880, 638), "Anti-Default · 4 highlights", fill=PAPER, font=font(18, bold=True))
+    draw.text((880, 638), "Un-Default · 4 highlights", fill=PAPER, font=font(18, bold=True))
     draw.text((880, 668), "1 soft-flagged · Open full review", fill=(159, 212, 192), font=font(15))
 
     # caption strip
     draw.rectangle([0, 760, w, h], fill=TEAL_DEEP)
     draw.text(
         (60, 772),
-        "Anti-Default — inclusive language highlights on any page  ·  Works offline  ·  No AI calls",
+        "Un-Default — inclusive language highlights on any page  ·  Works offline  ·  No AI calls",
         fill=PAPER,
         font=font(18),
     )
@@ -140,7 +140,7 @@ def screenshot_popup() -> Image.Image:
     img = Image.new("RGB", (w, h), PAPER)
     draw = ImageDraw.Draw(img)
 
-    draw.text((80, 70), "Anti-Default", fill=INK, font=font(48, bold=True))
+    draw.text((80, 70), "Un-Default", fill=INK, font=font(48, bold=True))
     draw.text(
         (80, 140),
         "A tiny popup. Local rules. Toggle highlights anytime.",
@@ -155,7 +155,7 @@ def screenshot_popup() -> Image.Image:
 
     # popup card
     draw.rounded_rectangle([420, 240, 860, 560], radius=12, fill=PAPER, outline=TEAL_DEEP, width=3)
-    draw.text((460, 280), "Anti-Default", fill=INK, font=font(28, bold=True))
+    draw.text((460, 280), "Un-Default", fill=INK, font=font(28, bold=True))
     draw.text(
         (460, 330),
         "Highlight inclusive-language\nsuggestions on this page.",
@@ -165,7 +165,7 @@ def screenshot_popup() -> Image.Image:
     draw.rounded_rectangle([460, 420, 490, 450], radius=4, fill=TEAL, outline=TEAL_DEEP)
     draw.text((470, 424), "✓", fill=PAPER, font=font(16, bold=True))
     draw.text((510, 424), "Highlights on", fill=INK, font=font(20))
-    draw.text((460, 490), "darkai.ca/anti-default", fill=TEAL_DEEP, font=font(16))
+    draw.text((460, 490), "darkai.ca/un-default", fill=TEAL_DEEP, font=font(16))
 
     draw.rectangle([0, 760, w, h], fill=TEAL_DEEP)
     draw.text(
@@ -185,7 +185,7 @@ def promo_tile() -> Image.Image:
     draw.rectangle([0, h - 12, w, h], fill=TEAL)
     icon = draw_icon(96)
     img.paste(icon, (28, 50), icon)
-    draw.text((140, 60), "Anti-Default", fill=INK, font=font(32, bold=True))
+    draw.text((140, 60), "Un-Default", fill=INK, font=font(32, bold=True))
     draw.text(
         (140, 110),
         "Inclusive language\nhighlights on any page",

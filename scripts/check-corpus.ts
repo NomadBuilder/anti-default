@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Practice test: run Anti-Default against the lived corpus.
+ * Practice test: run Un-Default against the lived corpus.
  *
  *   npm run corpus
  *
@@ -120,7 +120,7 @@ function main() {
   const gapOpen = gaps.filter((r) => !r.ok);
   const gapClosed = gaps.filter((r) => r.ok);
 
-  console.log(`\nAnti-Default corpus — ${CORPUS_CASES.length} cases\n`);
+  console.log(`\nUn-Default corpus — ${CORPUS_CASES.length} cases\n`);
 
   for (const r of hard) {
     const mark = r.ok ? "PASS" : "FAIL";

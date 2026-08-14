@@ -1,4 +1,4 @@
-name: Anti-Default self-check
+name: Un-Default self-check
 
 on:
   pull_request:
@@ -34,5 +34,5 @@ jobs:
           paths: "src scripts README.md"
           fail-on: never
           format: json
-          output-file: anti-default-report.json
+          output-file: un-default-report.json
           comment-on-pr: "true"

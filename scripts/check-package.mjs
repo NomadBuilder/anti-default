@@ -6,7 +6,7 @@ import path from "node:path";
 import { promisify } from "node:util";
 
 const exec = promisify(execFile);
-const temp = await mkdtemp(path.join(os.tmpdir(), "anti-default-package-"));
+const temp = await mkdtemp(path.join(os.tmpdir(), "un-default-package-"));
 
 try {
   const packed = await exec(
@@ -19,7 +19,7 @@ try {
 
   await writeFile(
     path.join(temp, "package.json"),
-    '{"name":"anti-default-smoke","private":true,"type":"module"}\n',
+    '{"name":"un-default-smoke","private":true,"type":"module"}\n',
   );
   await writeFile(
     path.join(temp, "copy.md"),
@@ -31,7 +31,7 @@ try {
     { cwd: temp, maxBuffer: 2_000_000 },
   );
 
-  const bin = path.join(temp, "node_modules", ".bin", "anti-default");
+  const bin = path.join(temp, "node_modules", ".bin", "un-default");
   const scan = await exec(
     bin,
     ["copy.md", "--format", "json", "--fail-on", "never"],
@@ -59,7 +59,7 @@ try {
 
   await exec(bin, ["init"], { cwd: temp });
   await readFile(
-    path.join(temp, ".cursor", "skills", "anti-default", "SKILL.md"),
+    path.join(temp, ".cursor", "skills", "un-default", "SKILL.md"),
     "utf8",
   );
   await readFile(path.join(temp, ".cursor", "mcp.json"), "utf8");
@@ -76,7 +76,7 @@ try {
   const apiCheck = path.join(temp, "api-check.mjs");
   await writeFile(
     apiCheck,
-    `import { analyzeText } from "anti-default";
+    `import { analyzeText } from "un-default";
 const result = analyzeText("Welcome, you guys.");
 if (!result.findings.length) process.exit(1);
 console.log(result.findings.length);
@@ -86,14 +86,14 @@ console.log(result.findings.length);
   const cjsCheck = path.join(temp, "api-check.cjs");
   await writeFile(
     cjsCheck,
-    `const { analyzeText } = require("anti-default");
+    `const { analyzeText } = require("un-default");
 if (!analyzeText("Welcome, you guys.").findings.length) process.exit(1);
 `,
   );
   await exec(process.execPath, [cjsCheck], { cwd: temp });
 
   const pkg = JSON.parse(
-    await readFile(path.join(temp, "node_modules", "anti-default", "package.json"), "utf8"),
+    await readFile(path.join(temp, "node_modules", "un-default", "package.json"), "utf8"),
   );
   if (Object.keys(pkg.dependencies ?? {}).length !== 0) {
     throw new Error("published package unexpectedly has runtime dependencies");

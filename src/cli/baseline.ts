@@ -3,7 +3,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Finding } from "../lib/types";
 
-export const DEFAULT_BASELINE_FILE = ".antidefaultbaseline.json";
+export const DEFAULT_BASELINE_FILE = ".undefaultbaseline.json";
 
 interface BaselineFile {
   version: 1;

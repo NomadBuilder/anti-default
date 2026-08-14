@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   PREFS_STORAGE_KEY,
+  LEGACY_PREFS_STORAGE_KEY,
   countPreferenceDrift,
   defaultPreferences,
   mergePreferences,
@@ -10,6 +11,7 @@ import {
   setRuleEnabled,
   setRuleSeverity,
 } from "@/lib/preferences";
+import { readMigratedStorage } from "@/lib/storage";
 import type { Category, RulePreferences, Severity } from "@/lib/types";
 
 export function useRulePreferences() {
@@ -20,7 +22,10 @@ export function useRulePreferences() {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(PREFS_STORAGE_KEY);
+      const raw = readMigratedStorage(
+        PREFS_STORAGE_KEY,
+        LEGACY_PREFS_STORAGE_KEY,
+      );
       if (raw) {
         setPreferences(mergePreferences(JSON.parse(raw)));
       }

@@ -45,7 +45,7 @@ export function parseArgs(argv: string[]): CliArgs {
     paths: [],
     urls: [],
     urlsFile: null,
-    baselinePath: ".antidefaultbaseline.json",
+    baselinePath: ".undefaultbaseline.json",
     useBaseline: true,
     changedFrom: null,
     dryRun: false,
@@ -120,7 +120,7 @@ export function parseArgs(argv: string[]): CliArgs {
       continue;
     }
     if (a === "--baseline-file") {
-      args.baselinePath = argv[++i] ?? ".antidefaultbaseline.json";
+      args.baselinePath = argv[++i] ?? ".undefaultbaseline.json";
       i += 1;
       continue;
     }
@@ -184,40 +184,40 @@ export function parseArgs(argv: string[]): CliArgs {
   return args;
 }
 
-export const HELP = `Anti-Default — inclusive language scan, safe fix, and agent tools
+export const HELP = `Un-Default — inclusive language scan, safe fix, and agent tools
 
 Usage:
-  npx anti-default init
-  npx anti-default [paths…] [options]
-  npx anti-default fix [paths…] [--dry-run]
-  npx anti-default baseline [paths…]
-  npx anti-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
-  npx anti-default mcp
-  npx anti-default --urls https://example.com
+  npx un-default init
+  npx un-default [paths…] [options]
+  npx un-default fix [paths…] [--dry-run]
+  npx un-default baseline [paths…]
+  npx un-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
+  npx un-default mcp
+  npx un-default --urls https://example.com
 
 Options:
   --format, -f text|json|sarif   Output format (default: text)
   --fail-on any|hard|never       Exit 1 when findings match (default: hard)
   --out, -o <file>               Write output to a file
-  --ignore-file <path>           Path to ignore file (default: .antidefaultignore)
+  --ignore-file <path>           Path to ignore file (default: .undefaultignore)
   --urls <url…>                  Scan public HTML pages instead of files
   --urls-file <path>             File with one URL per line
   --changed-from <git-ref>       Scan files changed since a branch/SHA
-  --baseline-file <path>         Baseline file (default: .antidefaultbaseline.json)
+  --baseline-file <path>         Baseline file (default: .undefaultbaseline.json)
   --no-baseline                  Report findings already in the baseline
   --dry-run                      For fix: show safe autofixes without writing
   -h, --help                     Show help
   -v, --version                  Show version
 
 Agent / AI-copy habit:
-  1. npx anti-default fix .          # auto-heal safe 1:1 swaps
-  2. npx anti-default . --fail-on hard
+  1. npx un-default fix .          # auto-heal safe 1:1 swaps
+  2. npx un-default . --fail-on hard
   3. Only ask a human about remaining contextual hits
   4. Mark intentional language: feedback --kind fine_in_context …
 
 Examples:
-  npx anti-default .
-  npx anti-default fix ./README.md --dry-run
-  npx anti-default fix .
-  npx anti-default mcp
+  npx un-default .
+  npx un-default fix ./README.md --dry-run
+  npx un-default fix .
+  npx un-default mcp
 `;

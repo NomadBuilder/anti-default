@@ -3,9 +3,9 @@ import { SOURCE_GROUPS } from "@/lib/sources";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Sources — Anti-Default",
+  title: "Sources — Un-Default",
   description:
-    "Style guides and references that informed the Anti-Default inclusive-language rule catalog.",
+    "Style guides and references that informed the Un-Default inclusive-language rule catalog.",
 };
 
 export default function SourcesPage() {

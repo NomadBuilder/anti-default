@@ -1,4 +1,4 @@
-name: Anti-Default
+name: Un-Default
 description: Scan repo files for inclusive-language defaults; fail the job or upload SARIF.
 author: NomadBuilder
 branding:
@@ -21,9 +21,9 @@ inputs:
   output-file:
     description: Where to write machine-readable output
     required: false
-    default: "anti-default-report.json"
+    default: "un-default-report.json"
   ignore-file:
-    description: Optional path to .antidefaultignore
+    description: Optional path to .undefaultignore
     required: false
     default: ""
   comment-on-pr:
@@ -43,7 +43,7 @@ runs:
       with:
         node-version: "22"
 
-    - name: Run Anti-Default
+    - name: Run Un-Default
       id: scan
       shell: bash
       working-directory: ${{ github.workspace }}
@@ -62,8 +62,8 @@ runs:
         read -r -a PATH_ARGS <<< "$SCAN_PATHS"
         if [ -n "$IGNORE_FILE" ]; then
           IGNORE_ARGS+=(--ignore-file "$IGNORE_FILE")
-        elif [ -f .antidefaultignore ]; then
-          IGNORE_ARGS+=(--ignore-file .antidefaultignore)
+        elif [ -f .undefaultignore ]; then
+          IGNORE_ARGS+=(--ignore-file .undefaultignore)
         fi
         if [ -n "$CHANGED_FROM" ]; then
           CHANGED_ARGS+=(--changed-from "$CHANGED_FROM")
@@ -92,7 +92,7 @@ runs:
           const fs = require('fs');
           const out = '${{ inputs.output-file }}';
           const format = '${{ inputs.format }}';
-          let body = '## Anti-Default\n\n';
+          let body = '## Un-Default\n\n';
           try {
             if (format === 'json' && fs.existsSync(out)) {
               const report = JSON.parse(fs.readFileSync(out, 'utf8'));
@@ -116,14 +116,14 @@ runs:
           } catch (e) {
             body += `Could not parse report: ${e.message}\n`;
           }
-          body += `\n— [Anti-Default](https://github.com/NomadBuilder/anti-default) · [Try the web app](https://darkai.ca/anti-default)\n`;
+          body += `\n— [Un-Default](https://github.com/NomadBuilder/anti-default) · [Try the web app](https://darkai.ca/un-default)\n`;
 
           const { data: comments } = await github.rest.issues.listComments({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
           });
-          const existing = comments.find(c => c.user?.type === 'Bot' && c.body?.includes('## Anti-Default'));
+          const existing = comments.find(c => c.user?.type === 'Bot' && c.body?.includes('## Un-Default'));
           if (existing) {
             await github.rest.issues.updateComment({
               owner: context.repo.owner,

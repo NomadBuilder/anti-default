@@ -1,5 +1,5 @@
-/* Anti-Default live-page highlights */
-mark.anti-default-hit {
+/* Un-Default live-page highlights */
+mark.un-default-hit {
   background: color-mix(in oklab, #c45c26 22%, white);
   border-radius: 2px;
   padding: 0 1px;
@@ -7,18 +7,18 @@ mark.anti-default-hit {
   text-decoration: underline wavy color-mix(in oklab, #c45c26 55%, transparent);
 }
 
-mark.anti-default-hit.anti-default-soft {
+mark.un-default-hit.un-default-soft {
   background: color-mix(in oklab, #b8860b 20%, white);
   text-decoration-style: dashed;
 }
 
-mark.anti-default-hit.anti-default-focus {
+mark.un-default-hit.un-default-focus {
   outline: 2px solid #1a524a;
   outline-offset: 2px;
   background: color-mix(in oklab, #1a524a 18%, white);
 }
 
-#anti-default-toast {
+#un-default-toast {
   position: fixed;
   z-index: 2147483646;
   right: 16px;
@@ -33,7 +33,7 @@ mark.anti-default-hit.anti-default-focus {
   pointer-events: none;
 }
 
-#anti-default-toast .anti-default-toast-hint {
+#un-default-toast .un-default-toast-hint {
   color: #9fd4c0;
   font-size: 12px;
 }

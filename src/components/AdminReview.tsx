@@ -118,7 +118,7 @@ export function AdminReview() {
       const text = await file.text();
       const parsed = coerceReviewDoc(JSON.parse(text));
       if (!parsed) {
-        window.alert("That file isn't a valid Anti-Default review export.");
+        window.alert("That file isn't a valid Un-Default review export.");
         return;
       }
       setDoc(parsed);
