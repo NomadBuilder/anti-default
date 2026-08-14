@@ -81,7 +81,7 @@ try {
   const apiCheck = path.join(temp, "api-check.mjs");
   await writeFile(
     apiCheck,
-    `import { analyzeText } from "un-default";
+    `import { analyzeText } from "anti-default";
 const result = analyzeText("Welcome, you guys.");
 if (!result.findings.length) process.exit(1);
 console.log(result.findings.length);
@@ -91,14 +91,14 @@ console.log(result.findings.length);
   const cjsCheck = path.join(temp, "api-check.cjs");
   await writeFile(
     cjsCheck,
-    `const { analyzeText } = require("un-default");
+    `const { analyzeText } = require("anti-default");
 if (!analyzeText("Welcome, you guys.").findings.length) process.exit(1);
 `,
   );
   await exec(process.execPath, [cjsCheck], { cwd: temp });
 
   const pkg = JSON.parse(
-    await readFile(path.join(temp, "node_modules", "un-default", "package.json"), "utf8"),
+    await readFile(path.join(temp, "node_modules", "anti-default", "package.json"), "utf8"),
   );
   if (Object.keys(pkg.dependencies ?? {}).length !== 0) {
     throw new Error("published package unexpectedly has runtime dependencies");

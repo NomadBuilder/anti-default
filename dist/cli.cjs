@@ -3320,13 +3320,13 @@ function parseArgs(argv) {
 var HELP = `Un-Default \u2014 inclusive language scan, safe fix, and agent tools
 
 Usage:
-  npx un-default init
-  npx un-default [paths\u2026] [options]
-  npx un-default fix [paths\u2026] [--dry-run]
-  npx un-default baseline [paths\u2026]
-  npx un-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
-  npx un-default mcp
-  npx un-default --urls https://example.com
+  npx -y anti-default init
+  npx -y anti-default [paths\u2026] [options]
+  npx -y anti-default fix [paths\u2026] [--dry-run]
+  npx -y anti-default baseline [paths\u2026]
+  npx -y anti-default feedback --kind fine_in_context --rule <id> --match <text> --context <snippet>
+  npx -y anti-default mcp
+  npx -y anti-default --urls https://example.com
 
 Options:
   --format, -f text|json|sarif   Output format (default: text)
@@ -3343,18 +3343,18 @@ Options:
   -v, --version                  Show version
 
 Agent / AI-copy habit:
-  npx un-default init             # skill + MCP + PR check (do this once)
-  1. npx un-default fix .          # auto-heal safe 1:1 swaps
-  2. npx un-default . --fail-on hard
+  npx -y anti-default init             # skill + MCP + PR check (do this once)
+  1. npx -y anti-default fix .          # auto-heal safe 1:1 swaps
+  2. npx -y anti-default . --fail-on hard
   3. Only ask a human about remaining contextual hits
   4. Mark intentional language: feedback --kind fine_in_context \u2026
   Docs: https://darkai.ca/un-default/for-agents/
 
 Examples:
-  npx un-default .
-  npx un-default fix ./README.md --dry-run
-  npx un-default fix .
-  npx un-default mcp
+  npx -y anti-default .
+  npx -y anti-default fix ./README.md --dry-run
+  npx -y anti-default fix .
+  npx -y anti-default mcp
 `;
 
 // src/cli/format.ts
@@ -3488,12 +3488,13 @@ var AGENTS_DOCS_URL = `${LIVE_APP_URL}/for-agents`;
 var CHROME_STORE_URL = process.env.NEXT_PUBLIC_CHROME_STORE_URL?.trim() || "https://chromewebstore.google.com/detail/anti-default-%E2%80%94-inclusive/aajdplalleopollfjegljkajkdcihmhc";
 
 // src/lib/agent-install.ts
-var INIT_COMMAND = "npx un-default init";
+var NPM_PACKAGE = "anti-default";
+var INIT_COMMAND = `npx -y ${NPM_PACKAGE} init`;
 var AGENTS_PATH = "/for-agents";
 var AGENTS_URL = `${LIVE_APP_URL}${AGENTS_PATH}`;
 var MCP_SERVER_ENTRY = {
   command: "npx",
-  args: ["-y", "un-default", "mcp"]
+  args: ["-y", NPM_PACKAGE, "mcp"]
 };
 var MCP_CONFIG = {
   mcpServers: {
@@ -3507,13 +3508,13 @@ var CLAUDE_PROJECT_INSTRUCTIONS = `You are not done with user-facing copy (UI st
 Workflow (every time you write or edit public language):
 1. Prefer MCP tools if available: un_default_fix (safe 1:1 only), then un_default_scan.
 2. Or run in the project shell:
-   npx un-default fix .
-   npx un-default . --format json --fail-on never
+   npx -y anti-default fix .
+   npx -y anti-default . --format json --fail-on never
 3. Rewrite clear hits using suggestions. Ask before changing identity, quotes, legal, historical, illness-story, or community self-description.
-4. Intentional language \u2192 record with un_default_feedback (or npx un-default feedback \u2026) \u2014 do not silently ignore forever.
+4. Intentional language \u2192 record with un_default_feedback (or npx -y anti-default feedback \u2026) \u2014 do not silently ignore forever.
 5. Re-scan until hard findings are gone or marked fine in context. Report what you fixed, asked about, and left.
 
-Setup once in this repo: npx un-default init
+Setup once in this repo: npx -y anti-default init
 Docs: ${AGENTS_URL}
 `;
 var LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it done until Un-Default is clean.
@@ -3542,14 +3543,14 @@ You are not done with user-facing language until Un-Default is clean of hard fin
 
 1. **Safe auto-heal**
    \`\`\`bash
-   npx un-default fix . --dry-run
-   npx un-default fix .
+   npx -y anti-default fix . --dry-run
+   npx -y anti-default fix .
    \`\`\`
    Only unambiguous 1:1 swaps are applied (e.g. \`policeman\` \u2192 \`police officer\`, \`whitelist\` \u2192 \`allowlist\`). Soft/coded/contextual hits are never auto-changed.
 
 2. **Scan**
    \`\`\`bash
-   npx un-default . --format json --fail-on never
+   npx -y anti-default . --format json --fail-on never
    \`\`\`
    Or via MCP tools: \`un_default_fix\` then \`un_default_scan\`.
 
@@ -3558,7 +3559,7 @@ You are not done with user-facing language until Un-Default is clean of hard fin
    - Identity, quoted, historical, legal, illness-story, or community self-description \u2192 explain and **ask** before changing.
    - Intentional / appropriate in context \u2192 record feedback (do not silently ignore forever without a trail):
      \`\`\`bash
-     npx un-default feedback --kind fine_in_context \\
+     npx -y anti-default feedback --kind fine_in_context \\
        --rule <ruleId> --match "<text>" --context "<snippet>" \\
        --note "<why it was fine>" --open-issue
      \`\`\`
@@ -3578,7 +3579,7 @@ You are not done with user-facing language until Un-Default is clean of hard fin
 ## MCP
 
 \`\`\`bash
-npx un-default mcp
+npx -y anti-default mcp
 \`\`\`
 
 Tools: \`un_default_scan\`, \`un_default_fix\`, \`un_default_feedback\`.
@@ -3660,12 +3661,12 @@ async function initializeProject(cwd) {
     pkg.scripts ??= {};
     let touched = false;
     if (!pkg.scripts["inclusive-check"]) {
-      pkg.scripts["inclusive-check"] = "npx --yes un-default .";
+      pkg.scripts["inclusive-check"] = "npx --yes anti-default .";
       touched = true;
       created.push("package.json script: inclusive-check");
     }
     if (!pkg.scripts["inclusive-fix"]) {
-      pkg.scripts["inclusive-fix"] = "npx --yes un-default fix .";
+      pkg.scripts["inclusive-fix"] = "npx --yes anti-default fix .";
       touched = true;
       created.push("package.json script: inclusive-fix");
     }
