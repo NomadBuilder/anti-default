@@ -3492,6 +3492,8 @@ var NPM_PACKAGE = "anti-default";
 var INIT_COMMAND = `npx -y ${NPM_PACKAGE} init`;
 var AGENTS_PATH = "/for-agents";
 var AGENTS_URL = `${LIVE_APP_URL}${AGENTS_PATH}`;
+var CLAUDE_MARKETPLACE_ADD = "claude plugin marketplace add NomadBuilder/anti-default";
+var CLAUDE_PLUGIN_INSTALL = "claude plugin install un-default@un-default";
 var MCP_SERVER_ENTRY = {
   command: "npx",
   args: ["-y", NPM_PACKAGE, "mcp"]
@@ -3524,6 +3526,10 @@ var LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it do
 One command sets the habit for the whole repo \u2014 skill + MCP + after-edit hooks + PR check:
 
 ${INIT_COMMAND}
+
+Or in Claude Code:
+${CLAUDE_MARKETPLACE_ADD}
+${CLAUDE_PLUGIN_INSTALL}
 
 Paste-ready MCP + Claude Project instructions:
 ${AGENTS_URL}
@@ -3913,8 +3919,8 @@ init_scan();
 init_feedback2();
 var import_meta = {};
 function packageVersion() {
-  if ("0.5.3") {
-    return "0.5.3";
+  if ("0.5.4") {
+    return "0.5.4";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));
