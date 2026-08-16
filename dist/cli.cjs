@@ -3492,8 +3492,6 @@ var NPM_PACKAGE = "anti-default";
 var INIT_COMMAND = `npx -y ${NPM_PACKAGE} init`;
 var AGENTS_PATH = "/for-agents";
 var AGENTS_URL = `${LIVE_APP_URL}${AGENTS_PATH}`;
-var CLAUDE_MARKETPLACE_ADD = "claude plugin marketplace add NomadBuilder/anti-default";
-var CLAUDE_PLUGIN_INSTALL = "claude plugin install un-default@un-default";
 var MCP_SERVER_ENTRY = {
   command: "npx",
   args: ["-y", NPM_PACKAGE, "mcp"]
@@ -3520,21 +3518,6 @@ Workflow (every time you write or edit public language):
 
 Setup once in this repo: npx -y anti-default init
 Docs: ${AGENTS_URL}
-`;
-var LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it done until Un-Default is clean.
-
-One command sets the habit for the whole repo \u2014 skill + MCP + after-edit hooks + PR check:
-
-${INIT_COMMAND}
-
-Or in Claude Code:
-${CLAUDE_MARKETPLACE_ADD}
-${CLAUDE_PLUGIN_INSTALL}
-
-Paste-ready MCP + Claude Project instructions:
-${AGENTS_URL}
-
-Local rules. No account. Same check in CI \u2014 and hooks catch edits even when nobody looks.
 `;
 
 // src/cli/hook-script.ts
