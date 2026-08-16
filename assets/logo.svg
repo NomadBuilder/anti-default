@@ -1,14 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Un-Default</title>
-  <desc id="desc">UD mark  teal arched tile with coral base</desc>
-  <!-- transparent outer; arched tile inset -->
+  <desc id="desc">UD mark - teal arched tile with coral base</desc>
   <path
-    d="M28 48
-       C28 28 48 16 128 16
-       C208 16 228 28 228 48
-       L228 228
-       L28 228
-       Z"
+    d="M28 48 C28 28 48 16 128 16 C208 16 228 28 228 48 L228 228 L28 228 Z"
     fill="#1A524A"
   />
   <rect x="28" y="196" width="200" height="32" fill="#C45C4A" />
