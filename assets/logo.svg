@@ -1,27 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Un-Default</title>
-  <desc id="desc">Teal seal with a default path branching away in coral</desc>
-  <path
-    d="M28 48 C28 28 48 16 128 16 C208 16 228 28 228 48 L228 228 L28 228 Z"
-    fill="#1A524A"
-  />
-  <rect x="28" y="196" width="200" height="32" fill="#C45C4A" />
-  <!-- default path (straight) -->
-  <path
-    d="M88 168 L88 72"
+  <desc id="desc">Soft square mark: open ring leaving a default notch</desc>
+  <!-- soft square field -->
+  <rect width="256" height="256" rx="56" fill="#1A524A" />
+  <!-- default notch (closed system) -->
+  <rect x="48" y="112" width="52" height="32" rx="16" fill="#F6F1E8" fill-opacity="0.35" />
+  <!-- open ring (leaving the default) -->
+  <circle
+    cx="148"
+    cy="128"
+    r="58"
     fill="none"
     stroke="#F6F1E8"
-    stroke-width="18"
+    stroke-width="22"
     stroke-linecap="round"
+    stroke-dasharray="280 85"
+    stroke-dashoffset="40"
+    transform="rotate(-35 148 128)"
   />
-  <!-- branch leaving the default -->
-  <path
-    d="M88 120 C88 120 88 120 152 88 C176 76 196 70 210 66"
-    fill="none"
-    stroke="#C45C4A"
-    stroke-width="18"
-    stroke-linecap="round"
-  />
-  <!-- branch tip -->
-  <circle cx="210" cy="66" r="14" fill="#F6F1E8" />
+  <!-- coral accent tip where the ring opens -->
+  <circle cx="198" cy="78" r="18" fill="#C45C4A" />
 </svg>

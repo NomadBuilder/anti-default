@@ -38,68 +38,43 @@ def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.Im
 
 
 def draw_icon(size: int) -> Image.Image:
-    """Arched teal seal + default path branching away (matches assets/logo.svg)."""
+    """Soft square + open ring leaving a default notch (matches assets/logo.svg)."""
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    pad = max(1, size // 16)
     draw.rounded_rectangle(
-        [pad, pad, size - pad - 1, size - pad - 1],
-        radius=max(4, size // 5),
+        [0, 0, size - 1, size - 1],
+        radius=max(4, size * 56 // 256),
         fill=TEAL_DEEP,
-    )
-    bar_h = max(2, size // 10)
-    draw.rectangle(
-        [pad, size - pad - bar_h * 2, size - pad - 1, size - pad - 1],
-        fill=CORAL,
     )
 
     s = size / 256.0
-    stroke = max(2, int(18 * s))
 
-    def p(x: float, y: float) -> tuple[float, float]:
+    def box(x: float, y: float, w: float, h: float) -> list[float]:
+        return [x * s, y * s, (x + w) * s, (y + h) * s]
+
+    def pt(x: float, y: float) -> tuple[float, float]:
         return x * s, y * s
 
-    # Default vertical path
-    x0, y0 = p(88, 72)
-    x1, y1 = p(88, 168)
-    draw.line([x0, y0, x1, y1], fill=PAPER, width=stroke)
+    # Soft default notch
+    draw.rounded_rectangle(
+        box(48, 112, 52, 32),
+        radius=max(2, int(16 * s)),
+        fill=(246, 241, 232, 90),
+    )
 
-    # Branch: cubic Bezier matching SVG (88,120) → (88,120) → (152,88) → (210,66)
-    # Use control points that echo the SVG path C88 120 88 120 152 88 then continue
-    def bezier(
-        p0: tuple[float, float],
-        p1: tuple[float, float],
-        p2: tuple[float, float],
-        p3: tuple[float, float],
-        steps: int = 24,
-    ) -> list[tuple[float, float]]:
-        out: list[tuple[float, float]] = []
-        for i in range(steps + 1):
-            t = i / steps
-            u = 1 - t
-            x = (
-                u**3 * p0[0]
-                + 3 * u**2 * t * p1[0]
-                + 3 * u * t**2 * p2[0]
-                + t**3 * p3[0]
-            )
-            y = (
-                u**3 * p0[1]
-                + 3 * u**2 * t * p1[1]
-                + 3 * u * t**2 * p2[1]
-                + t**3 * p3[1]
-            )
-            out.append(p(x, y))
-        return out
+    # Open ring via thick arc (approximate with pieslice outline)
+    cx, cy = pt(148, 128)
+    r = 58 * s
+    sw = max(2, int(22 * s))
+    # Draw as annulus segment using arc
+    bbox = [cx - r, cy - r, cx + r, cy + r]
+    # PIL arcs: start/end in degrees, 0 is 3-o'clock, CCW
+    # Match SVG rotate -35 with gap ~85/365 of circle
+    draw.arc(bbox, start=40, end=320, fill=PAPER, width=sw)
 
-    # Approximate SVG: M88 120 C88 120 88 120 152 88 C176 76 196 70 210 66
-    branch = bezier((88, 120), (88, 120), (120, 100), (152, 88)) + bezier(
-        (152, 88), (176, 76), (196, 70), (210, 66)
-    )[1:]
-    draw.line(branch, fill=CORAL, width=stroke, joint="curve")
-    r = max(2, int(14 * s))
-    cx, cy = p(210, 66)
-    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=PAPER)
+    tip_r = max(2, int(18 * s))
+    tx, ty = pt(198, 78)
+    draw.ellipse([tx - tip_r, ty - tip_r, tx + tip_r, ty + tip_r], fill=CORAL)
     return img
 
 
