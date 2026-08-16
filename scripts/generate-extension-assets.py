@@ -38,7 +38,7 @@ def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.Im
 
 
 def draw_icon(size: int) -> Image.Image:
-    """Arched teal seal + paper default peeling away in coral (matches assets/logo.svg)."""
+    """Arched teal seal + default path branching away (matches assets/logo.svg)."""
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     pad = max(1, size // 16)
@@ -54,27 +54,52 @@ def draw_icon(size: int) -> Image.Image:
     )
 
     s = size / 256.0
+    stroke = max(2, int(18 * s))
 
-    def box(x: float, y: float, w: float, h: float) -> list[float]:
-        return [x * s, y * s, (x + w) * s, (y + h) * s]
-
-    def pt(x: float, y: float) -> tuple[float, float]:
+    def p(x: float, y: float) -> tuple[float, float]:
         return x * s, y * s
 
-    draw.rounded_rectangle(
-        box(74, 54, 108, 128),
-        radius=max(2, int(14 * s)),
-        fill=PAPER,
-    )
-    line_fill = (26, 82, 74, 72)
-    for y, w in ((78, 68), (102, 68), (126, 48)):
-        draw.rounded_rectangle(
-            box(94, y, w, 11),
-            radius=max(1, int(5 * s)),
-            fill=line_fill,
-        )
-    draw.polygon([pt(140, 182), pt(182, 182), pt(182, 118)], fill=CORAL)
-    draw.polygon([pt(140, 182), pt(182, 118), pt(140, 118)], fill=TEAL)
+    # Default vertical path
+    x0, y0 = p(88, 72)
+    x1, y1 = p(88, 168)
+    draw.line([x0, y0, x1, y1], fill=PAPER, width=stroke)
+
+    # Branch: cubic Bezier matching SVG (88,120) → (88,120) → (152,88) → (210,66)
+    # Use control points that echo the SVG path C88 120 88 120 152 88 then continue
+    def bezier(
+        p0: tuple[float, float],
+        p1: tuple[float, float],
+        p2: tuple[float, float],
+        p3: tuple[float, float],
+        steps: int = 24,
+    ) -> list[tuple[float, float]]:
+        out: list[tuple[float, float]] = []
+        for i in range(steps + 1):
+            t = i / steps
+            u = 1 - t
+            x = (
+                u**3 * p0[0]
+                + 3 * u**2 * t * p1[0]
+                + 3 * u * t**2 * p2[0]
+                + t**3 * p3[0]
+            )
+            y = (
+                u**3 * p0[1]
+                + 3 * u**2 * t * p1[1]
+                + 3 * u * t**2 * p2[1]
+                + t**3 * p3[1]
+            )
+            out.append(p(x, y))
+        return out
+
+    # Approximate SVG: M88 120 C88 120 88 120 152 88 C176 76 196 70 210 66
+    branch = bezier((88, 120), (88, 120), (120, 100), (152, 88)) + bezier(
+        (152, 88), (176, 76), (196, 70), (210, 66)
+    )[1:]
+    draw.line(branch, fill=CORAL, width=stroke, joint="curve")
+    r = max(2, int(14 * s))
+    cx, cy = p(210, 66)
+    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=PAPER)
     return img
 
 
