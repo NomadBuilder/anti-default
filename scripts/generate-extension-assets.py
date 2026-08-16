@@ -38,6 +38,7 @@ def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.Im
 
 
 def draw_icon(size: int) -> Image.Image:
+    """Arched teal seal + paper default peeling away in coral (matches assets/logo.svg)."""
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     pad = max(1, size // 16)
@@ -46,22 +47,34 @@ def draw_icon(size: int) -> Image.Image:
         radius=max(4, size // 5),
         fill=TEAL_DEEP,
     )
-    # accent bar
     bar_h = max(2, size // 10)
     draw.rectangle(
         [pad, size - pad - bar_h * 2, size - pad - 1, size - pad - 1],
         fill=CORAL,
     )
-    label = "UD"
-    f = font(max(10, int(size * 0.42)), bold=True)
-    bbox = draw.textbbox((0, 0), label, font=f)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    draw.text(
-        ((size - tw) / 2, (size - th) / 2 - size * 0.06),
-        label,
+
+    s = size / 256.0
+
+    def box(x: float, y: float, w: float, h: float) -> list[float]:
+        return [x * s, y * s, (x + w) * s, (y + h) * s]
+
+    def pt(x: float, y: float) -> tuple[float, float]:
+        return x * s, y * s
+
+    draw.rounded_rectangle(
+        box(74, 54, 108, 128),
+        radius=max(2, int(14 * s)),
         fill=PAPER,
-        font=f,
     )
+    line_fill = (26, 82, 74, 72)
+    for y, w in ((78, 68), (102, 68), (126, 48)):
+        draw.rounded_rectangle(
+            box(94, y, w, 11),
+            radius=max(1, int(5 * s)),
+            fill=line_fill,
+        )
+    draw.polygon([pt(140, 182), pt(182, 182), pt(182, 118)], fill=CORAL)
+    draw.polygon([pt(140, 182), pt(182, 118), pt(140, 118)], fill=TEAL)
     return img
 
 
@@ -150,8 +163,8 @@ def screenshot_popup() -> Image.Image:
 
     # fake toolbar
     draw.rounded_rectangle([900, 60, 1200, 120], radius=12, fill=WHITE, outline=(210, 205, 196), width=2)
-    draw.ellipse([1100, 78, 1136, 114], fill=TEAL_DEEP)
-    draw.text((1108, 86), "UD", fill=PAPER, font=font(14, bold=True))
+    icon = draw_icon(36)
+    img.paste(icon, (1100, 72), icon)
 
     # popup card
     draw.rounded_rectangle([420, 240, 860, 560], radius=12, fill=PAPER, outline=TEAL_DEEP, width=3)

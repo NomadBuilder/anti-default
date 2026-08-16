@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Un-Default</title>
-  <desc id="desc">UD mark - teal arched tile with coral base</desc>
+  <desc id="desc">Teal arched seal showing a default page with a coral peel</desc>
   <path
     d="M28 48 C28 28 48 16 128 16 C208 16 228 28 228 48 L228 228 L28 228 Z"
     fill="#1A524A"
   />
   <rect x="28" y="196" width="200" height="32" fill="#C45C4A" />
-  <text
-    x="128"
-    y="148"
-    text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="110"
-    font-weight="700"
-    fill="#F6F1E8"
-  >UD</text>
+  <!-- page -->
+  <rect x="74" y="54" width="108" height="128" rx="14" fill="#F6F1E8" />
+  <!-- default copy lines -->
+  <rect x="94" y="78" width="68" height="11" rx="5.5" fill="#1A524A" fill-opacity="0.28" />
+  <rect x="94" y="102" width="68" height="11" rx="5.5" fill="#1A524A" fill-opacity="0.28" />
+  <rect x="94" y="126" width="48" height="11" rx="5.5" fill="#1A524A" fill-opacity="0.28" />
+  <!-- coral peel: default corner lifting away -->
+  <path d="M140 182 L182 182 L182 118 Z" fill="#C45C4A" />
+  <path d="M140 182 L182 118 L140 118 Z" fill="#2A7A6E" />
 </svg>
