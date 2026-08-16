@@ -38,7 +38,7 @@ def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.Im
 
 
 def draw_icon(size: int) -> Image.Image:
-    """Prefer rendered assets/logo.png (from SVG); fall back to a simple U-in-D."""
+    """Prefer rendered assets/logo.png (from SVG); fall back to five-bar mark."""
     logo_path = Path(__file__).resolve().parents[1] / "assets" / "logo.png"
     if logo_path.exists():
         return (
@@ -51,28 +51,31 @@ def draw_icon(size: int) -> Image.Image:
     draw = ImageDraw.Draw(img)
     draw.rounded_rectangle(
         [0, 0, size - 1, size - 1],
-        radius=max(6, size * 58 // 256),
-        fill=TEAL_DEEP,
+        radius=max(6, size * 56 // 256),
+        fill=(18, 24, 32, 255),
     )
     s = size / 256.0
-
-    def p(x: float, y: float) -> tuple[float, float]:
-        return x * s, y * s
-
-    stem = [p(66, 36), p(116, 36), p(116, 220), p(66, 220)]
-    draw.polygon(stem, fill=PAPER)
-    left, top = p(66, 36)
-    right, bottom = p(220, 220)
-    draw.ellipse([left, top, right, bottom], fill=PAPER)
-    draw.rectangle([0, top, p(116, 0)[0], bottom], fill=TEAL_DEEP)
-    draw.polygon(stem, fill=PAPER)
-    draw.rectangle([p(106, 70), p(150, 148)], fill=TEAL_DEEP)
-    draw.ellipse([p(106, 120)[0], p(106, 120)[1], p(150, 184)[0], p(150, 184)[1]], fill=TEAL_DEEP)
-    draw.rectangle([p(106, 120), p(150, 150)], fill=TEAL_DEEP)
-    r = max(2, int(9 * s))
-    cx, cy = p(128, 190)
-    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=CORAL)
-    return img
+    bar_w = max(2, int(22 * s))
+    bar_h = max(4, int(152 * s))
+    y0 = int(52 * s)
+    for x in (52, 86, 120, 154):
+        x0 = int(x * s)
+        draw.rounded_rectangle(
+            [x0, y0, x0 + bar_w, y0 + bar_h],
+            radius=max(1, bar_w // 2),
+            fill=PAPER,
+        )
+    # Approximate tilted coral bar
+    coral = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    cdraw = ImageDraw.Draw(coral)
+    x0 = int(187 * s)
+    cdraw.rounded_rectangle(
+        [x0, y0, x0 + bar_w, y0 + bar_h],
+        radius=max(1, bar_w // 2),
+        fill=CORAL,
+    )
+    coral = coral.rotate(-18, resample=Image.Resampling.BICUBIC, center=(size * 0.77, size * 0.5))
+    return Image.alpha_composite(img, coral)
 
 
 def screenshot_highlights() -> Image.Image:
