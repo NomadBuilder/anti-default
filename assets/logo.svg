@@ -1,23 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Un-Default</title>
-  <desc id="desc">Soft square mark: open ring leaving a default notch</desc>
-  <!-- soft square field -->
-  <rect width="256" height="256" rx="56" fill="#1A524A" />
-  <!-- default notch (closed system) -->
-  <rect x="48" y="112" width="52" height="32" rx="16" fill="#F6F1E8" fill-opacity="0.35" />
-  <!-- open ring (leaving the default) -->
-  <circle
-    cx="148"
-    cy="128"
-    r="58"
+  <desc id="desc">U nested inside a bold D monogram</desc>
+  <defs>
+    <linearGradient id="field" x1="16" y1="0" x2="248" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2F7369"/>
+      <stop offset="50%" stop-color="#1A524A"/>
+      <stop offset="100%" stop-color="#0F332F"/>
+    </linearGradient>
+    <linearGradient id="dFill" x1="64" y1="36" x2="208" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF9F2"/>
+      <stop offset="100%" stop-color="#E5D7C6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="58" fill="url(#field)"/>
+
+  <!-- coral lid light -->
+  <path
+    d="M58 54 C122 26 180 26 214 54"
     fill="none"
-    stroke="#F6F1E8"
-    stroke-width="22"
+    stroke="#C45C4A"
+    stroke-width="6"
     stroke-linecap="round"
-    stroke-dasharray="280 85"
-    stroke-dashoffset="40"
-    transform="rotate(-35 148 128)"
   />
-  <!-- coral accent tip where the ring opens -->
-  <circle cx="198" cy="78" r="18" fill="#C45C4A" />
+
+  <!-- Solid D with clearer U knocked out -->
+  <path
+    fill="url(#dFill)"
+    fill-rule="evenodd"
+    d="
+      M 62 32
+      H 112
+      C 192 32 226 78 226 128
+      C 226 178 192 224 112 224
+      H 62
+      Z
+
+      M 100 64
+      H 156
+      V 142
+      C 156 168 144 190 128 190
+      C 112 190 100 168 100 142
+      Z
+    "
+  />
 </svg>

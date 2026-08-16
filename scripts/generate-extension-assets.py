@@ -38,43 +38,40 @@ def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.Im
 
 
 def draw_icon(size: int) -> Image.Image:
-    """Soft square + open ring leaving a default notch (matches assets/logo.svg)."""
+    """Prefer rendered assets/logo.png (from SVG); fall back to a simple U-in-D."""
+    logo_path = Path(__file__).resolve().parents[1] / "assets" / "logo.png"
+    if logo_path.exists():
+        return (
+            Image.open(logo_path)
+            .convert("RGBA")
+            .resize((size, size), Image.Resampling.LANCZOS)
+        )
+
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     draw.rounded_rectangle(
         [0, 0, size - 1, size - 1],
-        radius=max(4, size * 56 // 256),
+        radius=max(6, size * 58 // 256),
         fill=TEAL_DEEP,
     )
-
     s = size / 256.0
 
-    def box(x: float, y: float, w: float, h: float) -> list[float]:
-        return [x * s, y * s, (x + w) * s, (y + h) * s]
-
-    def pt(x: float, y: float) -> tuple[float, float]:
+    def p(x: float, y: float) -> tuple[float, float]:
         return x * s, y * s
 
-    # Soft default notch
-    draw.rounded_rectangle(
-        box(48, 112, 52, 32),
-        radius=max(2, int(16 * s)),
-        fill=(246, 241, 232, 90),
-    )
-
-    # Open ring via thick arc (approximate with pieslice outline)
-    cx, cy = pt(148, 128)
-    r = 58 * s
-    sw = max(2, int(22 * s))
-    # Draw as annulus segment using arc
-    bbox = [cx - r, cy - r, cx + r, cy + r]
-    # PIL arcs: start/end in degrees, 0 is 3-o'clock, CCW
-    # Match SVG rotate -35 with gap ~85/365 of circle
-    draw.arc(bbox, start=40, end=320, fill=PAPER, width=sw)
-
-    tip_r = max(2, int(18 * s))
-    tx, ty = pt(198, 78)
-    draw.ellipse([tx - tip_r, ty - tip_r, tx + tip_r, ty + tip_r], fill=CORAL)
+    stem = [p(66, 36), p(116, 36), p(116, 220), p(66, 220)]
+    draw.polygon(stem, fill=PAPER)
+    left, top = p(66, 36)
+    right, bottom = p(220, 220)
+    draw.ellipse([left, top, right, bottom], fill=PAPER)
+    draw.rectangle([0, top, p(116, 0)[0], bottom], fill=TEAL_DEEP)
+    draw.polygon(stem, fill=PAPER)
+    draw.rectangle([p(106, 70), p(150, 148)], fill=TEAL_DEEP)
+    draw.ellipse([p(106, 120)[0], p(106, 120)[1], p(150, 184)[0], p(150, 184)[1]], fill=TEAL_DEEP)
+    draw.rectangle([p(106, 120), p(150, 150)], fill=TEAL_DEEP)
+    r = max(2, int(9 * s))
+    cx, cy = p(128, 190)
+    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=CORAL)
     return img
 
 
