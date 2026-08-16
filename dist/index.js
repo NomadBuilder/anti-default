@@ -474,6 +474,249 @@ var LANGUAGE_RULES = [
     why: "Common mixed-group address that still centers male as default.",
     suggestions: ["you all", "y\u2019all", "everyone", "folks"]
   },
+  // ── Gender: sexist digs / misogynistic framing ──────────────────────
+  {
+    id: "feminazi",
+    pattern: "\\bfeminazis?\\b",
+    category: "gender",
+    severity: "high",
+    label: "\u201CFeminazi\u201D",
+    why: "A smear that equates feminism with Nazism. Almost never neutral in product or brand copy.",
+    suggestions: [
+      "drop the slur",
+      "name the specific disagreement",
+      "feminist / advocate for gender equity (when accurate)"
+    ],
+    examples: ["Commenters called her a feminazi for asking about pay."]
+  },
+  {
+    id: "like-a-girl",
+    pattern: "\\blike a girl\\b",
+    category: "gender",
+    severity: "high",
+    label: "\u201CLike a girl\u201D as insult",
+    why: "Treats femininity as weakness or incompetence. Common in sports, gaming, and \u201Ctough\u201D brand voice.",
+    suggestions: [
+      "drop the comparison",
+      "describe the skill or behavior directly"
+    ],
+    examples: ["Don\u2019t throw like a girl in the product demo video."]
+  },
+  {
+    id: "man-up",
+    pattern: "\\bman up\\b|\\bgrow a pair\\b|\\bbe a man\\b",
+    category: "gender",
+    severity: "high",
+    label: "\u201CMan up\u201D / \u201Cgrow a pair\u201D",
+    why: "Equates courage and competence with masculinity; punishes anyone who doesn\u2019t perform it.",
+    suggestions: [
+      "be direct",
+      "take ownership",
+      "name the concrete action you want"
+    ],
+    examples: ["Leadership said he needed to man up before the board review."]
+  },
+  {
+    id: "office-wife",
+    pattern: "\\boffice wif(?:e|es)\\b|\\bwork wif(?:e|es)\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201COffice wife\u201D / \u201Cwork wife\u201D",
+    why: "Sexualizes or domesticates a coworker relationship; often lands especially badly for women.",
+    suggestions: [
+      "close collaborator",
+      "work partner",
+      "colleague you pair with often"
+    ],
+    examples: ["The profile joked that she was the CEO\u2019s office wife."]
+  },
+  {
+    id: "bitch-slur",
+    pattern: "\\bbitch(?:es)?\\b|\\bbitchy\\b",
+    category: "gender",
+    severity: "high",
+    label: "\u201CBitch\u201D as dig",
+    why: "A gendered insult used to police assertive women. Soft-flagged around animal breeding and quoted lyrics.",
+    suggestions: [
+      "drop the slur",
+      "assertive / direct / firm (when that\u2019s the trait)",
+      "name the behavior without the gendered dig"
+    ],
+    examples: [
+      "Don\u2019t be a bitch about the deadline.",
+      "Stakeholders called her bitchy for pushing back."
+    ],
+    counterexamples: [
+      "The kennel specializes in breeding bitches for working lines.",
+      "Veterinary notes: pregnant bitch, third trimester."
+    ],
+    defaultSoft: true
+  },
+  {
+    id: "bossy",
+    pattern: "\\bbossy\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CBossy\u201D",
+    why: "Often applied to women and girls for the same behavior praised as leadership in men. Soft-flagged.",
+    suggestions: [
+      "decisive",
+      "direct",
+      "takes charge",
+      "name the specific leadership behavior"
+    ],
+    examples: ["Feedback said she was too bossy in standups."],
+    defaultSoft: true
+  },
+  {
+    id: "shrill",
+    pattern: "\\bshrill\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CShrill\u201D",
+    why: "A classic dig at women who speak up; focuses on tone instead of substance. Soft-flagged for literal sound descriptions.",
+    suggestions: [
+      "forceful",
+      "urgent",
+      "pointed",
+      "describe the argument, not the voice"
+    ],
+    examples: ["Reviewers called the founder\u2019s pitch shrill."],
+    counterexamples: [
+      "A shrill alarm sounded when the sensor tripped."
+    ],
+    defaultSoft: true
+  },
+  {
+    id: "hysterical",
+    pattern: "\\bhysterical\\b|\\bhysteria\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CHysterical\u201D / \u201Chysteria\u201D",
+    why: "Historically used to dismiss women\u2019s emotions and authority. Soft-flagged for comedy/medical history uses.",
+    suggestions: [
+      "upset",
+      "alarmed",
+      "intense",
+      "overwhelmed",
+      "name the concrete concern"
+    ],
+    examples: ["They said she got hysterical in the negotiation."],
+    counterexamples: [
+      "The film was hysterical \u2014 we laughed the whole way through.",
+      "A short history of hysteria as a contested diagnosis."
+    ],
+    defaultSoft: true
+  },
+  {
+    id: "female-role-prefix",
+    pattern: "\\bfemale (?:founders?|ceos?|ctos?|engineers?|developers?|doctors?|lawyers?|pilots?|scientists?|leaders?|executives?|entrepreneurs?)\\b",
+    category: "gender",
+    severity: "low",
+    label: "Unnecessary \u201Cfemale [role]\u201D",
+    why: "Marking gender on a role often othering when gender isn\u2019t the point. Soft-flagged \u2014 keep when the topic is specifically women in that field.",
+    suggestions: [
+      "founder / engineer / doctor (drop \u201Cfemale\u201D when irrelevant)",
+      "women founders (when the gender focus is intentional)"
+    ],
+    examples: ["We\u2019re looking for a female engineer to join the platform team."],
+    counterexamples: [
+      "The report tracks funding gaps for women founders.",
+      "A study of female pilots\u2019 career progression."
+    ],
+    defaultSoft: true
+  },
+  {
+    id: "girls-for-adults",
+    pattern: "\\b(?:the|our|those|these) girls\\b(?=\\s+(?:in|on|from|at)\\s+(?:marketing|sales|design|product|engineering|support|the team|the office|HQ))",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CGirls\u201D for adult coworkers",
+    why: "Calling adult women \u201Cgirls\u201D in workplace copy can sound diminishing. Soft-flagged.",
+    suggestions: ["the team", "our colleagues", "the women on the team", "everyone in marketing"],
+    examples: ["Ask the girls in marketing to update the deck."],
+    defaultSoft: true
+  },
+  {
+    id: "high-maintenance",
+    pattern: "\\bhigh[- ]maintenance\\b",
+    category: "gender",
+    severity: "low",
+    label: "\u201CHigh-maintenance\u201D",
+    why: "Often a gendered dig at women who state needs. Soft-flagged for literal product/ops use.",
+    suggestions: [
+      "specific about requirements",
+      "needs clearer specs",
+      "name the actual request or constraint"
+    ],
+    examples: ["Investors joked that the creator was high-maintenance."],
+    counterexamples: [
+      "This legacy pipeline is high-maintenance and expensive to keep running."
+    ],
+    defaultSoft: true
+  },
+  {
+    id: "girlboss",
+    pattern: "\\bgirl[- ]?boss(?:es|ing)?\\b",
+    category: "gender",
+    severity: "low",
+    label: "\u201CGirlboss\u201D",
+    why: "Often flattens women\u2019s leadership into a trendy brand; many women reject it as patronizing. Soft-flagged.",
+    suggestions: [
+      "founder",
+      "CEO",
+      "leader",
+      "describe the work without the meme label"
+    ],
+    examples: ["The newsletter called her a girlboss building the next unicorn."],
+    defaultSoft: true
+  },
+  {
+    id: "emotional-stereotype",
+    pattern: "\\btoo emotional\\b|\\bwomen are (?:too )?emotional\\b|\\bemotional women\\b",
+    category: "gender",
+    severity: "high",
+    label: "\u201CToo emotional\u201D stereotype",
+    why: "A stock way to dismiss women\u2019s judgment. Prefer naming the concrete behavior or disagreement.",
+    suggestions: [
+      "name the specific concern",
+      "strong reaction / upset (if accurate)",
+      "drop the gendered stereotype"
+    ],
+    examples: [
+      "They said she was too emotional for the exec role.",
+      "The brief claimed women are too emotional for crisis comms."
+    ]
+  },
+  {
+    id: "drama-queen",
+    pattern: "\\bdrama queens?\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CDrama queen\u201D",
+    why: "A gendered way to dismiss someone\u2019s concerns as overblown. Soft-flagged.",
+    suggestions: [
+      "raising a concern",
+      "name the concrete issue",
+      "drop the dig"
+    ],
+    examples: ["Don\u2019t be a drama queen about the launch delay."],
+    defaultSoft: true
+  },
+  {
+    id: "gold-digger",
+    pattern: "\\bgold[- ]?diggers?\\b",
+    category: "gender",
+    severity: "medium",
+    label: "\u201CGold digger\u201D",
+    why: "A misogynistic stereotype about women\u2019s motives in relationships or work. Soft-flagged.",
+    suggestions: [
+      "drop the stereotype",
+      "describe the financial conflict plainly"
+    ],
+    examples: ["The profile painted her as a gold digger after the funding round."],
+    defaultSoft: true
+  },
   // ── Ableist ─────────────────────────────────────────────────────────
   {
     id: "crazy",

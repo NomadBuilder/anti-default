@@ -54,30 +54,32 @@ Docs: ${AGENTS_URL}
 `;
 
 /** Short LinkedIn / social paste — keep under ~1300 chars for easy posting. */
-export const LINKEDIN_POST = `Your coding agent just shipped UI copy.
+export const LINKEDIN_POST = `We’ve gotten really good at having agents write the product.
 
-It also quietly left you with “guys,” “whitelist,” and “native English speakers only.”
+We’re still bad at noticing when the language they write quietly decides who belongs.
 
-That’s the gap: agents finish the code, and nobody finishes the language.
+Job posts. Onboarding. UI strings. Docs.
+They get drafted in seconds now — often faster than anyone reviews the words themselves.
 
-Un-Default closes it.
+So a README still says master/slave.
+A sprint invite calls the sync a pow-wow.
+A handbook treats “tribal knowledge” like a flex.
+A brand brief goes looking for its “spirit animal.”
+A review still calls someone “bossy” or “shrill,” or tells them to “man up.”
 
-What it is:
-A local inclusive-language check that becomes definition-of-done for AI-written copy. Colonial defaults, gendered titles, ableist framing, soft dogwhistles — flagged with plain-language rewrites.
+That’s not just colonial defaults — it’s the quiet digs that decide who feels welcome, especially in creator and brand copy.
 
-What it is not:
-Another account. Another model bill. Another “please remember to review.”
+We moved writing upstream into the agent. The language check should move with it.
 
-One command installs the habit for the whole repo — skill, MCP, after-edit hooks, PR check — so Claude Code (or Copilot / ChatGPT / whoever) keeps scanning even when you don’t.
+Un-Default is a neat way to do that. It runs locally, uses public rules (including sexist digs and male-default language), makes no AI calls, needs no account, and plugs directly into agent workflows.
+
+It’s the kind of small guardrail that feels worth having by default — especially when adding it takes about 30 seconds.
+
+If you’re using Claude Code, Copilot, or ChatGPT:
 
 npx -y anti-default init
 
-Claude Code, one more step:
-claude plugin marketplace add NomadBuilder/anti-default
-claude plugin install un-default@un-default
-
-Paste configs + Project instructions:
 https://darkai.ca/un-default/for-agents/
 
-If AI writes your words, this is the missing “done.”
+Then “done” doesn’t just mean the code compiles.
 `;
