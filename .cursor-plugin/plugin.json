@@ -16,7 +16,7 @@
     "claude",
     "lint"
   ],
-  "logo": "assets/logo.png",
+  "logo": "assets/logo.svg",
   "homepage": "https://darkai.ca/un-default/for-agents",
   "repository": "https://github.com/NomadBuilder/anti-default",
   "skills": [
