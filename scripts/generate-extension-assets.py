@@ -52,7 +52,7 @@ def draw_icon(size: int) -> Image.Image:
         [pad, size - pad - bar_h * 2, size - pad - 1, size - pad - 1],
         fill=CORAL,
     )
-    label = "AD"
+    label = "UD"
     f = font(max(10, int(size * 0.42)), bold=True)
     bbox = draw.textbbox((0, 0), label, font=f)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
@@ -151,7 +151,7 @@ def screenshot_popup() -> Image.Image:
     # fake toolbar
     draw.rounded_rectangle([900, 60, 1200, 120], radius=12, fill=WHITE, outline=(210, 205, 196), width=2)
     draw.ellipse([1100, 78, 1136, 114], fill=TEAL_DEEP)
-    draw.text((1108, 86), "AD", fill=PAPER, font=font(14, bold=True))
+    draw.text((1108, 86), "UD", fill=PAPER, font=font(14, bold=True))
 
     # popup card
     draw.rounded_rectangle([420, 240, 860, 560], radius=12, fill=PAPER, outline=TEAL_DEEP, width=3)
