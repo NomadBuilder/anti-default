@@ -54,18 +54,17 @@ Docs: ${AGENTS_URL}
 `;
 
 /** Short LinkedIn / social paste — keep under ~1300 chars for easy posting. */
-export const LINKEDIN_POST = `After Claude (or Cursor) writes UI copy, I don't mark it done until Un-Default is clean.
+export const LINKEDIN_POST = `Claude Code (and Copilot, ChatGPT, whatever you vibe with) will happily invent UI copy that still sounds like 2014 defaults — “guys,” “whitelist,” “native English speakers only.”
 
-One command sets the habit for the whole repo — skill + MCP + after-edit hooks + PR check:
+I got tired of catching that by hand after the agent said “done.”
 
-${INIT_COMMAND}
+Un-Default is the missing definition of done: local inclusive-language check. No account. No model required for matching. One install wires the habit into the repo — skill, MCP, after-edit hooks, PR check — so the agent keeps scanning even when nobody remembers.
 
-Or in Claude Code:
-${CLAUDE_MARKETPLACE_ADD}
-${CLAUDE_PLUGIN_INSTALL}
+npx -y anti-default init
 
-Paste-ready MCP + Claude Project instructions:
-${AGENTS_URL}
+Claude Code:
+claude plugin marketplace add NomadBuilder/anti-default
+claude plugin install un-default@un-default
 
-Local rules. No account. Same check in CI — and hooks catch edits even when nobody looks.
+https://darkai.ca/un-default/for-agents/
 `;
