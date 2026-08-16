@@ -54,17 +54,30 @@ Docs: ${AGENTS_URL}
 `;
 
 /** Short LinkedIn / social paste — keep under ~1300 chars for easy posting. */
-export const LINKEDIN_POST = `Claude Code (and Copilot, ChatGPT, whatever you vibe with) will happily invent UI copy that still sounds like 2014 defaults — “guys,” “whitelist,” “native English speakers only.”
+export const LINKEDIN_POST = `Your coding agent just shipped UI copy.
 
-I got tired of catching that by hand after the agent said “done.”
+It also quietly left you with “guys,” “whitelist,” and “native English speakers only.”
 
-Un-Default is the missing definition of done: local inclusive-language check. No account. No model required for matching. One install wires the habit into the repo — skill, MCP, after-edit hooks, PR check — so the agent keeps scanning even when nobody remembers.
+That’s the gap: agents finish the code, and nobody finishes the language.
+
+Un-Default closes it.
+
+What it is:
+A local inclusive-language check that becomes definition-of-done for AI-written copy. Colonial defaults, gendered titles, ableist framing, soft dogwhistles — flagged with plain-language rewrites.
+
+What it is not:
+Another account. Another model bill. Another “please remember to review.”
+
+One command installs the habit for the whole repo — skill, MCP, after-edit hooks, PR check — so Claude Code (or Copilot / ChatGPT / whoever) keeps scanning even when you don’t.
 
 npx -y anti-default init
 
-Claude Code:
+Claude Code, one more step:
 claude plugin marketplace add NomadBuilder/anti-default
 claude plugin install un-default@un-default
 
+Paste configs + Project instructions:
 https://darkai.ca/un-default/for-agents/
+
+If AI writes your words, this is the missing “done.”
 `;
