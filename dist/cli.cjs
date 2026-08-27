@@ -3763,6 +3763,25 @@ Setup once in this repo: npx -y anti-default init
 Docs: ${AGENTS_URL}
 `;
 
+// src/lib/demo-copy.ts
+var DEMO_FILE_RELATIVE = "examples/un-default-demo.md";
+var DEMO_COPY = `Welcome guys! Our gurus discovered a primitive workflow that will blow your minds \u2014 it's crazy effective.
+
+Ladies and gentlemen, our native English speakers only team pioneered this in the Third World market. Do a sanity check before we pow-wow with stakeholders.
+
+Pregnant women and the elderly can whitelist features; master/slave databases are grandfathered in.
+`;
+function demoFileContents() {
+  return `# Un-Default sample copy
+
+Agent-written marketing draft so you can verify the install. Safe to delete.
+
+---
+
+${DEMO_COPY.trim()}
+`;
+}
+
 // src/cli/hook-script.ts
 var AFTER_EDIT_HOOK_SCRIPT = `#!/usr/bin/env bash
 # Un-Default \u2014 run after Claude Code / Cursor file edits.
@@ -4080,7 +4099,8 @@ async function initializeProject(cwd) {
     [".claude/skills/un-default/SKILL.md", SKILL],
     [".mcp.json", MCP_CONFIG_JSON],
     ["CLAUDE.md", `${CLAUDE_PROJECT_INSTRUCTIONS.trim()}
-`]
+`],
+    [DEMO_FILE_RELATIVE, demoFileContents()]
   ];
   for (const [relative, contents] of files) {
     if (await writeIfMissing(import_node_path2.default.join(cwd, relative), contents)) {
@@ -4134,6 +4154,8 @@ async function initializeProject(cwd) {
 function initNextSteps() {
   return [
     "Claude/Cursor will now scan after file edits (hooks) \u2014 no extra user step.",
+    `Sample copy for a first finding: ${DEMO_FILE_RELATIVE}`,
+    `  npx -y anti-default ${DEMO_FILE_RELATIVE}`,
     "Optional: paste Project instructions / MCP from:",
     `  ${AGENTS_URL}`
   ];
@@ -4144,6 +4166,39 @@ init_fix();
 init_scan();
 init_feedback2();
 var import_meta = {};
+async function printDemoScan(cwd) {
+  const demoPath = import_node_path8.default.join(cwd, DEMO_FILE_RELATIVE);
+  try {
+    await import_node_fs7.promises.access(demoPath);
+  } catch {
+    return;
+  }
+  const scan = await runScan({
+    cwd,
+    paths: [DEMO_FILE_RELATIVE],
+    useBaseline: false
+  });
+  const hard = scan.findings.filter((f) => !f.likelyFalsePositive);
+  const show = (hard.length ? hard : scan.findings).slice(0, 5);
+  console.log("");
+  console.log(`\u2500\u2500 Sample scan (${DEMO_FILE_RELATIVE}) \u2500\u2500`);
+  console.log(
+    `${scan.findings.length} finding(s) \xB7 showing ${show.length} (local rules, no model)`
+  );
+  for (const f of show) {
+    const soft = f.likelyFalsePositive ? " [soft]" : "";
+    console.log("");
+    console.log(`[${f.label}]${soft} \u201C${f.match}\u201D`);
+    console.log(`  ${f.why}`);
+    if (f.suggestions[0]) console.log(`  try: ${f.suggestions[0]}`);
+  }
+  if (scan.findings.length > show.length) {
+    console.log("");
+    console.log(
+      `\u2026and ${scan.findings.length - show.length} more \u2192 npx -y anti-default ${DEMO_FILE_RELATIVE}`
+    );
+  }
+}
 function packageVersion() {
   if ("0.5.4") {
     return "0.5.4";
@@ -4189,6 +4244,7 @@ async function main() {
       console.log("Un-Default is already initialized; no files changed.");
     }
     for (const line of initNextSteps()) console.log(line);
+    await printDemoScan(cwd);
     return;
   }
   if (args.command === "feedback") {
