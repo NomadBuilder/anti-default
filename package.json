@@ -1,6 +1,6 @@
 {
   "name": "anti-default",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "private": false,
   "description": "Un-Default — inclusive language review for AI-generated and human copy (CLI, MCP, GitHub Action, extension). npm name is anti-default because un-default is blocked by an unrelated package.",
   "mcpName": "io.github.NomadBuilder/un-default",

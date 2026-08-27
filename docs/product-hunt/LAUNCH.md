@@ -24,8 +24,8 @@ Skip or delay if you cannot spend launch day answering every comment within ~15 
 
 **2026 reality check:** Only ~10% of launches get **Featured** (homepage / mobile). Featured
 is editorial — Useful · Novel · High craft · Creative — not raw upvote count. Your sharpest
-story for Featured: *local rules as definition-of-done after agents write copy* (no model
-bill, no account, open catalog) — not “another DEI checker.”
+story for Featured: *a local, open, invitation-based check after agents write copy* — helpful
+for belonging, not a lecture and not a scare.
 
 ---
 
@@ -50,10 +50,10 @@ Day-before message: “Going live tomorrow — would love your honest take on th
 30–60s, muted-friendly, captions. Upload YouTube **public or unlisted** and test the PH embed
 before launch day.
 
-**Beat sheet:**
-1. **0–5s** — Agent-written UI / README with a hit (`guys`, `master/slave`, ableist metaphor)
-2. **5–35s** — Terminal: `npx -y anti-default init` → scan → finding with plain-language rewrite
-3. **35–50s** — One-liner: skill / MCP / PR check, no account, no model for matching
+**Beat sheet (tone: clarity + care, not a scold):**
+1. **0–5s** — Agent-written UI / job post; highlight a phrase that leaves people out
+2. **5–35s** — `npx -y anti-default init` → finding with **why** + a welcoming rewrite
+3. **35–50s** — Invitations, open rules, no account, no model for matching — skill / MCP / PR check
 4. **50–60s** — URL: darkai.ca/un-default/for-agents/
 
 ### 4. PH profile
@@ -67,9 +67,9 @@ Photo, bio, Twitter/LinkedIn. Comment thoughtfully on 5–10 other launches this
 Un-Default
 
 ### Tagline (≤60 characters) — pick one
-**Preferred (agent-native):** Local guardrail after agents write your product copy  
-**Alt (clearer category):** Inclusive-language check for AI-written product copy  
-*(Preferred hits Novel in an AI-flooded feed; Alt is safer if Featured editors need the category name.)*
+**Preferred (helpful + agent-native):** Welcoming-language help after agents write copy  
+**Alt (clear category):** Inclusive-language check for AI-written product copy  
+*(Lead with care for readers. Skip “guardrail,” scare, or embarrassment.)*
 
 ### Topics (pick ~3)
 - Developer Tools
@@ -81,7 +81,7 @@ Un-Default
 https://darkai.ca/un-default/for-agents/
 
 ### Description (short — ~200–260 chars)
-Agents draft job posts, UI strings, and docs in seconds. Un-Default reviews that copy for colonial defaults, gendered assumptions, ableist metaphors, and coded digs — locally, with public rules, no AI calls, no account. One command plugs it into Claude, Cursor, and Copilot.
+Agents draft job posts, UI strings, and docs in seconds. Un-Default helps that copy welcome more people — colonial defaults, gendered assumptions, ableist metaphors, coded digs — with plain-language suggestions. Local rules, no AI calls, no account. One command for Claude, Cursor, and Copilot.
 
 ### Pricing
 Free · Open source (MIT) · npm: `anti-default`
@@ -92,18 +92,18 @@ Free · Open source (MIT) · npm: `anti-default`
 
 Hey Product Hunt — I’m Aazir, maker of Un-Default.
 
-I kept watching agents ship UI copy, onboarding, and release notes that sounded finished — and still left phrases I’d never choose on purpose. Master/slave in a README. A standup called a pow-wow. “Guys” for a mixed team. Quiet digs that decide who feels welcome.
+I wanted a small, kind tool for a world where agents write our UI copy, onboarding, and job posts. Those drafts often sound finished — and still leave phrases that decide who feels welcome. A README with master/slave. A meeting called a pow-wow. “Guys” for a mixed team. Not malice — just defaults.
 
-So I built a small guardrail: local rules, plain-language suggestions, no model bill, no signup. It installs as definition-of-done for AI-written copy — skill, MCP, after-edit hooks, and a PR check — with:
+So I built Un-Default: local rules, plain-language suggestions, open catalog you can tune. Suggestions are invitations, not a single “correct” English. No model bill, no signup. It installs as a helpful definition-of-done after AI writes words — skill, MCP, after-edit hooks, and a PR check:
 
 `npx -y anti-default init`
 
-What I’m hoping to learn from you today:
-1. Would you run this in CI, in the agent loop, or only before publish?
-2. What’s the noisiest false positive you’ve hit with other inclusive-language tools?
-3. Any phrases we should flag that we miss today?
+What I’d love to learn from you today:
+1. Where would this help your readers or teammates most — CI, the agent loop, or before publish?
+2. What would make the suggestions feel more helpful (and less like a lecture)?
+3. Any phrases we should explain better or flag that we miss today?
 
-Happy to answer anything. Link + paste configs: https://darkai.ca/un-default/for-agents/
+Happy to answer anything. Try the live sample or paste configs: https://darkai.ca/un-default/for-agents/
 
 ---
 

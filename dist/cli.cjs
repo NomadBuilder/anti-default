@@ -4200,8 +4200,8 @@ async function printDemoScan(cwd) {
   }
 }
 function packageVersion() {
-  if ("0.5.4") {
-    return "0.5.4";
+  if ("0.5.5") {
+    return "0.5.5";
   }
   try {
     const here = import_node_path8.default.dirname((0, import_node_url.fileURLToPath)(import_meta.url));

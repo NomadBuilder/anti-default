@@ -24,8 +24,8 @@ init merge into existing Claude settings, and `claude plugin validate` when avai
 Then tag (versions must match `package.json`):
 
 ```bash
-git tag v0.5.4
-git push origin v0.5.4
+git tag v0.5.5
+git push origin v0.5.5
 ```
 
 `.github/workflows/publish.yml` on `v*` tags / GitHub Releases:
