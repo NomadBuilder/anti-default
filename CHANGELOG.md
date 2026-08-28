@@ -9,6 +9,8 @@
   same hook (`docs/product-hunt/LAUNCH.md`).
 - Optional `IGNORE_TS_BUILD_ERRORS=true` for static export when `tsc` hangs
   locally (`next.config.js`).
+- **GitHub repo renamed** to [NomadBuilder/un-default](https://github.com/NomadBuilder/un-default)
+  (npm package remains `anti-default`).
 
 ## 0.5.5
 
@@ -42,7 +44,7 @@
 ## 0.5.4
 
 - Claude Code **plugin + marketplace** (`.claude-plugin/`) so users can
-  `claude plugin marketplace add NomadBuilder/anti-default` then install
+  `claude plugin marketplace add NomadBuilder/un-default` then install
   `un-default@un-default`.
 - Official MCP Registry metadata (`server.json` + `mcpName`) and Smithery
   `smithery.yaml` for directory discovery.
@@ -58,7 +60,7 @@
 
 ## 0.5.2
 
-- Fix GitHub Action path in `init` workflow template to `NomadBuilder/anti-default@v1` (repo was never renamed).
+- Fix GitHub Action path in `init` workflow template to `NomadBuilder/un-default@v1` (repo was never renamed).
 - Align remaining docs/privacy copy with the published npm package name.
 
 ## 0.5.1

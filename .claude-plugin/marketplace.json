@@ -14,7 +14,7 @@
       "source": "./",
       "description": "Catch racist, sexist & ableist defaults: skill + MCP + after-edit hooks so Claude keeps checking copy.",
       "homepage": "https://darkai.ca/un-default/for-agents",
-      "repository": "https://github.com/NomadBuilder/anti-default",
+      "repository": "https://github.com/NomadBuilder/un-default",
       "license": "MIT",
       "keywords": [
         "inclusive-language",

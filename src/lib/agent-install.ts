@@ -14,7 +14,7 @@ export const AGENTS_PATH = "/for-agents";
 export const AGENTS_URL = `${LIVE_APP_URL}${AGENTS_PATH}`;
 
 /** Claude Code — add this marketplace, then install the plugin (no init required). */
-export const CLAUDE_MARKETPLACE_ADD = "claude plugin marketplace add NomadBuilder/anti-default";
+export const CLAUDE_MARKETPLACE_ADD = "claude plugin marketplace add NomadBuilder/un-default";
 export const CLAUDE_PLUGIN_INSTALL =
   "claude plugin install un-default@un-default";
 

@@ -120,13 +120,13 @@ jobs:
           Still one-time / human (platforms have no public API):
             • Anthropic plugin directory
               https://platform.claude.com/plugins/submit
-              repo: https://github.com/NomadBuilder/anti-default
+              repo: https://github.com/NomadBuilder/un-default
             • Cursor marketplace
               https://cursor.com/marketplace/publish
             • cursor.directory
               https://cursor.directory/plugins/new
             • Smithery / Glama / mcp.so — docs/PUBLISH-DIRECTORIES.md
             • Claude users can already:
-              claude plugin marketplace add NomadBuilder/anti-default
+              claude plugin marketplace add NomadBuilder/un-default
               claude plugin install un-default@un-default
           EOF

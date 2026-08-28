@@ -20,7 +20,7 @@ No account. No AI required for matching. Open rules you can tune.
   ·
   <a href="https://chromewebstore.google.com/detail/anti-default-%E2%80%94-inclusive/aajdplalleopollfjegljkajkdcihmhc"><strong>Add the Chrome extension</strong></a>
   ·
-  <a href="https://github.com/NomadBuilder/anti-default"><strong>Star on GitHub</strong></a>
+  <a href="https://github.com/NomadBuilder/un-default"><strong>Star on GitHub</strong></a>
 </p>
 
 ---
@@ -38,7 +38,7 @@ That also writes `examples/un-default-demo.md` and prints a sample scan so you s
 Or install the Claude Code plugin from this repo’s marketplace:
 
 ```bash
-claude plugin marketplace add NomadBuilder/anti-default
+claude plugin marketplace add NomadBuilder/un-default
 claude plugin install un-default@un-default
 ```
 
@@ -181,7 +181,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: NomadBuilder/anti-default@v1
+      - uses: NomadBuilder/un-default@v1
         with:
           changed-from: ${{ github.event.pull_request.base.sha }}
           format: json

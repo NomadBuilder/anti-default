@@ -17,7 +17,7 @@ https://darkai.ca/un-default/
 Support URL (issues):
 
 ```
-https://github.com/NomadBuilder/anti-default/issues
+https://github.com/NomadBuilder/un-default/issues
 ```
 
 ---
@@ -51,7 +51,7 @@ Privacy
 • Page content is not sent to our servers by the extension
 • Full policy: https://darkai.ca/un-default/privacy/
 
-Open source: https://github.com/NomadBuilder/anti-default
+Open source: https://github.com/NomadBuilder/un-default
 ```
 
 ## Category

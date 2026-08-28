@@ -4,7 +4,7 @@
   "title": "Un-Default",
   "description": "Catch racist, sexist & ableist defaults in AI and human copy. Local rules, no account.",
   "repository": {
-    "url": "https://github.com/NomadBuilder/anti-default",
+    "url": "https://github.com/NomadBuilder/un-default",
     "source": "github"
   },
   "version": "0.5.6",

@@ -57,7 +57,7 @@ MCP Registry OIDC needs no extra secret (`id-token: write` is already set).
 ### Claude Code — install without browsing a store
 
 ```bash
-claude plugin marketplace add NomadBuilder/anti-default
+claude plugin marketplace add NomadBuilder/un-default
 claude plugin install un-default@un-default
 ```
 
@@ -74,7 +74,7 @@ Submit the **public GitHub repo** after validate:
 - Console: https://platform.claude.com/plugins/submit  
 - Team/Enterprise: https://claude.ai/admin-settings/directory/submissions/plugins/new  
 
-Repo URL: `https://github.com/NomadBuilder/anti-default`
+Repo URL: `https://github.com/NomadBuilder/un-default`
 
 ### Cursor marketplace
 
@@ -113,7 +113,7 @@ Use `smithery.yaml` (npx `anti-default mcp`). Complete any web onboarding at htt
 **Command:** `npx -y anti-default mcp`  
 **Init:** `npx -y anti-default init`  
 **Docs:** https://darkai.ca/un-default/for-agents/  
-**GitHub:** https://github.com/NomadBuilder/anti-default  
+**GitHub:** https://github.com/NomadBuilder/un-default  
 **Privacy:** https://darkai.ca/un-default/privacy/
 
 **Short description (≤160 chars):**  
@@ -129,7 +129,7 @@ Un-Default catches racist defaults, sexist role titles, ableist framing, and rel
 | Package | `anti-default` |
 | Start | `npx -y anti-default mcp` |
 | Homepage | https://darkai.ca/un-default/for-agents/ |
-| Source | https://github.com/NomadBuilder/anti-default |
+| Source | https://github.com/NomadBuilder/un-default |
 
 (Do **not** use the blocked npm name `un-default`.)
 

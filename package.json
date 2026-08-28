@@ -7,10 +7,10 @@
   "homepage": "https://darkai.ca/un-default/for-agents",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NomadBuilder/anti-default.git"
+    "url": "git+https://github.com/NomadBuilder/un-default.git"
   },
   "bugs": {
-    "url": "https://github.com/NomadBuilder/anti-default/issues"
+    "url": "https://github.com/NomadBuilder/un-default/issues"
   },
   "license": "MIT",
   "bin": {

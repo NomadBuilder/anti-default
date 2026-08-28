@@ -136,12 +136,12 @@ export default function PrivacyContent() {
         <p className="text-[var(--ink-soft)] leading-relaxed">
           Questions about privacy or the extension: open an issue on{" "}
           <a
-            href="https://github.com/NomadBuilder/anti-default/issues"
+            href="https://github.com/NomadBuilder/un-default/issues"
             className="text-[var(--teal-deep)] underline underline-offset-2"
             target="_blank"
             rel="noopener noreferrer"
           >
-            github.com/NomadBuilder/anti-default
+            github.com/NomadBuilder/un-default
           </a>{" "}
           or use the contact options on{" "}
           <a

@@ -143,7 +143,7 @@ export function formatSarif(report: ScanReport): string {
           driver: {
             name: "Un-Default",
             version: report.version,
-            informationUri: "https://github.com/NomadBuilder/anti-default",
+            informationUri: "https://github.com/NomadBuilder/un-default",
             rules: [...rulesMap.values()],
           },
         },

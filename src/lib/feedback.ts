@@ -42,7 +42,7 @@ export function feedbackEventFromFinding(
   };
 }
 
-const ISSUE_NEW = "https://github.com/NomadBuilder/anti-default/issues/new";
+const ISSUE_NEW = "https://github.com/NomadBuilder/un-default/issues/new";
 
 /** Pre-filled issue so “fine in context” can improve the shared catalog. */
 export const FEEDBACK_STORAGE_KEY = "un-default.feedbackEvents.v1";
