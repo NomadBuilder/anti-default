@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Un-Default — catch racist, sexist & ableist defaults in AI-written and human copy",
-    "version": "0.5.5"
+    "version": "0.5.6"
   },
   "plugins": [
     {
       "name": "un-default",
       "source": "./",
-      "description": "Inclusive-language definition of done: skill + MCP + after-edit hooks so Claude keeps checking copy.",
+      "description": "Catch racist, sexist & ableist defaults: skill + MCP + after-edit hooks so Claude keeps checking copy.",
       "homepage": "https://darkai.ca/un-default/for-agents",
       "repository": "https://github.com/NomadBuilder/anti-default",
       "license": "MIT",

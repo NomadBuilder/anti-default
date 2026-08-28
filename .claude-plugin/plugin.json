@@ -1,7 +1,7 @@
 {
   "name": "un-default",
-  "version": "0.5.5",
-  "description": "Inclusive-language definition of done for AI-written copy. Skill, MCP tools (scan/fix/feedback), and after-edit hooks.",
+  "version": "0.5.6",
+  "description": "Catch racist, sexist & ableist defaults in AI-written copy. Skill, MCP tools (scan/fix/feedback), and after-edit hooks.",
   "author": {
     "name": "NomadBuilder",
     "email": "hello@darkai.ca"

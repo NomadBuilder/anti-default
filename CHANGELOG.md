@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.6
+
+- Lead public messaging with **racist, sexist & ableist** hook — site meta,
+  homepage hero (“catch … before they ship”), for-agents, category labels,
+  rule UI labels, CLI help, README, LinkedIn draft, and shipped skill.
+- Product Hunt kit: tagline, description, and maker comment aligned to the
+  same hook (`docs/product-hunt/LAUNCH.md`).
+- Optional `IGNORE_TS_BUILD_ERRORS=true` for static export when `tsc` hangs
+  locally (`next.config.js`).
+
 ## 0.5.5
 
 - Product Hunt–ready conversion: live findings demo on `/for-agents`, shareable

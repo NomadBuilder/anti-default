@@ -1,6 +1,6 @@
 {
   "name": "anti-default",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "private": false,
   "description": "Un-Default — catch racist, sexist & ableist defaults in AI and human copy (CLI, MCP, GitHub Action, extension). npm name is anti-default because un-default is blocked by an unrelated package.",
   "mcpName": "io.github.NomadBuilder/un-default",
