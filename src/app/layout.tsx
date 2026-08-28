@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url: LIVE_APP_URL,
     images: [
       {
-        url: "/og.jpg?v=3",
+        url: "/og.jpg?v=4",
         width: 2400,
         height: 1260,
         alt: "Un-Default — catch racist, sexist & ableist defaults in AI copy",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: "Un-Default — Catch racist & sexist defaults",
     description:
       "Catch racist, sexist, and ableist defaults in AI-written copy — locally, with public rules.",
-    images: ["/og.jpg?v=3"],
+    images: ["/og.jpg?v=4"],
   },
 };
 

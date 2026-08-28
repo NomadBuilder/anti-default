@@ -14,10 +14,12 @@ PUBLIC = ROOT / "public"
 # LinkedIn display size is ~1200×630; render at 2× then keep full-res assets.
 SCALE = 2
 W, H = 1200 * SCALE, 630 * SCALE
+PH_W, PH_H = 1270, 760
+GALLERY = ROOT / "docs" / "product-hunt" / "gallery"
 
 
-def S(n: float) -> int:
-    return int(round(n * SCALE))
+def S(n: float, scale: float = SCALE) -> int:
+    return int(round(n * scale))
 
 
 def blob(
@@ -34,10 +36,16 @@ def blob(
         od.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=(*color, a))
 
 
-def draw_mark(draw: ImageDraw.ImageDraw, mark_x: int, mark_y: int, mark_s: int) -> None:
+def draw_mark(
+    draw: ImageDraw.ImageDraw,
+    mark_x: int,
+    mark_y: int,
+    mark_s: int,
+    scale: float = SCALE,
+) -> None:
     draw.rounded_rectangle(
         [mark_x, mark_y, mark_x + mark_s, mark_y + mark_s],
-        radius=S(20),
+        radius=S(20, scale),
         fill="#000000",
     )
     scale = mark_s / 256
@@ -73,21 +81,30 @@ def draw_mark(draw: ImageDraw.ImageDraw, mark_x: int, mark_y: int, mark_s: int) 
         draw.polygon(pts, fill=color)
 
 
-def band(draw: ImageDraw.ImageDraw) -> None:
-    colors = ["#c45c4a", "#c4923a", "#2a7a6e", "#4a5d8a", "#b86b7a"]
-    bw = W // len(colors)
-    for i, c in enumerate(colors):
-        draw.rectangle([i * bw, H - S(12), (i + 1) * bw if i < 4 else W, H], fill=c)
-
-
-def base_canvas() -> Image.Image:
-    img = Image.new("RGB", (W, H), "#f6f1e8")
-    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+def base_canvas(width: int = W, height: int = H, scale: float = SCALE) -> Image.Image:
+    img = Image.new("RGB", (width, height), "#f6f1e8")
+    overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     od = ImageDraw.Draw(overlay)
-    blob(od, S(160), S(-20), S(460), (196, 92, 74), 85)
-    blob(od, S(1040), S(80), S(420), (42, 122, 110), 75)
-    blob(od, S(780), S(580), S(380), (74, 93, 138), 50)
+    blob(od, S(160, scale), S(-20, scale), S(460, scale), (196, 92, 74), 85)
+    blob(od, S(1040, scale), S(80, scale), S(420, scale), (42, 122, 110), 75)
+    blob(od, S(780, scale), S(580, scale), S(380, scale), (74, 93, 138), 50)
     return Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+
+
+def band(
+    draw: ImageDraw.ImageDraw,
+    width: int = W,
+    height: int = H,
+    scale: float = SCALE,
+) -> None:
+    colors = ["#c45c4a", "#c4923a", "#2a7a6e", "#4a5d8a", "#b86b7a"]
+    bw = width // len(colors)
+    bar_h = S(12, scale)
+    for i, c in enumerate(colors):
+        draw.rectangle(
+            [i * bw, height - bar_h, (i + 1) * bw if i < 4 else width, height],
+            fill=c,
+        )
 
 
 def load_font(paths: list[str], size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -100,7 +117,7 @@ def load_font(paths: list[str], size: int) -> ImageFont.FreeTypeFont | ImageFont
     return ImageFont.load_default()
 
 
-def fonts() -> dict[str, ImageFont.FreeTypeFont | ImageFont.ImageFont]:
+def fonts(scale: float = SCALE) -> dict[str, ImageFont.FreeTypeFont | ImageFont.ImageFont]:
     serif_bold = [
         "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
         "/Library/Fonts/Georgia Bold.ttf",
@@ -122,21 +139,28 @@ def fonts() -> dict[str, ImageFont.FreeTypeFont | ImageFont.ImageFont]:
         "/Library/Fonts/Andale Mono.ttf",
     ]
     return {
-        "brand": load_font(serif_bold, S(40)),
-        "title": load_font(serif_bold, S(68)),
-        "body": load_font(sans, S(30)),
-        "small": load_font(sans, S(24)),
-        "mono": load_font(mono, S(28)),
+        "brand": load_font(serif_bold, S(40, scale)),
+        "title": load_font(serif_bold, S(68, scale)),
+        "body": load_font(sans, S(30, scale)),
+        "small": load_font(sans, S(24, scale)),
+        "mono": load_font(mono, S(28, scale)),
     }
 
 
-def chip(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont, y: int) -> None:
+def chip(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    font: ImageFont.ImageFont,
+    y: int,
+    scale: float = SCALE,
+) -> None:
     bbox = draw.textbbox((0, 0), text, font=font)
-    pad_x, pad_y = S(24), S(18)
+    pad_x, pad_y = S(24, scale), S(18, scale)
     cw = bbox[2] - bbox[0] + pad_x * 2
     ch = bbox[3] - bbox[1] + pad_y * 2
-    draw.rounded_rectangle([S(72), y, S(72) + cw, y + ch], radius=S(14), fill="#1a524a")
-    draw.text((S(72) + pad_x, y + pad_y - S(1)), text, fill="#f6f1e8", font=font)
+    x = S(72, scale)
+    draw.rounded_rectangle([x, y, x + cw, y + ch], radius=S(14, scale), fill="#1a524a")
+    draw.text((x + pad_x, y + pad_y - S(1, scale)), text, fill="#f6f1e8", font=font)
 
 
 def save_pair(img: Image.Image, stem: str) -> None:
@@ -153,11 +177,11 @@ def write_agents(f: dict[str, ImageFont.ImageFont]) -> None:
     draw = ImageDraw.Draw(img)
     draw_mark(draw, S(72), S(64), S(120))
     draw.text((S(220), S(95)), "Un-Default", fill="#1a1f2e", font=f["brand"])
-    draw.text((S(72), S(220)), "After Claude writes UI copy,", fill="#1a1f2e", font=f["title"])
-    draw.text((S(72), S(300)), "run this.", fill="#1a1f2e", font=f["title"])
+    draw.text((S(72), S(220)), "After agents write copy,", fill="#1a1f2e", font=f["title"])
+    draw.text((S(72), S(300)), "catch racist & sexist defaults.", fill="#1a1f2e", font=f["title"])
     draw.text(
         (S(72), S(395)),
-        "Local inclusive-language check for agent workflows.",
+        "Local rules — skill, MCP, and PR check. No account.",
         fill="#3d4558",
         font=f["body"],
     )
@@ -172,11 +196,11 @@ def write_home(f: dict[str, ImageFont.ImageFont]) -> None:
     draw = ImageDraw.Draw(img)
     draw_mark(draw, S(72), S(64), S(120))
     draw.text((S(220), S(95)), "Un-Default", fill="#1a1f2e", font=f["brand"])
-    draw.text((S(72), S(220)), "Inclusive language review", fill="#1a1f2e", font=f["title"])
-    draw.text((S(72), S(300)), "for AI-written copy.", fill="#1a1f2e", font=f["title"])
+    draw.text((S(72), S(220)), "Catch racist & sexist", fill="#1a1f2e", font=f["title"])
+    draw.text((S(72), S(300)), "defaults before they ship.", fill="#1a1f2e", font=f["title"])
     draw.text(
         (S(72), S(395)),
-        "Catch colonial, gendered, and ableist defaults — locally.",
+        "Racist, sexist & ableist — local rules, no account.",
         fill="#3d4558",
         font=f["body"],
     )
@@ -186,11 +210,52 @@ def write_home(f: dict[str, ImageFont.ImageFont]) -> None:
     save_pair(img, "og")
 
 
+def write_ph_hero() -> None:
+    """Product Hunt gallery hero — same card style as OG, 1270×760."""
+    scale = PH_W / 1200
+    f = fonts(scale)
+    img = base_canvas(PH_W, PH_H, scale)
+    draw = ImageDraw.Draw(img)
+    draw_mark(draw, S(72, scale), S(64, scale), S(120, scale), scale)
+    draw.text((S(220, scale), S(95, scale)), "Un-Default", fill="#1a1f2e", font=f["brand"])
+    draw.text(
+        (S(72, scale), S(220, scale)),
+        "Catch racist & sexist",
+        fill="#1a1f2e",
+        font=f["title"],
+    )
+    draw.text(
+        (S(72, scale), S(300, scale)),
+        "defaults before they ship.",
+        fill="#1a1f2e",
+        font=f["title"],
+    )
+    draw.text(
+        (S(72, scale), S(395, scale)),
+        "Racist, sexist & ableist — local rules, no account.",
+        fill="#3d4558",
+        font=f["body"],
+    )
+    chip(draw, "npx -y anti-default init", f["mono"], S(460, scale), scale)
+    draw.text(
+        (S(72, scale), S(555, scale)),
+        "darkai.ca/un-default/for-agents",
+        fill="#2a7a6e",
+        font=f["small"],
+    )
+    band(draw, PH_W, PH_H, scale)
+    GALLERY.mkdir(parents=True, exist_ok=True)
+    out = GALLERY / "01-home-hero.png"
+    img.save(out, "PNG", optimize=True)
+    print(f"wrote {out.relative_to(ROOT)} · {out.stat().st_size}B · {img.size}")
+
+
 def main() -> None:
     PUBLIC.mkdir(parents=True, exist_ok=True)
     f = fonts()
     write_agents(f)
     write_home(f)
+    write_ph_hero()
 
 
 if __name__ == "__main__":

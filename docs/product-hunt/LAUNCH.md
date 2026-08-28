@@ -124,12 +124,12 @@ All shots are **1270×760** from the live site. Upload in this order (proof firs
 
 | # | File | Caption |
 |---|------|---------|
-| 1 | `03-agents.png` | One command for Claude / Cursor / Copilot |
-| 2 | `02-findings-summary.png` | Findings with why — and plain-language rewrites |
-| 3 | `02b-finding-card.png` | One hit: match, category, suggestions |
-| 4 | `04b-rules-list.png` | Open rules you can turn on or off |
-| 5 | `05-dogwhistles.png` | Coded phrases explained in context |
-| alt | `01-home-hero.png` | Brand / home (use after proof shots) |
+| 1 | `01-home-hero.png` | Catch racist, sexist & ableist defaults before they ship |
+| 2 | `03-agents.png` | One command for Claude / Cursor / Copilot |
+| 3 | `02-findings-summary.png` | Findings with why — and plain-language rewrites |
+| 4 | `02b-finding-card.png` | One hit: match, category, suggestions |
+| 5 | `04b-rules-list.png` | Open rules you can turn on or off |
+| 6 | `05-dogwhistles.png` | Coded phrases explained in context |
 | alt | `03b-agents-mcp.png` | Paste-ready MCP config |
 | alt | `04-rules.png` | Rules hub (hero) |
 | alt | `05b-dogwhistles-list.png` | Dogwhistle catalog |

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-for-agents.jpg?v=3",
+        url: "/og-for-agents.jpg?v=4",
         width: 2400,
         height: 1260,
         alt: "Un-Default — after Claude writes UI copy, run npx -y anti-default init",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "After Claude writes UI copy, run this",
     description:
       "npx -y anti-default init — skill + MCP + PR check so agents don’t ship racist & sexist defaults.",
-    images: ["/og-for-agents.jpg?v=3"],
+    images: ["/og-for-agents.jpg?v=4"],
   },
 };export default function ForAgentsPage() {
   return (
