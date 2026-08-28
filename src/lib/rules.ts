@@ -5,7 +5,7 @@ import type { LanguageRule } from "./types";
  * Patterns are matched case-insensitively; prefer word boundaries to cut false positives.
  */
 export const LANGUAGE_RULES: LanguageRule[] = [
-  // ── Colonial / Eurocentric ──────────────────────────────────────────
+  // ── Racist framing ──────────────────────────────────────────────────
   {
     id: "discover-land",
     pattern: "\\bdiscovered\\b",
@@ -378,7 +378,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bchair(?:man|woman)\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered chair title",
+    label: "Sexist chair title",
     why: "Prefer gender-neutral role titles when gender is irrelevant.",
     suggestions: ["chair", "chairperson", "chair of the board"],
   },
@@ -387,7 +387,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\b(?:policeman|policewoman)\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered police title",
+    label: "Sexist police title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["police officer"],
   },
@@ -396,7 +396,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bfireman\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered firefighter title",
+    label: "Sexist firefighter title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["firefighter"],
   },
@@ -405,7 +405,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bmailman\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered mail title",
+    label: "Sexist mail title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["mail carrier", "postal worker"],
   },
@@ -414,7 +414,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bsalesman\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered sales title",
+    label: "Sexist sales title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["salesperson", "sales representative"],
   },
@@ -423,7 +423,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bcongressman\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered Congress title",
+    label: "Sexist Congress title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["member of Congress", "representative", "congressperson"],
   },
@@ -432,7 +432,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bstewardess\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered cabin-crew title",
+    label: "Sexist cabin-crew title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["flight attendant"],
   },
@@ -441,7 +441,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\bwaitress\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered server title",
+    label: "Sexist server title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["server"],
   },
@@ -450,7 +450,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     pattern: "\\b(?:businessman|businesswoman)\\b",
     category: "gender",
     severity: "low",
-    label: "Gendered business title",
+    label: "Sexist business title",
     why: "Role titles can be gender-neutral without losing meaning.",
     suggestions: ["businessperson", "executive", "entrepreneur"],
   },
@@ -544,11 +544,11 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     category: "gender",
     severity: "high",
     label: "“Bitch” as dig",
-    why: "A gendered insult used to police assertive women. Soft-flagged around animal breeding and quoted lyrics.",
+    why: "A sexist insult used to police assertive women. Soft-flagged around animal breeding and quoted lyrics.",
     suggestions: [
       "drop the slur",
       "assertive / direct / firm (when that’s the trait)",
-      "name the behavior without the gendered dig",
+      "name the behavior without the sexist dig",
     ],
     examples: [
       "Don’t be a bitch about the deadline.",
@@ -651,7 +651,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     category: "gender",
     severity: "low",
     label: "“High-maintenance”",
-    why: "Often a gendered dig at women who state needs. Soft-flagged for literal product/ops use.",
+    why: "Often a sexist dig at women who state needs. Soft-flagged for literal product/ops use.",
     suggestions: [
       "specific about requirements",
       "needs clearer specs",
@@ -689,7 +689,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     suggestions: [
       "name the specific concern",
       "strong reaction / upset (if accurate)",
-      "drop the gendered stereotype",
+      "drop the sexist stereotype",
     ],
     examples: [
       "They said she was too emotional for the exec role.",
@@ -702,7 +702,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     category: "gender",
     severity: "medium",
     label: "“Drama queen”",
-    why: "A gendered way to dismiss someone’s concerns as overblown. Soft-flagged.",
+    why: "A sexist way to dismiss someone’s concerns as overblown. Soft-flagged.",
     suggestions: [
       "raising a concern",
       "name the concrete issue",
@@ -1768,7 +1768,7 @@ export const LANGUAGE_RULES: LanguageRule[] = [
     why: "Misogynistic insult policing masculinity and mocking progressive men via pseudoscience about soy. Soft-flagged.",
     suggestions: [
       "drop the insult",
-      "critique ideas without gendered food memes",
+      "critique ideas without sexist food memes",
     ],
     defaultSoft: true,
   },

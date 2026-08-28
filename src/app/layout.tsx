@@ -32,31 +32,31 @@ const GTM_ID =
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${LIVE_APP_URL}/`),
-  title: "Un-Default — Inclusive language review",
+  title: "Un-Default — Catch racist & sexist defaults",
   description:
-    "A welcoming tool to review website copy for colonial, gendered, ableist, and other excluding language — catch defaults, then rewrite with care.",
+    "Catch racist, sexist, and ableist defaults in AI-written copy — local rules, plain-language rewrites, no account.",
   openGraph: {
     type: "website",
     siteName: "Un-Default",
-    title: "Un-Default — Inclusive language review",
+    title: "Un-Default — Catch racist & sexist defaults",
     description:
-      "Catch colonial, gendered, and ableist defaults in AI-written copy — locally, with public rules.",
+      "Catch racist, sexist, and ableist defaults in AI-written copy — locally, with public rules.",
     url: LIVE_APP_URL,
     images: [
       {
         url: "/og.jpg?v=3",
         width: 2400,
         height: 1260,
-        alt: "Un-Default — inclusive language review for AI-written copy",
+        alt: "Un-Default — catch racist, sexist & ableist defaults in AI copy",
         type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Un-Default — Inclusive language review",
+    title: "Un-Default — Catch racist & sexist defaults",
     description:
-      "Catch colonial, gendered, and ableist defaults in AI-written copy — locally, with public rules.",
+      "Catch racist, sexist, and ableist defaults in AI-written copy — locally, with public rules.",
     images: ["/og.jpg?v=3"],
   },
 };

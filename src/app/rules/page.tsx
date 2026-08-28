@@ -33,7 +33,7 @@ export default function RulesPage() {
         </h1>
         <InclusiveBand className="mb-8" />
         <p className="animate-rise-delay max-w-2xl text-lg text-[var(--ink-soft)] leading-relaxed mb-10">
-          {LANGUAGE_RULES.length} patterns across colonial, gender, LGBTQ+,
+          {LANGUAGE_RULES.length} patterns across racist, sexist, LGBTQ+,
           ableist, racialized, class, and age language. Turn rules on or off for
           your reviews, or edit shared defaults in{" "}
           <code className="font-[family-name:var(--font-mono)] text-sm text-[var(--teal-deep)]">

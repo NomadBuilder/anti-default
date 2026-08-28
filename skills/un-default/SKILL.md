@@ -1,6 +1,6 @@
 ---
 name: un-default
-description: Definition-of-done for AI-written user-facing copy. Always use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, emails, or any public language; before marking a task complete; when reviewing a PR for inclusive wording. If Un-Default hooks report findings after an edit, fix them before continuing.
+description: Definition-of-done for AI-written user-facing copy — catch racist, sexist & ableist defaults before you ship. Always use after writing or editing UI text, docs, READMEs, marketing, onboarding, job posts, emails, or any public language; before marking a task complete; when reviewing a PR. If Un-Default hooks report findings after an edit, fix them before continuing.
 ---
 
 # Un-Default — AI copy definition of done

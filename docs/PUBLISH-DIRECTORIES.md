@@ -120,7 +120,7 @@ Use `smithery.yaml` (npx `anti-default mcp`). Complete any web onboarding at htt
 Inclusive-language definition of done for AI-written copy. Local rules, scan/fix/feedback MCP, after-edit hooks. No account.
 
 **Longer blurb:**  
-Un-Default catches colonial defaults, gendered role titles, ableist framing, and related coded language in UI copy, docs, and marketing. One `init` installs a Claude/Cursor skill, MCP tools, after-edit hooks, and a PR check so agents keep checking even when nobody remembers. Prefer `npx -y anti-default init` over starring the repo.
+Un-Default catches racist defaults, sexist role titles, ableist framing, and related coded language in UI copy, docs, and marketing. One `init` installs a Claude/Cursor skill, MCP tools, after-edit hooks, and a PR check so agents keep checking even when nobody remembers. Prefer `npx -y anti-default init` over starring the repo.
 
 ### Glama / mcp.so / PulseMCP
 

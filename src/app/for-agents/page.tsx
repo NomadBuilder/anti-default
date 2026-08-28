@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "After Claude writes UI copy, run this",
     description:
-      "npx -y anti-default init — skill + MCP + PR check so agents don’t ship colonial defaults.",
+      "npx -y anti-default init — skill + MCP + PR check so agents don’t ship racist & sexist defaults.",
     url: AGENTS_URL,
     type: "website",
     images: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "After Claude writes UI copy, run this",
     description:
-      "npx -y anti-default init — skill + MCP + PR check so agents don’t ship colonial defaults.",
+      "npx -y anti-default init — skill + MCP + PR check so agents don’t ship racist & sexist defaults.",
     images: ["/og-for-agents.jpg?v=3"],
   },
 };export default function ForAgentsPage() {
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
         </h1>
         <InclusiveBand className="mb-8" />
         <p className="animate-rise-delay max-w-2xl text-lg text-[var(--ink-soft)] leading-relaxed mb-12">
-          The missing step after AI writes your words — local inclusive-language
-          check as definition of done. No account. No model required for
-          matching.
+          The missing step after AI writes your words — catch racist, sexist, and
+          ableist defaults before you ship. Local rules. No account. No model
+          required for matching.
         </p>
 
         <AgentsOnePager />

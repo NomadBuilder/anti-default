@@ -20,6 +20,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  typescript: {
+    ignoreBuildErrors: process.env.IGNORE_TS_BUILD_ERRORS === "true",
+  },
   turbopack: {
     root: path.join(__dirname),
   },

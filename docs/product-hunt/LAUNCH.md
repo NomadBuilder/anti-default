@@ -67,9 +67,20 @@ Photo, bio, Twitter/LinkedIn. Comment thoughtfully on 5–10 other launches this
 Un-Default
 
 ### Tagline (≤60 characters) — pick one
-**Preferred (helpful + agent-native):** Welcoming-language help after agents write copy  
-**Alt (clear category):** Inclusive-language check for AI-written product copy  
-*(Lead with care for readers. Skip “guardrail,” scare, or embarrassment.)*
+
+Product Hunt shows one line under the name. It should name **defaults in agent copy** and what you actually check — not vague “welcoming help.”
+
+| Tagline | Chars | Notes |
+|---------|-------|--------|
+| **Catch racist, sexist & ableist defaults in AI copy** | 51 | Recommended — specific, matches site/meta |
+| Un-default what agents write in your UI copy | 42 | Brand verb; slightly cryptic if name is new |
+| After agents write, review what they defaulted to | 47 | Agent-native + “default” concept |
+| Local rules for defaults agents ship in product copy | 50 | Differentiator (local, open rules) |
+| Make agent copy leave room for more people | 41 | Belonging; less explicit about what it checks |
+
+**Avoid on PH:** “Welcoming-language help…”, “Inclusive-language check…” (category labels, not a hook).
+
+**Recommended:** `Catch racist, sexist & ableist defaults in AI copy`
 
 ### Topics (pick ~3)
 - Developer Tools
@@ -81,7 +92,7 @@ Un-Default
 https://darkai.ca/un-default/for-agents/
 
 ### Description (short — ~200–260 chars)
-Agents draft job posts, UI strings, and docs in seconds. Un-Default helps that copy welcome more people — colonial defaults, gendered assumptions, ableist metaphors, coded digs — with plain-language suggestions. Local rules, no AI calls, no account. One command for Claude, Cursor, and Copilot.
+Agents draft job posts, UI strings, and docs in seconds. Un-Default helps that copy welcome more people — racist defaults, sexist assumptions, ableist metaphors, coded digs — with plain-language suggestions. Local rules, no AI calls, no account. One command for Claude, Cursor, and Copilot.
 
 ### Pricing
 Free · Open source (MIT) · npm: `anti-default`
@@ -92,9 +103,9 @@ Free · Open source (MIT) · npm: `anti-default`
 
 Hey Product Hunt — I’m Aazir, maker of Un-Default.
 
-I wanted a small, kind tool for a world where agents write our UI copy, onboarding, and job posts. Those drafts often sound finished — and still leave phrases that decide who feels welcome. A README with master/slave. A meeting called a pow-wow. “Guys” for a mixed team. Not malice — just defaults.
+Agents now write our UI copy, onboarding, and job posts in seconds. Those drafts often sound finished — and still ship racist defaults, sexist digs, and ableist metaphors. A README with master/slave. A meeting called a pow-wow. “Guys” for a mixed team. “Bossy” or “man up” in a review. Not malice — just defaults that decide who feels welcome.
 
-So I built Un-Default: local rules, plain-language suggestions, open catalog you can tune. Suggestions are invitations, not a single “correct” English. No model bill, no signup. It installs as a helpful definition-of-done after AI writes words — skill, MCP, after-edit hooks, and a PR check:
+So I built Un-Default to catch racist, sexist, and ableist language locally — plain-language suggestions, open catalog you can tune. Suggestions are invitations, not a single “correct” English. No model bill, no signup. One command installs skill, MCP, after-edit hooks, and a PR check:
 
 `npx -y anti-default init`
 

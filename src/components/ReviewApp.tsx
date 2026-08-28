@@ -37,7 +37,7 @@ type Mode = "url" | "text" | "docs";
 type ResultsView = "cards" | "document";
 
 const FALLBACK_TEXT =
-  "Paste marketing copy, docs, or UI strings here to review inclusive language.";
+  "Paste copy to catch racist, sexist, and ableist defaults before you ship.";
 
 const TEXT_EXTS = new Set([
   "txt",

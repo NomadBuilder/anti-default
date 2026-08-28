@@ -124,14 +124,14 @@ export const CATEGORY_META: Record<
   { title: string; description: string }
 > = {
   colonial: {
-    title: "Colonial & Eurocentric",
+    title: "Racist framing",
     description:
-      "Language that centers Western defaults or frames non-Western peoples as lesser or newly found by outsiders.",
+      "Language that centers Western defaults, treats non-Western peoples as lesser, or erases Indigenous presence—often rooted in racist hierarchy and settler-colonial violence.",
   },
   gender: {
-    title: "Gender-inclusive",
+    title: "Sexist language",
     description:
-      "Male-as-default wording, binary address, and sexist digs that police or diminish women.",
+      "Male-as-default wording, binary address, and digs that police or diminish women.",
   },
   ableist: {
     title: "Ableist",

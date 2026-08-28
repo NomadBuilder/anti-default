@@ -288,7 +288,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "flags sexist and demeaning gendered language; prefer specific, respectful description",
+        "flags sexist and demeaning sexist language; prefer specific, respectful description",
     },
   ],
   "like-a-girl": [
@@ -312,7 +312,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "recommends avoiding gendered stereotypes and demeaning relationship metaphors at work",
+        "recommends avoiding sexist stereotypes and demeaning relationship metaphors at work",
     },
   ],
   "bitch-slur": [
@@ -320,7 +320,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "flags gendered insults; soft-flagged here so breeding and quoted uses can be kept",
+        "flags sexist insults; soft-flagged here so breeding and quoted uses can be kept",
     },
   ],
   bossy: [
@@ -328,7 +328,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "supports avoiding gendered double standards in describing leadership and assertiveness",
+        "supports avoiding sexist double standards in describing leadership and assertiveness",
     },
   ],
   shrill: [
@@ -344,7 +344,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "supports avoiding historically gendered dismissals of emotion and judgment",
+        "supports avoiding historically sexist dismissals of emotion and judgment",
     },
   ],
   "female-role-prefix": [R.unWomenGender],
@@ -354,7 +354,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "supports avoiding gendered stereotypes when describing people’s needs or requests",
+        "supports avoiding sexist stereotypes when describing people’s needs or requests",
     },
   ],
   girlboss: [
@@ -362,7 +362,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "supports describing people’s roles without patronizing gendered marketing labels",
+        "supports describing people’s roles without patronizing sexist marketing labels",
     },
   ],
   "emotional-stereotype": [
@@ -378,7 +378,7 @@ const BY_ID: Partial<Record<string, RuleSourceRef[]>> = {
       title: "APA — Bias-free language: gender",
       href: S.apaGender,
       supports:
-        "supports avoiding gendered dismissals of someone’s concerns",
+        "supports avoiding sexist dismissals of someone’s concerns",
     },
   ],
   "gold-digger": [

@@ -37,9 +37,9 @@ export function AgentsLiveDemo() {
           What it catches
         </h2>
         <p className="text-[var(--ink-soft)] leading-relaxed">
-          Same local rules that run after{" "}
-          <code className="text-[var(--ink)]">init</code> — no account, no model
-          call. Sample agent-written copy, analyzed in your browser.
+          Racist framing, sexist digs, ableist metaphors — same local rules that
+          run after <code className="text-[var(--ink)]">init</code>. No account,
+          no model call. Sample agent-written copy, analyzed in your browser.
         </p>
       </div>
 

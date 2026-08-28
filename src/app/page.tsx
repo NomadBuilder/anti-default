@@ -38,9 +38,9 @@ export default function Home() {
           <InclusiveBand className="mt-5 mb-8" />
 
           <p className="animate-rise-delay max-w-xl text-lg md:text-xl text-[var(--ink-soft)] leading-relaxed mb-3">
-            Make public language a place more people can belong — review copy
-            for colonial defaults, gendered assumptions, ableist metaphors, and
-            other excluding phrasing.
+            Catch racist defaults, sexist assumptions, and ableist metaphors
+            before they ship — so public language leaves room for more people
+            to belong.
           </p>
           <p className="animate-rise-delay text-base text-[var(--ink-soft)] max-w-xl mb-8 leading-relaxed">
             Suggestions are invitations, not a single “correct” English. Need

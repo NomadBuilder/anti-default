@@ -196,7 +196,7 @@ export const DOGWHISTLE_BLURBS: Record<string, DogwhistleBlurb> = {
       "Soft heads-up. Literal talk about soy food is fine. The insult form targeting people is the dogwhistle.",
     sayInstead: [
       "Drop the insult",
-      "Critique ideas or policies without gendered food memes",
+      "Critique ideas or policies without sexist food memes",
     ],
   },
   "kalergi-plan": {

@@ -184,7 +184,7 @@ export function parseArgs(argv: string[]): CliArgs {
   return args;
 }
 
-export const HELP = `Un-Default — inclusive language scan, safe fix, and agent tools
+export const HELP = `Un-Default — catch racist, sexist & ableist defaults (scan, safe fix, agent tools)
 
 Usage:
   npx -y anti-default init

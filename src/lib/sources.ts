@@ -25,9 +25,9 @@ export const SOURCE_GROUPS: SourceGroup[] = [
   },
   {
     id: "gender",
-    title: "Gender-inclusive",
+    title: "Sexist language",
     summary:
-      "Male-default wording, binary address, gendered job titles, and high-signal sexist digs.",
+      "Male-default wording, binary address, sexist role titles, and high-signal digs at women.",
     links: [
       {
         title: "UN Women — Gender-inclusive language guidelines",
@@ -122,9 +122,9 @@ export const SOURCE_GROUPS: SourceGroup[] = [
   },
   {
     id: "colonial",
-    title: "Colonial & Eurocentric",
+    title: "Racist framing",
     summary:
-      "Discovery myths, development hierarchies, colonial power, and casual appropriation of Indigenous terms. We prioritize Indigenous-led guidance and sources that name exploitation—not institutional prestige.",
+      "Discovery myths, development hierarchies, settler-colonial power, and casual appropriation of Indigenous terms. We prioritize Indigenous-led guidance and sources that name exploitation—not institutional prestige.",
     links: [
       {
         title: "Indigenous Journalists Association — Reporting and Indigenous Terminology Guide",

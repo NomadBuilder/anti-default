@@ -7,8 +7,8 @@
 > [`darkai.ca/anti-default`](https://darkai.ca/anti-default) redirect here.
 > `npx anti-default` still works as an alias for `npx -y anti-default`.
 
-Un-Default reviews copy, docs, UI strings, and live pages for colonial
-defaults, gendered assumptions, ableist metaphors, and documented dogwhistles.
+Un-Default reviews copy, docs, UI strings, and live pages for racist
+defaults, sexist assumptions, ableist metaphors, and documented dogwhistles.
 It explains what it noticed and offers clearer alternatives.
 
 No account. No AI required for matching. Open rules you can tune.
@@ -162,7 +162,7 @@ rule:guys          # turn off one rule for this repo
 
 ## GitHub Action
 
-Keep inclusive language in the PR loop. This scans only changed files, fails on
+Keep racist, sexist & ableist defaults out of the PR loop. This scans only changed files, fails on
 clear new findings, and leaves a checklist comment:
 
 ```yaml

@@ -52,11 +52,11 @@ console.log(
   `Source audit: ${LANGUAGE_RULES.length - missing.length}/${LANGUAGE_RULES.length} rules have direct evidence.`,
 );
 console.log(
-  `Colonial & Eurocentric: ${colonialWithEvidence.length}/${colonial.length} have direct evidence.`,
+  `Racist framing: ${colonialWithEvidence.length}/${colonial.length} have direct evidence.`,
 );
 if (colonialUnclear.length > 0) {
   console.log(
-    `Colonial rules still needing direct research: ${colonialUnclear.map((rule) => rule.id).join(", ")}`,
+    `Racist framing rules still needing direct research: ${colonialUnclear.map((rule) => rule.id).join(", ")}`,
   );
 }
 
@@ -84,7 +84,7 @@ if (weakRuleReferences.length > 0 || weakPublicReferences.length > 0) {
 }
 if (colonialWithEvidence.length < 22) {
   errors.push(
-    `Colonial direct-evidence coverage fell below 22/${colonial.length}.`,
+    `Racist framing direct-evidence coverage fell below 22/${colonial.length}.`,
   );
 }
 

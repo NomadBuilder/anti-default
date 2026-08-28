@@ -5,7 +5,7 @@
     "email": "hello@darkai.ca"
   },
   "metadata": {
-    "description": "Un-Default — inclusive language review for AI-written and human copy",
+    "description": "Un-Default — catch racist, sexist & ableist defaults in AI-written and human copy",
     "version": "0.5.5"
   },
   "plugins": [

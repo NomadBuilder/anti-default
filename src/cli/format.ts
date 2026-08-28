@@ -37,7 +37,7 @@ export function buildSummary(findings: Finding[]) {
 
 export function formatText(report: ScanReport): string {
   const lines: string[] = [];
-  lines.push("Un-Default — inclusive language scan");
+  lines.push("Un-Default — racist, sexist & ableist defaults scan");
   lines.push(`Mode: ${report.mode}`);
   if (report.filesScanned != null) {
     lines.push(`Files scanned: ${report.filesScanned}`);
